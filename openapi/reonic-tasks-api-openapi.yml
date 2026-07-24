@@ -1,0 +1,1037 @@
+openapi: 3.1.0
+info:
+  title: Reonic REST Api v3 Activities Tasks API
+  description: 'The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.
+
+
+    ## Errors
+
+
+    All endpoints return errors with the same JSON shape:
+
+
+    ```json
+
+    { "message": "human-readable description" }
+
+    ```
+
+
+    `400` responses additionally include an `errors` field with per-field validation details.
+
+
+    The HTTP status code identifies the cause:
+
+
+    | Status  | Meaning | When |
+
+    |--------|---------|------|
+
+    | `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |
+
+    | `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |
+
+    | `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |
+
+    | `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |
+
+    | `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |
+
+    | `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |
+
+    | `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |
+
+
+    ## Rate limiting
+
+
+    Limits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:
+
+
+    | Bucket | Limit | Applies to |
+
+    |--------|-------|------------|
+
+    | `cached` | 500 / min | `GET` requests served from the response cache |
+
+    | `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |
+
+
+    Every response includes:
+
+
+    - `X-RateLimit-Bucket` — `cached` or `uncached`
+
+    - `X-RateLimit-Limit` — the bucket''s ceiling (`500` or `30`)
+
+    - `X-RateLimit-Remaining` — calls left in the current window
+
+    - `X-RateLimit-Reset` — Unix epoch seconds at which the window resets
+
+    - `X-RateLimit-Policy` — `<limit>;w=60`
+
+
+    `429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.
+
+
+    ## Caching and Reonic-Cache-Control
+
+
+    `GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.
+
+
+    The standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.
+
+
+    ## Authentication
+
+
+    Every request must include your API key in the `X-Authorization` header:
+
+
+    ```
+
+    X-Authorization: <your-api-key>
+
+    ```
+
+
+    API keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.
+
+    '
+  version: 3.2.0
+  contact:
+    email: kontakt@reonic.de
+    url: https://reonic.com
+    name: Reonic GmbH
+servers:
+- url: '{apiBaseUrl}/rest/v3/'
+security:
+- X-Authorization: []
+tags:
+- name: Tasks
+  description: "To-do items attached to a project or contact, with due dates, assignees, and completion state.\n\n> [!warning] \n> **Beta:** These endpoints are in beta and may change as the service evolves. Please report issues or unexpected behavior to our team."
+  x-displayName: Tasks (BETA)
+paths:
+  /tasks/tags:
+    get:
+      description: 'Get task tags
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      summary: Get task tags
+      tags:
+      - Tasks
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: Task tags
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          example: 123e4567-e89b-12d3-a456-426614174000
+                        name:
+                          type: string
+                        position:
+                          type: number
+                        textColor:
+                          type: string
+                        backgroundColor:
+                          type: string
+                      required:
+                      - id
+                      - name
+                      - position
+                      - textColor
+                      - backgroundColor
+                    description: List of items
+                required:
+                - data
+  /tasks/count:
+    get:
+      description: 'Get task counts and stats for a parent entity
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      summary: Get task counts
+      tags:
+      - Tasks
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        required: true
+        name: parentId
+        in: query
+      - schema:
+          type: string
+          enum:
+          - contact
+          - user
+          - residentialProject
+          - commercialProject
+          description: The type of the parent entity.
+          example: residentialProject
+        required: true
+        description: The type of the parent entity.
+        name: parentType
+        in: query
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: Task counts for the parent entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  outstandingTasks:
+                    type: number
+                  completedTasks:
+                    type: number
+                  totalTasks:
+                    type: number
+                  overdueTasks:
+                    type: number
+                  nextDueDate:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+                    example: '2026-01-01T15:30:00.000Z'
+                  nextDueDateIsToday:
+                    type: boolean
+                required:
+                - outstandingTasks
+                - completedTasks
+                - totalTasks
+                - overdueTasks
+                - nextDueDate
+  /tasks:
+    get:
+      description: 'List tasks with filters and pagination. `parentId` and `parentType` must be provided together (or omitted together).
+
+
+        **Examples:**
+
+        - Open tasks for a residential project: `GET /tasks?parentId=<uuid>&parentType=residentialProject&completed=false&orderBy=dueAt&sort=asc`
+
+        - All tasks due this week: `GET /tasks?dueFrom=2026-04-27T00:00:00Z&dueTo=2026-05-04T00:00:00Z&completed=false`
+
+        - Tasks assigned to specific users: `GET /tasks?userIds=<uuid>&userIds=<uuid>&completed=false`
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      summary: List tasks
+      tags:
+      - Tasks
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: false
+        name: parentId
+        in: query
+      - schema:
+          type: string
+          enum:
+          - contact
+          - user
+          - residentialProject
+          - commercialProject
+          description: The type of the parent entity.
+          example: residentialProject
+        required: false
+        description: The type of the parent entity.
+        name: parentType
+        in: query
+      - schema:
+          type: string
+          maxLength: 100
+        required: false
+        name: search
+        in: query
+      - schema:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        name: dueFrom
+        in: query
+      - schema:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        name: dueTo
+        in: query
+      - schema:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        name: completedFrom
+        in: query
+      - schema:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        name: completedTo
+        in: query
+      - schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          maxItems: 50
+          description: Comma-separated list or repeated query param.
+        required: false
+        description: Comma-separated list or repeated query param.
+        name: userIds
+        in: query
+      - schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          maxItems: 50
+          description: Comma-separated list or repeated query param.
+        required: false
+        description: Comma-separated list or repeated query param.
+        name: teamIds
+        in: query
+      - schema:
+          type:
+          - boolean
+          - 'null'
+        required: false
+        name: completed
+        in: query
+      - schema:
+          type: string
+          enum:
+          - title
+          - dueAt
+        required: false
+        name: orderBy
+        in: query
+      - schema:
+          type: string
+          enum:
+          - asc
+          - desc
+        required: false
+        name: sort
+        in: query
+      - schema:
+          type: integer
+          minimum: 1
+          default: 1
+          description: 'Page number, starting from 1. Default: 1.'
+        required: false
+        description: 'Page number, starting from 1. Default: 1.'
+        name: page
+        in: query
+      - schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+          description: 'Number of items per page. Default: 50. Max: 200.'
+        required: false
+        description: 'Number of items per page. Default: 50. Max: 200.'
+        name: itemsPerPage
+        in: query
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: Paginated tasks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        minimum: 1
+                        description: Current page number
+                      perPage:
+                        type: integer
+                        minimum: 1
+                        description: Number of items per page
+                      total:
+                        type: integer
+                        minimum: 0
+                        description: Total number of items across all pages
+                      totalPages:
+                        type: integer
+                        minimum: 1
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: Path to the next page, or null if there is no next page
+                      prev:
+                        type:
+                        - string
+                        - 'null'
+                        description: Path to the previous page, or null if there is no previous page
+                    required:
+                    - page
+                    - perPage
+                    - total
+                    - totalPages
+                    - next
+                    - prev
+                required:
+                - data
+                - pagination
+  /tasks/create:
+    post:
+      description: 'Create a task
+
+
+        **Allowed API keys:** Read and Write'
+      summary: Create task
+      tags:
+      - Tasks
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  example: 123e4567-e89b-12d3-a456-426614174000
+                  description: Optional client-generated UUID for optimistic updates. If omitted, the server assigns one.
+                parentId:
+                  type: string
+                  format: uuid
+                  example: 123e4567-e89b-12d3-a456-426614174000
+                parentType:
+                  type: string
+                  enum:
+                  - contact
+                  - user
+                  - residentialProject
+                  - commercialProject
+                  description: The type of the parent entity.
+                  example: residentialProject
+                commercialProjectInput:
+                  type: object
+                  properties:
+                    laneId:
+                      type: string
+                      format: uuid
+                      example: 123e4567-e89b-12d3-a456-426614174000
+                  required:
+                  - laneId
+                  additionalProperties: false
+                title:
+                  type: string
+                  minLength: 1
+                  maxLength: 500
+                description:
+                  type: string
+                  maxLength: 20000
+                assignedUserIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  maxItems: 50
+                assignedTeamIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  maxItems: 50
+                tagIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  maxItems: 50
+                dueAt:
+                  type:
+                  - string
+                  - 'null'
+                  format: date-time
+                  example: '2026-01-01T15:30:00.000Z'
+                checklistItems:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                        example: 123e4567-e89b-12d3-a456-426614174000
+                      position:
+                        type: integer
+                        minimum: 0
+                        maximum: 10000
+                      text:
+                        type: string
+                        minLength: 1
+                        maxLength: 500
+                      checked:
+                        type: boolean
+                        default: false
+                    required:
+                    - id
+                    - position
+                    - text
+                    additionalProperties: false
+                  maxItems: 200
+              required:
+              - parentId
+              - parentType
+              additionalProperties: false
+      responses:
+        '201':
+          description: The created task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /tasks/{taskId}:
+    get:
+      description: 'Get a single task by its ID
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      summary: Get task
+      tags:
+      - Tasks
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: taskId
+        in: path
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: The task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /tasks/{taskId}/update:
+    post:
+      description: 'Update a task
+
+
+        **Allowed API keys:** Read and Write'
+      summary: Update task
+      tags:
+      - Tasks
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: taskId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  minLength: 1
+                  maxLength: 500
+                description:
+                  type: string
+                  maxLength: 20000
+                assignedUserIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  maxItems: 50
+                assignedTeamIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  maxItems: 50
+                tagIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  maxItems: 50
+                dueAt:
+                  type:
+                  - string
+                  - 'null'
+                  format: date-time
+                  example: '2026-01-01T15:30:00.000Z'
+                sendReminderAt:
+                  type:
+                  - string
+                  - 'null'
+                  format: date-time
+                  example: '2026-01-01T15:30:00.000Z'
+                checklistItems:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                        example: 123e4567-e89b-12d3-a456-426614174000
+                      position:
+                        type: integer
+                        minimum: 0
+                        maximum: 10000
+                      text:
+                        type: string
+                        minLength: 1
+                        maxLength: 500
+                      checked:
+                        type: boolean
+                        default: false
+                    required:
+                    - id
+                    - position
+                    - text
+                    additionalProperties: false
+              additionalProperties: false
+      responses:
+        '200':
+          description: The updated task
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Task'
+                required:
+                - data
+  /tasks/{taskId}/complete:
+    post:
+      description: 'Complete a task
+
+
+        **Allowed API keys:** Read and Write'
+      summary: Complete task
+      tags:
+      - Tasks
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: taskId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type:
+              - object
+              - 'null'
+              properties:
+                note:
+                  type:
+                  - string
+                  - 'null'
+                  maxLength: 2000
+              additionalProperties: false
+      responses:
+        '200':
+          description: The completed task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /tasks/{taskId}/uncomplete:
+    post:
+      description: 'Uncomplete a task
+
+
+        **Allowed API keys:** Read and Write'
+      summary: Uncomplete task
+      tags:
+      - Tasks
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: taskId
+        in: path
+      responses:
+        '200':
+          description: The uncompleted task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /tasks/{taskId}/delete:
+    post:
+      description: 'Delete a task
+
+
+        **Allowed API keys:** Read and Write'
+      summary: Delete task
+      tags:
+      - Tasks
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: taskId
+        in: path
+      responses:
+        '200':
+          description: Delete result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                        example: 123e4567-e89b-12d3-a456-426614174000
+                    required:
+                    - id
+                required:
+                - data
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        title:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        dueAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        sendReminderAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        checklist:
+          type: object
+          properties:
+            started:
+              type: boolean
+            completed:
+              type: boolean
+            nrOfCompletedItems:
+              type: number
+            nrOfItems:
+              type: number
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    example: 123e4567-e89b-12d3-a456-426614174000
+                  checkedAt:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+                    example: '2026-01-01T15:30:00.000Z'
+                  checked:
+                    type: boolean
+                  position:
+                    type: number
+                  text:
+                    type: string
+                required:
+                - id
+                - checkedAt
+                - checked
+                - position
+                - text
+          required:
+          - started
+          - completed
+          - nrOfCompletedItems
+          - nrOfItems
+          - items
+          additionalProperties: false
+        completed:
+          type: boolean
+        completedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        completedNote:
+          type:
+          - string
+          - 'null'
+        completedById:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        assignedUserIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        assignedTeamIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        tagIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        parent:
+          type: object
+          properties:
+            parentId:
+              type: string
+              format: uuid
+              example: 123e4567-e89b-12d3-a456-426614174000
+            parentType:
+              type: string
+              enum:
+              - contact
+              - user
+              - residentialProject
+              - commercialProject
+              description: The type of the parent entity.
+              example: residentialProject
+            parentName:
+              type: string
+            parentObjectLink:
+              type:
+              - string
+              - 'null'
+          required:
+          - parentId
+          - parentType
+          - parentName
+          additionalProperties: false
+        stageAndLane:
+          type:
+          - object
+          - 'null'
+          properties:
+            laneId:
+              type: string
+              format: uuid
+              example: 123e4567-e89b-12d3-a456-426614174000
+            lanePosition:
+              type: number
+            lane:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  example: 123e4567-e89b-12d3-a456-426614174000
+                name:
+                  type: string
+                position:
+                  type: number
+                archivedAt:
+                  type:
+                  - string
+                  - 'null'
+                  format: date-time
+                  example: '2026-01-01T15:30:00.000Z'
+              required:
+              - id
+              - name
+              - position
+              - archivedAt
+          required:
+          - laneId
+          - lanePosition
+          - lane
+          additionalProperties: false
+      required:
+      - id
+      - completed
+      - assignedUserIds
+      - assignedTeamIds
+      - tagIds
+      additionalProperties: false
+  securitySchemes:
+    X-Authorization:
+      type: apiKey
+      in: header
+      name: X-Authorization
+x-tagGroups:
+- name: People
+  tags:
+  - Contacts
+  - Users
+  - Teams
+- name: Projects
+  tags:
+  - Residential Projects
+  - Commercial Projects
+- name: Working on a project
+  tags:
+  - Notes
+  - Tasks
+  - Files
+  - File Folders
+  - Activities
+  - Time Tracking
+  - Checklists
+  - Checklist Templates
+  - Signature Requests
+- name: Calendar
+  tags:
+  - Calendars
+  - Calendar Categories
+  - Appointments
+- name: Catalog
+  tags:
+  - Components
+  - Planning Templates
+  - Planning Packages
+  - Offer Templates
+- name: Workspace setup
+  tags:
+  - Kanban Boards
+  - Kanban Columns
+  - Tags
+  - Lead Sources
+- name: Wiki
+  tags:
+  - Wiki
+- name: Services
+  tags:
+  - Photogrammetry
+- name: API helpers
+  tags:
+  - Upload
+  - Links
+- name: Integrations
+  tags:
+  - Webhooks
+- name: Guides
+  tags:
+  - Migrating from API v2 to v3
+  - Changelog

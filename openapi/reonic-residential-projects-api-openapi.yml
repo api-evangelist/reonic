@@ -1,0 +1,2801 @@
+openapi: 3.1.0
+info:
+  title: Reonic REST Api v3 Activities Residential Projects API
+  description: 'The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.
+
+
+    ## Errors
+
+
+    All endpoints return errors with the same JSON shape:
+
+
+    ```json
+
+    { "message": "human-readable description" }
+
+    ```
+
+
+    `400` responses additionally include an `errors` field with per-field validation details.
+
+
+    The HTTP status code identifies the cause:
+
+
+    | Status  | Meaning | When |
+
+    |--------|---------|------|
+
+    | `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |
+
+    | `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |
+
+    | `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |
+
+    | `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |
+
+    | `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |
+
+    | `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |
+
+    | `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |
+
+
+    ## Rate limiting
+
+
+    Limits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:
+
+
+    | Bucket | Limit | Applies to |
+
+    |--------|-------|------------|
+
+    | `cached` | 500 / min | `GET` requests served from the response cache |
+
+    | `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |
+
+
+    Every response includes:
+
+
+    - `X-RateLimit-Bucket` — `cached` or `uncached`
+
+    - `X-RateLimit-Limit` — the bucket''s ceiling (`500` or `30`)
+
+    - `X-RateLimit-Remaining` — calls left in the current window
+
+    - `X-RateLimit-Reset` — Unix epoch seconds at which the window resets
+
+    - `X-RateLimit-Policy` — `<limit>;w=60`
+
+
+    `429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.
+
+
+    ## Caching and Reonic-Cache-Control
+
+
+    `GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.
+
+
+    The standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.
+
+
+    ## Authentication
+
+
+    Every request must include your API key in the `X-Authorization` header:
+
+
+    ```
+
+    X-Authorization: <your-api-key>
+
+    ```
+
+
+    API keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.
+
+    '
+  version: 3.2.0
+  contact:
+    email: kontakt@reonic.de
+    url: https://reonic.com
+    name: Reonic GmbH
+servers:
+- url: '{apiBaseUrl}/rest/v3/'
+security:
+- X-Authorization: []
+tags:
+- name: Residential Projects
+  description: Residential customer projects across the request, offer, and installation lifecycle stages.
+paths:
+  /residentialProjects:
+    get:
+      summary: List residential projects
+      description: 'List residential projects across all lifecycle stages (request, offer, installation) in a paginated format. Use the `stage` query param to restrict to one or more stages; omit to span all three.
+
+
+        **Examples:**
+
+        - Most recent offers: `GET /residentialProjects?stage=offer&sort=-offerCreatedAt&page=1`
+
+        - Open offers: `GET /residentialProjects?stage=offer&dealState=Open`
+
+        - Projects assigned to specific Kanban columns: `GET /residentialProjects?kanbanColumnIds=<uuid>&kanbanColumnIds=<uuid>`
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Residential Projects
+      parameters:
+      - schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            enum:
+            - request
+            - offer
+            - installation
+          maxItems: 3
+          description: 'Filter by lifecycle stages: request, offer, installation. Omit to include all stages.'
+          examples:
+          - request
+          - offer,installation
+        required: false
+        description: 'Filter by lifecycle stages: request, offer, installation. Omit to include all stages.'
+        name: stage
+        in: query
+      - schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            enum:
+            - Open
+            - Won
+            - Lost
+          maxItems: 3
+          description: Filter by deal state. Omit to include all. Pass `null` to return only projects that have no deal state.
+          examples:
+          - Open
+          - Won,Lost
+        required: false
+        description: Filter by deal state. Omit to include all. Pass `null` to return only projects that have no deal state.
+        name: dealState
+        in: query
+      - schema:
+          type: string
+          enum:
+          - exclude
+          - include
+          - only
+          default: exclude
+          description: 'Controls whether archived projects appear in results. Default: exclude.'
+        required: false
+        description: 'Controls whether archived projects appear in results. Default: exclude.'
+        name: archived
+        in: query
+      - schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          maxItems: 50
+          description: Filter projects that are tagged with any of the specified tag IDs. Pass `null` to return only projects that have no tags.
+        required: false
+        description: Filter projects that are tagged with any of the specified tag IDs. Pass `null` to return only projects that have no tags.
+        name: tagIds
+        in: query
+      - schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          maxItems: 50
+          description: Filter projects that have a lead source with any of the specified IDs. Pass `null` to return only projects that have no lead source.
+        required: false
+        description: Filter projects that have a lead source with any of the specified IDs. Pass `null` to return only projects that have no lead source.
+        name: leadSourceIds
+        in: query
+      - schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          maxItems: 50
+          description: Filter projects that are in any of the specified Kanban boards. Pass `null` to return only projects that are not assigned to any Kanban board. Mutually exclusive with `kanbanColumnIds`.
+        required: false
+        description: Filter projects that are in any of the specified Kanban boards. Pass `null` to return only projects that are not assigned to any Kanban board. Mutually exclusive with `kanbanColumnIds`.
+        name: kanbanBoardIds
+        in: query
+      - schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          maxItems: 50
+          description: Filter projects that are in any of the specified Kanban columns. Pass `null` to return only projects that have no status assigned (the "no status" column). Mutually exclusive with `kanbanBoardIds`.
+        required: false
+        description: Filter projects that are in any of the specified Kanban columns. Pass `null` to return only projects that have no status assigned (the "no status" column). Mutually exclusive with `kanbanBoardIds`.
+        name: kanbanColumnIds
+        in: query
+      - schema:
+          type: string
+          minLength: 1
+          maxLength: 1000
+          description: Filter projects by their exact internal customer number (e.g. from your CRM or ERP).
+        required: false
+        description: Filter projects by their exact internal customer number (e.g. from your CRM or ERP).
+        name: customerNumber
+        in: query
+      - schema:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+          description: Filter projects whose customer contact has this ID. Reference to [**Contacts**](#tag/contacts)
+        required: false
+        description: Filter projects whose customer contact has this ID. Reference to [**Contacts**](#tag/contacts)
+        name: contactId
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where projectCreatedAt is after this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where projectCreatedAt is after this datetime (exclusive)
+        name: projectCreatedAt.gt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where projectCreatedAt is before this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where projectCreatedAt is before this datetime (exclusive)
+        name: projectCreatedAt.lt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where requestCreatedAt is after this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where requestCreatedAt is after this datetime (exclusive)
+        name: requestCreatedAt.gt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where requestCreatedAt is before this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where requestCreatedAt is before this datetime (exclusive)
+        name: requestCreatedAt.lt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where offerCreatedAt is after this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where offerCreatedAt is after this datetime (exclusive)
+        name: offerCreatedAt.gt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where offerCreatedAt is before this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where offerCreatedAt is before this datetime (exclusive)
+        name: offerCreatedAt.lt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where installationCreatedAt is after this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where installationCreatedAt is after this datetime (exclusive)
+        name: installationCreatedAt.gt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where installationCreatedAt is before this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where installationCreatedAt is before this datetime (exclusive)
+        name: installationCreatedAt.lt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where updatedAt is after this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where updatedAt is after this datetime (exclusive)
+        name: updatedAt.gt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where updatedAt is before this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where updatedAt is before this datetime (exclusive)
+        name: updatedAt.lt
+        in: query
+      - schema:
+          type: integer
+          minimum: 1
+          default: 1
+          description: 'Page number, starting from 1. Default: 1.'
+        required: false
+        description: 'Page number, starting from 1. Default: 1.'
+        name: page
+        in: query
+      - schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+          description: 'Number of items per page. Default: 50. Max: 200.'
+        required: false
+        description: 'Number of items per page. Default: 50. Max: 200.'
+        name: itemsPerPage
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          default: -projectCreatedAt
+          description: 'Sort order. Use field names for ascending (e.g. "createdAt"), minus sign for descending (e.g. "-createdAt"). Chain with commas (e.g. "createdAt,editedAt"). Sortable fields: projectCreatedAt, requestCreatedAt, offerCreatedAt, installationCreatedAt, updatedAt. Defaults to -projectCreatedAt.'
+          examples:
+          - -projectCreatedAt
+          - offerCreatedAt
+          - -updatedAt
+        required: false
+        description: 'Sort order. Use field names for ascending (e.g. "createdAt"), minus sign for descending (e.g. "-createdAt"). Chain with commas (e.g. "createdAt,editedAt"). Sortable fields: projectCreatedAt, requestCreatedAt, offerCreatedAt, installationCreatedAt, updatedAt. Defaults to -projectCreatedAt.'
+        name: sort
+        in: query
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: Paginated list of residential projects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ResidentialProject'
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        minimum: 1
+                        description: Current page number
+                      perPage:
+                        type: integer
+                        minimum: 1
+                        description: Number of items per page
+                      total:
+                        type: integer
+                        minimum: 0
+                        description: Total number of items across all pages
+                      totalPages:
+                        type: integer
+                        minimum: 1
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: Path to the next page, or null if there is no next page
+                      prev:
+                        type:
+                        - string
+                        - 'null'
+                        description: Path to the previous page, or null if there is no previous page
+                    required:
+                    - page
+                    - perPage
+                    - total
+                    - totalPages
+                    - next
+                    - prev
+                required:
+                - data
+                - pagination
+  /residentialProjects/{projectId}:
+    get:
+      summary: Get residential project
+      description: 'Get a single residential project by its ID. Works for any stage (request, offer, or installation).
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Residential Projects
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: projectId
+        in: path
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: The residential project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResidentialProjectDetail'
+  /residentialProjects/create:
+    post:
+      summary: Create residential project
+      description: 'Create a residential project at a given lifecycle stage.
+
+
+        **Allowed API keys:** Read and Write, Lead creation only'
+      tags:
+      - Residential Projects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stage:
+                  type: string
+                  enum:
+                  - request
+                  - offer
+                  - installation
+                latLng:
+                  type: object
+                  properties:
+                    lat:
+                      type: number
+                      minimum: -90
+                      maximum: 90
+                      example: 48.363767359
+                    lng:
+                      type: number
+                      minimum: -180
+                      maximum: 180
+                      example: 10.888136991
+                  required:
+                  - lat
+                  - lng
+                  additionalProperties: false
+                  description: Coordinates of the installation site. Provide either `latLng` or `address` (exactly one). The project's `address` in the response is reverse-geocoded from these coordinates. Note that this is independent of the customer contact's address — if you also send `customerContact.address`, that address is stored on the contact and may differ from the geocoded installation address (e.g. when the customer's residence differs from the installation site).
+                address:
+                  type: object
+                  properties:
+                    street:
+                      type: string
+                      minLength: 1
+                      maxLength: 1000
+                      example: Hauptstraße
+                    houseNumber:
+                      type: string
+                      minLength: 1
+                      maxLength: 1000
+                      example: '12'
+                    postcode:
+                      type: string
+                      minLength: 1
+                      maxLength: 1000
+                      example: '86150'
+                    city:
+                      type: string
+                      minLength: 1
+                      maxLength: 1000
+                      example: Augsburg
+                    country:
+                      type: string
+                      enum:
+                      - Austria
+                      - Switzerland
+                      - Germany
+                      - Liechtenstein
+                      - Luxembourg
+                      - Czechia
+                      - Slovakia
+                      - Hungary
+                      - Poland
+                      - Slovenia
+                      - France
+                      - Belgium
+                      - Netherlands
+                      - Monaco
+                      - Andorra
+                      - Italy
+                      - SanMarino
+                      - VaticanCity
+                      - Malta
+                      - Spain
+                      - Portugal
+                      - Gibraltar
+                      - Denmark
+                      - Sweden
+                      - Norway
+                      - Finland
+                      - Iceland
+                      - FaroeIslands
+                      - Greenland
+                      - Albania
+                      - Armenia
+                      - Azerbaijan
+                      - Belarus
+                      - BosniaAndHerzegovina
+                      - Bulgaria
+                      - Croatia
+                      - Cyprus
+                      - Estonia
+                      - Georgia
+                      - Greece
+                      - Kazakhstan
+                      - Kosovo
+                      - Latvia
+                      - Lithuania
+                      - Moldova
+                      - Montenegro
+                      - NorthMacedonia
+                      - Romania
+                      - Russia
+                      - Serbia
+                      - Turkey
+                      - Ukraine
+                      - UnitedKingdom
+                      - Jersey
+                      - Ireland
+                      - Martinique
+                      - Guadeloupe
+                      - Reunion
+                      - SaintMartin
+                      - SaintBarthelemy
+                      - SaintPierreAndMiquelon
+                      - FrenchGuiana
+                      - Bahamas
+                      - Barbados
+                      - Dominica
+                      - Grenada
+                      - Jamaica
+                      - SaintKittsAndNevis
+                      - SaintLucia
+                      - SaintVincentAndTheGrenadines
+                      - TrinidadAndTobago
+                      - AntiguaAndBarbuda
+                      - Aruba
+                      - Curacao
+                      - Bermuda
+                      - CaymanIslands
+                      - TurksAndCaicosIslands
+                      - Anguilla
+                      - Montserrat
+                      - BritishVirginIslands
+                      - USVirginIslands
+                      - SintMaarten
+                      - BonaireSintEustatiusSaba
+                      - Argentina
+                      - Bolivia
+                      - Belize
+                      - Brazil
+                      - Chile
+                      - Colombia
+                      - CostaRica
+                      - Cuba
+                      - DominicanRepublic
+                      - Ecuador
+                      - ElSalvador
+                      - Guatemala
+                      - Guyana
+                      - Honduras
+                      - Haiti
+                      - Mexico
+                      - Nicaragua
+                      - Panama
+                      - Paraguay
+                      - Peru
+                      - Suriname
+                      - Uruguay
+                      - Venezuela
+                      - FalklandIslands
+                      - UnitedStates
+                      - Morocco
+                      - SouthAfrica
+                      example: Germany
+                  required:
+                  - street
+                  - postcode
+                  - city
+                  - country
+                  additionalProperties: false
+                  description: Installation site address, geocoded into coordinates. Provide either `latLng` or `address` (exactly one). Only a precise, street-level match whose resolved postcode equals the `postcode` you sent sets the coordinates; if the address can only be resolved approximately (e.g. to a city, postcode, or country), resolves to a different postcode, or cannot be geocoded at all, the coordinates default to `0, 0`.
+                customerContact:
+                  anyOf:
+                  - $ref: '#/components/schemas/ContactReference'
+                  - $ref: '#/components/schemas/ContactCreate'
+                  description: Either reference an existing contact by `id` or provide full contact details to create a new one.
+                name:
+                  type: string
+                  minLength: 2
+                  maxLength: 500
+                  description: If omitted defaults to customer contacts `firstName` + `lastName`
+                  example: Test Project
+                customerNumber:
+                  type: string
+                  maxLength: 1000
+                  description: Internal customer reference, e.g. from your CRM or ERP.
+                  example: C-1042
+                meterNumber:
+                  type: string
+                  maxLength: 1000
+                  description: Electricity meter number at the customer's property.
+                  example: 1APA0123456789
+                kanbanBoardId:
+                  type:
+                  - string
+                  - 'null'
+                  format: uuid
+                  example: 123e4567-e89b-12d3-a456-426614174000
+                  description: ID of the Kanban board this project should be placed on. Has to match `stage`. The project is placed in the board's first column. Mutually exclusive with `kanbanColumnId`.
+                kanbanColumnId:
+                  type:
+                  - string
+                  - 'null'
+                  format: uuid
+                  example: 123e4567-e89b-12d3-a456-426614174000
+                  description: ID of the project's current Kanban column. Has to match `stage`. Reference to [**Kanban Columns**](#tag/kanban-columns). Mutually exclusive with `kanbanBoardId`.
+                leadSourceId:
+                  type:
+                  - string
+                  - 'null'
+                  format: uuid
+                  example: 123e4567-e89b-12d3-a456-426614174000
+                tagIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  maxItems: 50
+                  description: IDs of the tags to assign to this project. Reference to [**Tags**](#tag/tags)
+                  example:
+                  - 123e4567-e89b-12d3-a456-426614174000
+                  - 123e4567-e89b-12d3-a456-426614174002
+                packages:
+                  type: object
+                  properties:
+                    solarPackageId:
+                      type:
+                      - string
+                      - 'null'
+                      format: uuid
+                      example: 123e4567-e89b-12d3-a456-426614174000
+                    batteryStoragePackageId:
+                      type:
+                      - string
+                      - 'null'
+                      format: uuid
+                      example: 123e4567-e89b-12d3-a456-426614174000
+                    evChargerPackageId:
+                      type:
+                      - string
+                      - 'null'
+                      format: uuid
+                      example: 123e4567-e89b-12d3-a456-426614174000
+                    heatingPackageId:
+                      type:
+                      - string
+                      - 'null'
+                      format: uuid
+                      example: 123e4567-e89b-12d3-a456-426614174000
+                  additionalProperties: false
+                integrations:
+                  type: object
+                  properties:
+                    hubspotDealId:
+                      type:
+                      - string
+                      - 'null'
+                      maxLength: 1000
+                    pipedriveDealId:
+                      type:
+                      - integer
+                      - 'null'
+                      minimum: 1
+                      maximum: 9007199254740991
+                    weclappOpportunityId:
+                      type:
+                      - string
+                      - 'null'
+                      format: uuid
+                    bitrixDealId:
+                      type:
+                      - string
+                      - 'null'
+                      maxLength: 1000
+                    photovateDealId:
+                      type:
+                      - string
+                      - 'null'
+                      format: uuid
+                  additionalProperties: false
+                  description: IDs of this project in third-party systems.
+              required:
+              - stage
+              - customerContact
+              additionalProperties: false
+      responses:
+        '201':
+          description: The created residential project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResidentialProjectDetail'
+  /residentialProjects/{projectId}/update:
+    post:
+      summary: Update residential project
+      description: 'Update fields of a residential project. Stage-agnostic — the same fields are editable at any lifecycle stage. If you want to update contact details, use the dedicated endpoint — see [**Contacts**](#tag/contacts) for more details on that.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Residential Projects
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: projectId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stage:
+                  type: string
+                  enum:
+                  - request
+                  - offer
+                  - installation
+                latLng:
+                  type: object
+                  properties:
+                    lat:
+                      type: number
+                      minimum: -90
+                      maximum: 90
+                      example: 48.363767359
+                    lng:
+                      type: number
+                      minimum: -180
+                      maximum: 180
+                      example: 10.888136991
+                  required:
+                  - lat
+                  - lng
+                  additionalProperties: false
+                  description: Updates the coordinates of the installation site. The project's `address` in the response is reverse-geocoded from these coordinates and will reflect the new location on subsequent reads. The customer contact's own address is stored separately and is not affected by this update.
+                name:
+                  type: string
+                  minLength: 2
+                  maxLength: 500
+                customerNumber:
+                  type:
+                  - string
+                  - 'null'
+                  maxLength: 1000
+                  description: Internal customer reference, e.g. from your CRM or ERP. Pass `null` to clear.
+                  example: C-1042
+                meterNumber:
+                  type:
+                  - string
+                  - 'null'
+                  maxLength: 1000
+                  description: Electricity meter number at the customer's property. Pass `null` to clear.
+                  example: 1APA0123456789
+                targetSignatureDate:
+                  type:
+                  - string
+                  - 'null'
+                  format: date-time
+                  example: '2026-01-01T15:30:00.000Z'
+                  description: Target date by which the offer should be signed. Pass `null` to clear.
+                closedAt:
+                  type:
+                  - string
+                  - 'null'
+                  format: date-time
+                  example: '2026-01-01T15:30:00.000Z'
+                  description: Manually overrides the project's close date. Pass `null` to clear the override — the effective `closedAt` in the response then falls back to the latest valid signature date and then `deal.decidedAt` once the deal is Won. Requires the API user to have the 'Edit deal value & close date' right.
+                subsidies:
+                  type: object
+                  properties:
+                    de:
+                      type: object
+                      properties:
+                        bafaApplicationId:
+                          type:
+                          - string
+                          - 'null'
+                          maxLength: 1000
+                          description: BAFA confirmation-of-application ID (Bestätigung zum Antrag, BzA).
+                        bafaCompletionId:
+                          type:
+                          - string
+                          - 'null'
+                          maxLength: 1000
+                          description: BAFA confirmation-after-completion ID (Bestätigung nach Durchführung, BnD).
+                      additionalProperties: false
+                      description: German (BAFA/KfW) subsidy identifiers. Only valid when client locale is `deDE`.
+                  additionalProperties: false
+                  description: Country-scoped subsidy identifiers.
+                keyAccountManagerId:
+                  type:
+                  - string
+                  - 'null'
+                  format: uuid
+                  description: ID of the key account manager assigned to this project, if any. Pass `null` to clear. Reference to [**Users**](#tag/users)
+                  example: 123e4567-e89b-12d3-a456-426614174000
+                assignedUserIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  maxItems: 50
+                  description: IDs of users assigned to this project. Replaces the full set. Pass `[]` to clear. Reference to [**Users**](#tag/users)
+                  example:
+                  - 123e4567-e89b-12d3-a456-426614174000
+                  - 123e4567-e89b-12d3-a456-426614174002
+                assignedTeamIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  maxItems: 50
+                  description: IDs of teams assigned to this project. Replaces the full set. Pass `[]` to clear. Reference to [**Teams**](#tag/teams)
+                  example:
+                  - 123e4567-e89b-12d3-a456-426614174000
+                  - 123e4567-e89b-12d3-a456-426614174002
+                notifyNewAssignees:
+                  type: boolean
+                  default: true
+                  description: Whether to email newly assigned users and team members about the assignment. Set to `false` to assign silently. Only applies when `keyAccountManagerId`, `assignedUserIds`, or `assignedTeamIds` is also provided. Defaults to `true`.
+                  example: true
+                tagIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  maxItems: 50
+                  description: IDs of the tags assigned to this project. Replaces the full set. Pass `[]` to clear. Reference to [**Tags**](#tag/tags)
+                  example:
+                  - 123e4567-e89b-12d3-a456-426614174000
+                  - 123e4567-e89b-12d3-a456-426614174002
+                kanbanBoardId:
+                  type: string
+                  format: uuid
+                  example: 123e4567-e89b-12d3-a456-426614174000
+                  description: ID of the Kanban board this project should be placed on. The project is placed in the board's first column. Can change projects `stage`. Mutually exclusive with `stage` and `kanbanColumnId`.
+                kanbanColumnId:
+                  type: string
+                  format: uuid
+                  example: 123e4567-e89b-12d3-a456-426614174000
+                  description: ID of the project's current Kanban column. Can change projects `stage`. Mutually exclusive with `stage` and `kanbanBoardId`. Reference to [**Kanban Columns**](#tag/kanban-columns)
+                leadSourceId:
+                  type:
+                  - string
+                  - 'null'
+                  format: uuid
+                  description: ID of the lead source for this project. Pass `null` to clear.
+                  example: 123e4567-e89b-12d3-a456-426614174000
+                primaryOfferVariantId:
+                  type: string
+                  format: uuid
+                  description: ID of the primary variant for this projects offer.
+                  example: 123e4567-e89b-12d3-a456-426614174000
+                deal:
+                  oneOf:
+                  - $ref: '#/components/schemas/DealSetOpen'
+                  - $ref: '#/components/schemas/DealSetWon'
+                  - $ref: '#/components/schemas/DealSetLost'
+                  discriminator:
+                    propertyName: state
+                    mapping:
+                      Open: '#/components/schemas/DealSetOpen'
+                      Won: '#/components/schemas/DealSetWon'
+                      Lost: '#/components/schemas/DealSetLost'
+                integrations:
+                  type: object
+                  properties:
+                    hubspotDealId:
+                      type:
+                      - string
+                      - 'null'
+                      maxLength: 1000
+                    pipedriveDealId:
+                      type:
+                      - integer
+                      - 'null'
+                      minimum: 1
+                      maximum: 9007199254740991
+                    weclappOpportunityId:
+                      type:
+                      - string
+                      - 'null'
+                      format: uuid
+                    bitrixDealId:
+                      type:
+                      - string
+                      - 'null'
+                      maxLength: 1000
+                    photovateDealId:
+                      type:
+                      - string
+                      - 'null'
+                      format: uuid
+                  additionalProperties: false
+                  description: IDs of this project in third-party systems. Pass `null` on individual fields to clear.
+                archived:
+                  type: boolean
+                  description: '`true` to archive the project, `false` to unarchive.'
+              additionalProperties: false
+      responses:
+        '200':
+          description: The updated residential project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResidentialProjectDetail'
+  /residentialProjects/{projectId}/heatingLoad/roomWise:
+    get:
+      summary: Get heating load (room-wise)
+      description: 'Retrieve room-wise heating load simulation results for a residential project.
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Residential Projects
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: projectId
+        in: path
+      - schema:
+          type:
+          - boolean
+          - 'null'
+          default: true
+          description: Whether to use replacement radiators in the heating load simulation
+          example: true
+        required: false
+        description: Whether to use replacement radiators in the heating load simulation
+        name: useReplacementRadiators
+        in: query
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: Simulation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    anyOf:
+                    - type: object
+                      properties:
+                        totalHeatLoss:
+                          type: number
+                          description: 'Unit: W'
+                        totalTransmissionHeatCoefficient:
+                          type: number
+                          description: 'Unit: W/K'
+                        totalTransmissionHeatLoss:
+                          type: number
+                          description: 'Unit: W'
+                        totalVentilationHeatCoefficient:
+                          type: number
+                          description: 'Unit: W/K'
+                        totalVentilationHeatLoss:
+                          type: number
+                          description: 'Unit: W'
+                        transmissionHeatLossToGround:
+                          type: number
+                          description: 'Unit: W'
+                        transmissionHeatLossToOutside:
+                          type: number
+                          description: 'Unit: W'
+                        transmissionHeatLossToUnheated:
+                          type: number
+                          description: 'Unit: W'
+                        baseValues:
+                          type: object
+                          properties:
+                            builtYear:
+                              type: number
+                            numberOfInhabitants:
+                              type: number
+                            shielding:
+                              type: string
+                              enum:
+                              - None
+                              - Normal
+                              - High
+                            soilDepth:
+                              type: number
+                              description: 'Unit: m'
+                            thermalBridgeFactorExternal:
+                              type: number
+                              description: 'Unit: W/m²K'
+                            thermalBridgeFactorInternal:
+                              type: number
+                              description: 'Unit: W/m²K'
+                            airTightnessTest:
+                              type: object
+                              properties:
+                                testType:
+                                  type: string
+                                  enum:
+                                  - 'No'
+                                  - YesWithoutValue
+                                  - YesWithVolumeFlow
+                                  - YesWithN50
+                                n50:
+                                  type:
+                                  - number
+                                  - 'null'
+                                volumeFlow:
+                                  type:
+                                  - number
+                                  - 'null'
+                              required:
+                              - testType
+                            width:
+                              type: number
+                              description: 'Unit: m'
+                            length:
+                              type: number
+                              description: 'Unit: m'
+                          required:
+                          - builtYear
+                          - numberOfInhabitants
+                          - shielding
+                          - soilDepth
+                          - thermalBridgeFactorExternal
+                          - thermalBridgeFactorInternal
+                          - airTightnessTest
+                          - width
+                          - length
+                      required:
+                      - totalHeatLoss
+                      - totalTransmissionHeatCoefficient
+                      - totalTransmissionHeatLoss
+                      - totalVentilationHeatCoefficient
+                      - totalVentilationHeatLoss
+                      - transmissionHeatLossToGround
+                      - transmissionHeatLossToOutside
+                      - transmissionHeatLossToUnheated
+                      - baseValues
+                    - type: object
+                      properties:
+                        errorCount:
+                          type: number
+                      required:
+                      - errorCount
+                  warnings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        aggregationKey:
+                          type:
+                          - string
+                          - 'null'
+                        fieldName:
+                          type: string
+                        error:
+                          type:
+                          - string
+                          - 'null'
+                          enum:
+                          - DORMER_LENGTH_EXCEEDS_ROOF_LENGTH
+                          - NO_OUTSIDE_WALL
+                          - NO_OUTSIDE_WALL_CELLAR
+                          - SLOPED_ROOF_INCORRECT_DIMENSIONS
+                          - SLOPED_ROOF_JAMB_WALL_HEIGHT_TOO_BIG
+                          - VALUE_MISSING
+                          - VALUE_OUT_OF_RANGE
+                          - WINDOW_DOOR_AREA_TOO_BIG
+                          - null
+                        errorRange:
+                          type:
+                          - object
+                          - 'null'
+                          properties:
+                            min:
+                              type: number
+                            max:
+                              type: number
+                          required:
+                          - min
+                          - max
+                        errorName:
+                          type:
+                          - string
+                          - 'null'
+                        errorDescription:
+                          type:
+                          - string
+                          - 'null'
+                        fixDescription:
+                          type:
+                          - string
+                          - 'null'
+                        componentId:
+                          type:
+                          - string
+                          - 'null'
+                        storyId:
+                          type:
+                          - string
+                          - 'null'
+                        roomId:
+                          type:
+                          - string
+                          - 'null'
+                      required:
+                      - fieldName
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        aggregationKey:
+                          type:
+                          - string
+                          - 'null'
+                        fieldName:
+                          type: string
+                        error:
+                          type:
+                          - string
+                          - 'null'
+                          enum:
+                          - DORMER_LENGTH_EXCEEDS_ROOF_LENGTH
+                          - NO_OUTSIDE_WALL
+                          - NO_OUTSIDE_WALL_CELLAR
+                          - SLOPED_ROOF_INCORRECT_DIMENSIONS
+                          - SLOPED_ROOF_JAMB_WALL_HEIGHT_TOO_BIG
+                          - VALUE_MISSING
+                          - VALUE_OUT_OF_RANGE
+                          - WINDOW_DOOR_AREA_TOO_BIG
+                          - null
+                        errorRange:
+                          type:
+                          - object
+                          - 'null'
+                          properties:
+                            min:
+                              type: number
+                            max:
+                              type: number
+                          required:
+                          - min
+                          - max
+                        errorName:
+                          type:
+                          - string
+                          - 'null'
+                        errorDescription:
+                          type:
+                          - string
+                          - 'null'
+                        fixDescription:
+                          type:
+                          - string
+                          - 'null'
+                        componentId:
+                          type:
+                          - string
+                          - 'null'
+                        storyId:
+                          type:
+                          - string
+                          - 'null'
+                        roomId:
+                          type:
+                          - string
+                          - 'null'
+                      required:
+                      - fieldName
+                required:
+                - results
+                - warnings
+                - errors
+        '400':
+          description: Failed to compute heating load
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    default: Failed to compute heating load
+  /residentialProjects/{projectId}/variants:
+    get:
+      summary: List variants
+      description: 'List all variants (planned offer configurations) of a residential project, each with its full bill of materials grouped by system. Variants are populated once the project reaches the offer stage.
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Residential Projects
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: projectId
+        in: path
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: The project's variants
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ResidentialVariant'
+                    description: List of items
+                required:
+                - data
+  /residentialProjects/{projectId}/variants/{variantId}:
+    get:
+      summary: Get variant
+      description: 'Get a single variant (planned offer configuration) of a residential project, with its full bill of materials grouped by system. Returns the same shape as an entry in the list-variants response.
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Residential Projects
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: projectId
+        in: path
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: variantId
+        in: path
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: The variant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResidentialVariant'
+        '404':
+          description: The variant does not belong to this project
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                - message
+components:
+  schemas:
+    VariantSystem:
+      type:
+      - object
+      - 'null'
+      properties:
+        price:
+          allOf:
+          - $ref: '#/components/schemas/Price'
+          - description: Price subtotal for this system, after any system-level rebates.
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariantLineItem'
+      required:
+      - price
+      - lineItems
+    ContactCreate:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 1000
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 1000
+        salutation:
+          type:
+          - string
+          - 'null'
+          enum:
+          - Female
+          - Male
+          - Diverse
+          - Family
+          - Business
+          - null
+        primaryEmail:
+          type:
+          - string
+          - 'null'
+          maxLength: 1000
+          format: email
+        secondaryEmail:
+          type:
+          - string
+          - 'null'
+          maxLength: 1000
+          format: email
+          description: Alternative email address
+        mobile:
+          type:
+          - string
+          - 'null'
+          maxLength: 100
+          description: Mobile phone number
+        phone:
+          type:
+          - string
+          - 'null'
+          maxLength: 100
+          description: Landline phone number
+        phoneReachability:
+          type:
+          - string
+          - 'null'
+          enum:
+          - Morning
+          - Afternoon
+          - Evening
+          - Fulltime
+          - WeekendOnly
+          - EmailOnly
+          - null
+        address:
+          type: object
+          properties:
+            street:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            houseNumber:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            city:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            postcode:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            country:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+          additionalProperties: false
+        marketingConsent:
+          type: boolean
+          description: Whether the contact has given marketing consent
+        marketingConsentText:
+          type:
+          - string
+          - 'null'
+          maxLength: 10000
+        marketingConsentDataProtectionLink:
+          type:
+          - string
+          - 'null'
+          maxLength: 2000
+        utm:
+          type: object
+          properties:
+            campaign:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            content:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            medium:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            source:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            term:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+          additionalProperties: false
+          description: UTM parameters associated with this contact
+        integrations:
+          type: object
+          properties:
+            bitrixId:
+              type:
+              - integer
+              - 'null'
+              minimum: 1
+              maximum: 9007199254740991
+            hubspotId:
+              type:
+              - string
+              - 'null'
+              format: uuid
+            pdsId:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            photovateId:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            pipedriveId:
+              type:
+              - integer
+              - 'null'
+              minimum: 1
+              maximum: 9007199254740991
+            weclappId:
+              type:
+              - string
+              - 'null'
+              format: uuid
+          additionalProperties: false
+          description: IDs of this contact in third-party systems
+      required:
+      - firstName
+      - lastName
+      - marketingConsent
+      additionalProperties: false
+    DealSetWon:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+          - Won
+        notes:
+          type:
+          - string
+          - 'null'
+          maxLength: 5000
+      required:
+      - state
+      additionalProperties: false
+    Price:
+      type: object
+      properties:
+        net:
+          type: number
+          description: Amount excluding VAT.
+        gross:
+          type: number
+          description: Amount including VAT (`net + vat`).
+        vat:
+          type: number
+          description: VAT amount.
+      required:
+      - net
+      - gross
+      - vat
+      description: Total planned price for the variant, across all systems and selected optional bundles.
+    VariantLineItem:
+      type: object
+      properties:
+        componentId:
+          type: string
+          format: uuid
+          description: Stable identifier of the catalog component on this line. Reference to [**Components**](#tag/components)
+          example: 123e4567-e89b-12d3-a456-426614174000
+        componentVersionId:
+          type: string
+          format: uuid
+          description: Identifies the exact component version quoted on this line. May differ from the latest catalog version if the component was edited after the offer was built.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        componentType:
+          type: string
+          enum:
+          - module
+          - inverter
+          - microinverter
+          - optimizer
+          - virtualBattery
+          - batteryStorage
+          - evCharger
+          - heatPump
+          - airHeatPump
+          - hotWaterHeatPump
+          - heatingStorage
+          - hotWaterStorage
+          - heatingRod
+          - radiator
+          - indoorUnitAirHeatPump
+          - accessoryToEvCharger
+          - accessoryToHeatPump
+          - accessoryToModule
+          - accessoryToInverter
+          - accessoryToBatteryStorage
+          - other
+          - moduleFrameConstruction
+          - serviceFee
+          - installationFee
+        name:
+          type: string
+        brand:
+          type: string
+          description: User-typed brand string.
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        quantity:
+          type: number
+        visibleToCustomer:
+          type: boolean
+          description: Whether this line is shown to the end customer on the offer. All lines are returned regardless; this flags the customer-visible subset.
+        unitSalesPrice:
+          $ref: '#/components/schemas/UnitPrice'
+        totalSalesPrice:
+          allOf:
+          - $ref: '#/components/schemas/Price'
+          - description: Line total (unit sales price × quantity).
+        unitPurchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Effective cost paid to acquire one unit of the component, net (excluding VAT). Reflects the project-specific override when one is set, otherwise the catalog purchase price; null when not tracked.
+        totalPurchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Purchase total for the line (unit purchase price × quantity), net. Null when not tracked.
+        purchasePriceOverridden:
+          type: boolean
+          description: Whether `unitPurchasePrice` stems from a project-specific override rather than the catalog purchase price. An override equal to the catalog price reports `false`.
+        margin:
+          type:
+          - object
+          - 'null'
+          properties:
+            total:
+              type: number
+              description: Net sales total minus net purchase total for this line.
+            rate:
+              type:
+              - number
+              - 'null'
+              description: 'Margin relative to the purchase cost (markup on cost): (net sales − net purchase) / net purchase. Null when the purchase price is 0.'
+          required:
+          - total
+          - rate
+          description: Margin for this line. Null when no purchase price is tracked.
+      required:
+      - componentId
+      - componentVersionId
+      - componentType
+      - name
+      - brand
+      - articleNumber
+      - gtin
+      - quantity
+      - visibleToCustomer
+      - unitSalesPrice
+      - totalSalesPrice
+      - unitPurchasePrice
+      - totalPurchasePrice
+      - purchasePriceOverridden
+      - margin
+    VariantOptionalBundle:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        selected:
+          type: boolean
+          description: Whether the customer has opted into this bundle. Only selected bundles count toward the variant total.
+        price:
+          $ref: '#/components/schemas/Price'
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariantLineItem'
+      required:
+      - id
+      - name
+      - description
+      - selected
+      - price
+      - lineItems
+    DealSetOpen:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+          - Open
+      required:
+      - state
+      additionalProperties: false
+    ResidentialVariant:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+          description: The variant's display name.
+        isPrimary:
+          type: boolean
+          description: Whether this is the project's primary offer variant.
+        totalPrice:
+          $ref: '#/components/schemas/Price'
+        totalPriceOverride:
+          type:
+          - number
+          - 'null'
+          minimum: 0
+          description: 'Manually agreed net total (excludes VAT), or `null` if unset. When present it supersedes `totalPrice`: `totalPrice` still reports the summed systems and selected bundles and will not equal this value, so treat this — not `totalPrice` — as the variant''s effective total whenever it is set.'
+        systems:
+          type: object
+          properties:
+            solar:
+              $ref: '#/components/schemas/VariantSystem'
+            batteryStorage:
+              $ref: '#/components/schemas/VariantSystem'
+            heating:
+              $ref: '#/components/schemas/VariantSystem'
+            evCharger:
+              $ref: '#/components/schemas/VariantSystem'
+            additional:
+              $ref: '#/components/schemas/VariantSystem'
+          required:
+          - solar
+          - batteryStorage
+          - heating
+          - evCharger
+          - additional
+          description: Planned line items grouped by subsystem. A system is `null` when it has no line items.
+        optionalBundles:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariantOptionalBundle'
+          description: Opt-in component bundles offered for this variant.
+      required:
+      - id
+      - name
+      - isPrimary
+      - totalPrice
+      - totalPriceOverride
+      - systems
+      - optionalBundles
+    ContactReference:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+      required:
+      - id
+      additionalProperties: false
+    ResidentialProjectDetail:
+      allOf:
+      - $ref: '#/components/schemas/ResidentialProject'
+      - type: object
+        properties:
+          customerContact:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: Reference to [**Contacts**](#tag/contacts)
+                example: 123e4567-e89b-12d3-a456-426614174000
+              fullName:
+                type: string
+                description: First and last name combined
+              firstName:
+                type: string
+              lastName:
+                type: string
+              primaryEmail:
+                type:
+                - string
+                - 'null'
+              salutation:
+                type:
+                - string
+                - 'null'
+                enum:
+                - Female
+                - Male
+                - Diverse
+                - Family
+                - Business
+                - null
+              secondaryEmail:
+                type:
+                - string
+                - 'null'
+                description: Alternative email address
+              mobile:
+                type:
+                - string
+                - 'null'
+                description: Mobile phone number
+              phone:
+                type:
+                - string
+                - 'null'
+                description: Landline phone number
+              phoneReachability:
+                type:
+                - string
+                - 'null'
+                enum:
+                - Morning
+                - Afternoon
+                - Evening
+                - Fulltime
+                - WeekendOnly
+                - EmailOnly
+                - null
+            required:
+            - id
+            - fullName
+            - firstName
+            - lastName
+            - primaryEmail
+            - salutation
+            - secondaryEmail
+            - mobile
+            - phone
+            - phoneReachability
+          assignedUserIds:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: IDs of users assigned to this project. Reference to [**Users**](#tag/users)
+            example:
+            - 123e4567-e89b-12d3-a456-426614174000
+          assignedTeamIds:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: IDs of teams assigned to this project. Reference to [**Teams**](#tag/teams)
+            example:
+            - 123e4567-e89b-12d3-a456-426614174000
+          requestedPackages:
+            type: object
+            properties:
+              solar:
+                type:
+                - object
+                - 'null'
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    example: 123e4567-e89b-12d3-a456-426614174000
+                  name:
+                    type: string
+                required:
+                - id
+                - name
+              heating:
+                type:
+                - object
+                - 'null'
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    example: 123e4567-e89b-12d3-a456-426614174000
+                  name:
+                    type: string
+                required:
+                - id
+                - name
+              batteryStorage:
+                type:
+                - object
+                - 'null'
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    example: 123e4567-e89b-12d3-a456-426614174000
+                  name:
+                    type: string
+                required:
+                - id
+                - name
+              evCharger:
+                type:
+                - object
+                - 'null'
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    example: 123e4567-e89b-12d3-a456-426614174000
+                  name:
+                    type: string
+                required:
+                - id
+                - name
+            required:
+            - solar
+            - heating
+            - batteryStorage
+            - evCharger
+            description: Packages requested by the customer during request stage
+          existingSystems:
+            type: object
+            properties:
+              solar:
+                type:
+                - object
+                - 'null'
+                properties:
+                  builtYear:
+                    type: number
+                  capacity:
+                    type: number
+                    description: 'Unit: Wp'
+                  angle:
+                    type:
+                    - number
+                    - 'null'
+                  orientation:
+                    type:
+                    - number
+                    - 'null'
+                required:
+                - builtYear
+                - capacity
+                - angle
+                - orientation
+              heating:
+                type:
+                - object
+                - 'null'
+                properties:
+                  type:
+                    type: string
+                    enum:
+                    - Heatpump
+                    - Oil
+                    - Gas
+                    - Infrared
+                    - Pellets
+                    - OtherRenewable
+                    - OtherNonRenewable
+                    - DistrictHeating
+                  annualCost:
+                    type:
+                    - number
+                    - 'null'
+                  annualDemand:
+                    type: number
+                    description: 'Unit: Wh'
+                  oilPricePerLiter:
+                    type:
+                    - number
+                    - 'null'
+                  gasPricePerCubicMeter:
+                    type:
+                    - number
+                    - 'null'
+                required:
+                - type
+                - annualCost
+                - annualDemand
+                - oilPricePerLiter
+                - gasPricePerCubicMeter
+              batteryStorage:
+                type:
+                - object
+                - 'null'
+                properties:
+                  builtYear:
+                    type:
+                    - number
+                    - 'null'
+                  capacity:
+                    type: number
+                    description: 'Unit: Wh'
+                required:
+                - builtYear
+                - capacity
+              evCharger:
+                type:
+                - object
+                - 'null'
+                properties:
+                  chargingPower:
+                    type: number
+                    description: 'Unit: W'
+                required:
+                - chargingPower
+              ev:
+                type:
+                - object
+                - 'null'
+                properties:
+                  vehicleId:
+                    type: string
+                    format: uuid
+                  vehicleName:
+                    type: string
+                  annualDistance:
+                    type: number
+                    description: 'Unit: km'
+                required:
+                - vehicleId
+                - vehicleName
+                - annualDistance
+            required:
+            - solar
+            - heating
+            - batteryStorage
+            - evCharger
+            - ev
+            description: Information about existing systems provided by the customer during request stage.
+          building:
+            type: object
+            properties:
+              builtYear:
+                type:
+                - number
+                - 'null'
+              livingArea:
+                type:
+                - number
+                - 'null'
+                description: 'Unit: m²'
+              numberOfInhabitants:
+                type:
+                - number
+                - 'null'
+              heatDeliveryType:
+                type:
+                - string
+                - 'null'
+                enum:
+                - Floor
+                - Radiators
+                - FloorAndRadiators
+                - null
+            required:
+            - builtYear
+            - livingArea
+            - numberOfInhabitants
+            - heatDeliveryType
+            description: Based on selected heat load calculation mode.
+          heatLoad:
+            type: object
+            properties:
+              mode:
+                type:
+                - string
+                - 'null'
+                enum:
+                - consumption
+                - properties
+                - roomwise
+                - null
+                description: 'How the heat load was calculated. `consumption`: derived from the building''s historical energy consumption. `properties`: derived from building properties such as construction year, living area and insulation. `roomwise`: full room-wise calculation based on the building''s floor plan.'
+              manualOverride:
+                type:
+                - number
+                - 'null'
+                description: Manually overridden heat load (in W).
+            required:
+            - mode
+            - manualOverride
+          offerNumber:
+            type:
+            - string
+            - 'null'
+            description: Auto-generated identifier displayed on the offer PDF and digital offer view. Derived from your offer number template at creation time and not settable via the API.
+          meterNumber:
+            type:
+            - string
+            - 'null'
+            description: Electricity meter number at the customer's property.
+          targetSignatureDate:
+            type:
+            - string
+            - 'null'
+            format: date-time
+            description: Target date by which the offer should be signed.
+          closedAt:
+            type:
+            - string
+            - 'null'
+            format: date-time
+            description: 'Effective close date of the deal: the manually set close date if present, otherwise the date of the latest valid signature, otherwise `deal.decidedAt` once the deal is Won. `null` while the deal is undecided.'
+          subsidies:
+            type: object
+            properties:
+              de:
+                type: object
+                properties:
+                  bafaApplicationId:
+                    type:
+                    - string
+                    - 'null'
+                    description: BAFA confirmation-of-application ID (Bestätigung zum Antrag, BzA).
+                  bafaCompletionId:
+                    type:
+                    - string
+                    - 'null'
+                    description: BAFA confirmation-after-completion ID (Bestätigung nach Durchführung, BnD).
+                required:
+                - bafaApplicationId
+                - bafaCompletionId
+                description: German (BAFA/KfW) subsidy identifiers.
+            description: Country-scoped subsidy identifiers issued by national agencies.
+          variantIds:
+            type: array
+            items:
+              type: string
+              format: uuid
+          signatureRequests:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  example: 123e4567-e89b-12d3-a456-426614174000
+                status:
+                  type: string
+                  enum:
+                  - Expired
+                  - RequestedAndAllowed
+                  - Signed
+                  - Withdrawn
+                  - WithdrawnByCustomer
+                variantIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  description: The variants this signature request was sent for.
+                signatureOptions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      variantId:
+                        type: string
+                        format: uuid
+                        description: The offer variant this signature option belongs to.
+                        example: 123e4567-e89b-12d3-a456-426614174000
+                      paymentOptionId:
+                        type:
+                        - string
+                        - 'null'
+                        format: uuid
+                        description: The payment option this signature option belongs to. `null` for legacy/default-payment documents.
+                        example: 123e4567-e89b-12d3-a456-426614174000
+                    required:
+                    - variantId
+                    - paymentOptionId
+                  description: The variant/payment option combinations this signature request was sent for.
+                signedVariantId:
+                  type:
+                  - string
+                  - 'null'
+                  format: uuid
+                  description: The variant the customer signed; null until signed.
+                signedPaymentOptionId:
+                  type:
+                  - string
+                  - 'null'
+                  format: uuid
+                  description: The payment option the customer signed; null until signed or for legacy/default-payment documents.
+                  example: 123e4567-e89b-12d3-a456-426614174000
+                createdAt:
+                  type: string
+                  format: date-time
+                expiresAt:
+                  type:
+                  - string
+                  - 'null'
+                  format: date-time
+                withdrawnAt:
+                  type:
+                  - string
+                  - 'null'
+                  format: date-time
+                signedAt:
+                  type:
+                  - string
+                  - 'null'
+                  format: date-time
+                signedPdfUrl:
+                  type:
+                  - string
+                  - 'null'
+                  format: uri
+                  description: Only set once the document is signed.
+              required:
+              - id
+              - status
+              - variantIds
+              - signatureOptions
+              - signedVariantId
+              - signedPaymentOptionId
+              - createdAt
+              - expiresAt
+              - withdrawnAt
+              - signedAt
+              - signedPdfUrl
+          customerPortalUrl:
+            type: string
+            format: uri
+            description: URL to the customer-facing portal page for this project. The URL is assembled from the project id and is not validated — following it for an archived or invalid project will 404.
+          integrations:
+            type: object
+            properties:
+              hubspotDealId:
+                type:
+                - string
+                - 'null'
+              pipedriveDealId:
+                type:
+                - integer
+                - 'null'
+              weclappOpportunityId:
+                type:
+                - string
+                - 'null'
+              bitrixDealId:
+                type:
+                - string
+                - 'null'
+              photovateDealId:
+                type:
+                - string
+                - 'null'
+            required:
+            - hubspotDealId
+            - pipedriveDealId
+            - weclappOpportunityId
+            - bitrixDealId
+            - photovateDealId
+            description: IDs of this project in third-party systems.
+        required:
+        - assignedUserIds
+        - assignedTeamIds
+        - requestedPackages
+        - existingSystems
+        - building
+        - heatLoad
+        - offerNumber
+        - meterNumber
+        - targetSignatureDate
+        - closedAt
+        - subsidies
+        - variantIds
+        - signatureRequests
+        - customerPortalUrl
+        - integrations
+    DealSetLost:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+          - Lost
+        lostReason:
+          type: string
+          enum:
+          - notInterested
+          - purchasedFromCompetitor
+          - budgetConstraints
+          - noResponseFromLead
+          - leadIsNotQualified
+          - changedDecision
+          - projectPostponed
+          - wentWithAnotherSolution
+          - featuresNotMatchingRequirements
+          - timingIssues
+          - lackOfResources
+          - highPricing
+          - poorFitForOurServices
+          - unsatisfactoryProductDemo
+          - leadLostContact
+          - internalDecisionToPausePurchase
+          - movedForwardWithInHouseSolution
+          - lackOfTrustInTheBrand
+          - dissatisfiedWithCustomerService
+          - productLimitations
+          - marketConditions
+          - preferredAnotherVendor
+          - technicalIssues
+          - leadHadIncorrectInformation
+          - legalOrRegulatoryIssues
+        notes:
+          type:
+          - string
+          - 'null'
+          maxLength: 5000
+      required:
+      - state
+      - lostReason
+      additionalProperties: false
+    UnitPrice:
+      allOf:
+      - $ref: '#/components/schemas/Price'
+      - type: object
+        properties:
+          vatRate:
+            type: number
+            minimum: 0
+            maximum: 1
+            description: VAT rate as a fraction between 0 and 1 (e.g. 0.19 for 19%), never as a percentage (19).
+        required:
+        - vatRate
+      description: Sales price per unit.
+    ResidentialProject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        stage:
+          type: string
+          enum:
+          - request
+          - offer
+          - installation
+        latLng:
+          type: object
+          properties:
+            lat:
+              type: number
+            lng:
+              type: number
+          required:
+          - lat
+          - lng
+        address:
+          type: object
+          properties:
+            street:
+              type:
+              - string
+              - 'null'
+            houseNumber:
+              type:
+              - string
+              - 'null'
+            postcode:
+              type:
+              - string
+              - 'null'
+            city:
+              type:
+              - string
+              - 'null'
+            country:
+              type: string
+              enum:
+              - Austria
+              - Switzerland
+              - Germany
+              - Liechtenstein
+              - Luxembourg
+              - Czechia
+              - Slovakia
+              - Hungary
+              - Poland
+              - Slovenia
+              - France
+              - Belgium
+              - Netherlands
+              - Monaco
+              - Andorra
+              - Italy
+              - SanMarino
+              - VaticanCity
+              - Malta
+              - Spain
+              - Portugal
+              - Gibraltar
+              - Denmark
+              - Sweden
+              - Norway
+              - Finland
+              - Iceland
+              - FaroeIslands
+              - Greenland
+              - Albania
+              - Armenia
+              - Azerbaijan
+              - Belarus
+              - BosniaAndHerzegovina
+              - Bulgaria
+              - Croatia
+              - Cyprus
+              - Estonia
+              - Georgia
+              - Greece
+              - Kazakhstan
+              - Kosovo
+              - Latvia
+              - Lithuania
+              - Moldova
+              - Montenegro
+              - NorthMacedonia
+              - Romania
+              - Russia
+              - Serbia
+              - Turkey
+              - Ukraine
+              - UnitedKingdom
+              - Jersey
+              - Ireland
+              - Martinique
+              - Guadeloupe
+              - Reunion
+              - SaintMartin
+              - SaintBarthelemy
+              - SaintPierreAndMiquelon
+              - FrenchGuiana
+              - Bahamas
+              - Barbados
+              - Dominica
+              - Grenada
+              - Jamaica
+              - SaintKittsAndNevis
+              - SaintLucia
+              - SaintVincentAndTheGrenadines
+              - TrinidadAndTobago
+              - AntiguaAndBarbuda
+              - Aruba
+              - Curacao
+              - Bermuda
+              - CaymanIslands
+              - TurksAndCaicosIslands
+              - Anguilla
+              - Montserrat
+              - BritishVirginIslands
+              - USVirginIslands
+              - SintMaarten
+              - BonaireSintEustatiusSaba
+              - Argentina
+              - Bolivia
+              - Belize
+              - Brazil
+              - Chile
+              - Colombia
+              - CostaRica
+              - Cuba
+              - DominicanRepublic
+              - Ecuador
+              - ElSalvador
+              - Guatemala
+              - Guyana
+              - Honduras
+              - Haiti
+              - Mexico
+              - Nicaragua
+              - Panama
+              - Paraguay
+              - Peru
+              - Suriname
+              - Uruguay
+              - Venezuela
+              - FalklandIslands
+              - UnitedStates
+              - Morocco
+              - SouthAfrica
+          required:
+          - street
+          - houseNumber
+          - postcode
+          - city
+          - country
+          description: The project's installation site address. Reverse-geocoded from `latLng` and refreshed whenever `latLng` changes. This is stored independently from the customer contact's address (`customerContact.address` on create) — the two may diverge when the customer's residence differs from the installation site.
+        customerContact:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Reference to [**Contacts**](#tag/contacts)
+              example: 123e4567-e89b-12d3-a456-426614174000
+            fullName:
+              type: string
+              description: First and last name combined
+            firstName:
+              type: string
+            lastName:
+              type: string
+            primaryEmail:
+              type:
+              - string
+              - 'null'
+          required:
+          - id
+          - fullName
+          - firstName
+          - lastName
+          - primaryEmail
+        customerNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal customer reference, e.g. from your CRM or ERP.
+        customerMessage:
+          type:
+          - string
+          - 'null'
+          description: Message from the customer collected during request stage
+        keyAccountManagerId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the key account manager assigned to this project, if any. Reference to [**Users**](#tag/users)
+          example: 123e4567-e89b-12d3-a456-426614174000
+        kanbanBoardId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the Kanban board this project is on.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        kanbanColumnId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the project's current Kanban column. Reference to [**Kanban Columns**](#tag/kanban-columns)
+          example: 123e4567-e89b-12d3-a456-426614174000
+        leadSourceId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the lead source for this project.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        tagIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: IDs of the tags assigned to this project. Reference to [**Tags**](#tag/tags)
+          example:
+          - 123e4567-e89b-12d3-a456-426614174000
+        deal:
+          type: object
+          properties:
+            state:
+              type:
+              - string
+              - 'null'
+              enum:
+              - Open
+              - Won
+              - Lost
+              - null
+              description: Only set once project has moved to offer stage.
+            decidedAt:
+              type:
+              - string
+              - 'null'
+              format: date-time
+            lostReason:
+              type:
+              - string
+              - 'null'
+              enum:
+              - notInterested
+              - purchasedFromCompetitor
+              - budgetConstraints
+              - noResponseFromLead
+              - leadIsNotQualified
+              - changedDecision
+              - projectPostponed
+              - wentWithAnotherSolution
+              - featuresNotMatchingRequirements
+              - timingIssues
+              - lackOfResources
+              - highPricing
+              - poorFitForOurServices
+              - unsatisfactoryProductDemo
+              - leadLostContact
+              - internalDecisionToPausePurchase
+              - movedForwardWithInHouseSolution
+              - lackOfTrustInTheBrand
+              - dissatisfiedWithCustomerService
+              - productLimitations
+              - marketConditions
+              - preferredAnotherVendor
+              - technicalIssues
+              - leadHadIncorrectInformation
+              - legalOrRegulatoryIssues
+              - null
+            notes:
+              type:
+              - string
+              - 'null'
+          required:
+          - state
+          - decidedAt
+          - lostReason
+          - notes
+          description: Deal information, only relevant for projects in offer stage or later
+        primaryOfferVariant:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              example: 123e4567-e89b-12d3-a456-426614174000
+            componentsTotalPrice:
+              type: number
+              description: Sum of the planned prices of all components in this variant (with VAT).
+            totalPriceOverride:
+              type:
+              - number
+              - 'null'
+              description: Manual override for the variant's total price. When set, takes precedence over componentsTotalPrice.
+          required:
+          - id
+          - componentsTotalPrice
+          - totalPriceOverride
+        projectCreatedAt:
+          type: string
+          format: date-time
+        requestCreatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        offerCreatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        installationCreatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of the most recent modification to this project.
+      required:
+      - id
+      - name
+      - stage
+      - latLng
+      - address
+      - customerContact
+      - customerNumber
+      - customerMessage
+      - keyAccountManagerId
+      - kanbanBoardId
+      - kanbanColumnId
+      - leadSourceId
+      - tagIds
+      - deal
+      - primaryOfferVariant
+      - projectCreatedAt
+      - requestCreatedAt
+      - offerCreatedAt
+      - installationCreatedAt
+      - archivedAt
+      - updatedAt
+  securitySchemes:
+    X-Authorization:
+      type: apiKey
+      in: header
+      name: X-Authorization
+x-tagGroups:
+- name: People
+  tags:
+  - Contacts
+  - Users
+  - Teams
+- name: Projects
+  tags:
+  - Residential Projects
+  - Commercial Projects
+- name: Working on a project
+  tags:
+  - Notes
+  - Tasks
+  - Files
+  - File Folders
+  - Activities
+  - Time Tracking
+  - Checklists
+  - Checklist Templates
+  - Signature Requests
+- name: Calendar
+  tags:
+  - Calendars
+  - Calendar Categories
+  - Appointments
+- name: Catalog
+  tags:
+  - Components
+  - Planning Templates
+  - Planning Packages
+  - Offer Templates
+- name: Workspace setup
+  tags:
+  - Kanban Boards
+  - Kanban Columns
+  - Tags
+  - Lead Sources
+- name: Wiki
+  tags:
+  - Wiki
+- name: Services
+  tags:
+  - Photogrammetry
+- name: API helpers
+  tags:
+  - Upload
+  - Links
+- name: Integrations
+  tags:
+  - Webhooks
+- name: Guides
+  tags:
+  - Migrating from API v2 to v3
+  - Changelog

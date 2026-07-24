@@ -1,0 +1,928 @@
+openapi: 3.1.0
+info:
+  title: Reonic REST Api v3 Activities Commercial Projects API
+  description: 'The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.
+
+
+    ## Errors
+
+
+    All endpoints return errors with the same JSON shape:
+
+
+    ```json
+
+    { "message": "human-readable description" }
+
+    ```
+
+
+    `400` responses additionally include an `errors` field with per-field validation details.
+
+
+    The HTTP status code identifies the cause:
+
+
+    | Status  | Meaning | When |
+
+    |--------|---------|------|
+
+    | `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |
+
+    | `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |
+
+    | `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |
+
+    | `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |
+
+    | `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |
+
+    | `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |
+
+    | `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |
+
+
+    ## Rate limiting
+
+
+    Limits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:
+
+
+    | Bucket | Limit | Applies to |
+
+    |--------|-------|------------|
+
+    | `cached` | 500 / min | `GET` requests served from the response cache |
+
+    | `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |
+
+
+    Every response includes:
+
+
+    - `X-RateLimit-Bucket` — `cached` or `uncached`
+
+    - `X-RateLimit-Limit` — the bucket''s ceiling (`500` or `30`)
+
+    - `X-RateLimit-Remaining` — calls left in the current window
+
+    - `X-RateLimit-Reset` — Unix epoch seconds at which the window resets
+
+    - `X-RateLimit-Policy` — `<limit>;w=60`
+
+
+    `429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.
+
+
+    ## Caching and Reonic-Cache-Control
+
+
+    `GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.
+
+
+    The standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.
+
+
+    ## Authentication
+
+
+    Every request must include your API key in the `X-Authorization` header:
+
+
+    ```
+
+    X-Authorization: <your-api-key>
+
+    ```
+
+
+    API keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.
+
+    '
+  version: 3.2.0
+  contact:
+    email: kontakt@reonic.de
+    url: https://reonic.com
+    name: Reonic GmbH
+servers:
+- url: '{apiBaseUrl}/rest/v3/'
+security:
+- X-Authorization: []
+tags:
+- name: Commercial Projects
+  description: "Commercial customer projects across the request, offer, and installation lifecycle stages.\n\n> [!warning] \n> **Beta:** These endpoints are in beta and may change as the service evolves. Please report issues or unexpected behavior to our team."
+  x-displayName: Commercial Projects (BETA)
+paths:
+  /commercialProjects:
+    get:
+      summary: List commercial projects
+      description: 'List commercial projects across all lifecycle stages (request, offer, installation) in a paginated format. Use the `stage` query param to restrict to one or more stages; omit to span all three.
+
+
+        **Examples:**
+
+        - Most recent offers: `GET /commercialProjects?stage=offer&sort=-offerCreatedAt&page=1`
+
+        - Open offers: `GET /commercialProjects?stage=offer&dealState=open`
+
+        - Projects assigned to specific Kanban columns: `GET /commercialProjects?kanbanColumnIds=<uuid>&kanbanColumnIds=<uuid>`
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Commercial Projects
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            enum:
+            - request
+            - offer
+            - installation
+          maxItems: 3
+          description: 'Filter by lifecycle stages: request, offer, installation. Omit to include all stages.'
+          examples:
+          - request
+          - offer,installation
+        required: false
+        description: 'Filter by lifecycle stages: request, offer, installation. Omit to include all stages.'
+        name: stage
+        in: query
+      - schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            enum:
+            - Open
+            - Won
+            - Lost
+          maxItems: 3
+          description: Filter by deal state. Omit to include all.
+          examples:
+          - open
+          - won,lost
+        required: false
+        description: Filter by deal state. Omit to include all.
+        name: dealState
+        in: query
+      - schema:
+          type: string
+          enum:
+          - exclude
+          - only
+          default: exclude
+          description: 'Controls whether archived projects appear in results. Default: exclude.'
+        required: false
+        description: 'Controls whether archived projects appear in results. Default: exclude.'
+        name: archived
+        in: query
+      - schema:
+          type: string
+          maxLength: 500
+          description: Free-text search across project name, customer name, and address fields.
+        required: false
+        description: Free-text search across project name, customer name, and address fields.
+        name: search
+        in: query
+      - schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          maxItems: 50
+          description: Filter projects that are tagged with any of the specified tag IDs. Pass `null` to return only projects that have no tags.
+        required: false
+        description: Filter projects that are tagged with any of the specified tag IDs. Pass `null` to return only projects that have no tags.
+        name: tagIds
+        in: query
+      - schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          maxItems: 50
+          description: Filter projects that have a user with any of the specified IDs assigned. Pass `null` to return only projects with no assigned user.
+        required: false
+        description: Filter projects that have a user with any of the specified IDs assigned. Pass `null` to return only projects with no assigned user.
+        name: userIds
+        in: query
+      - schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          maxItems: 50
+          description: Filter projects that have a team with any of the specified IDs assigned. Pass `null` to return only projects with no assigned team.
+        required: false
+        description: Filter projects that have a team with any of the specified IDs assigned. Pass `null` to return only projects with no assigned team.
+        name: teamIds
+        in: query
+      - schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          maxItems: 50
+          description: Filter projects that are in any of the specified Kanban boards. Pass `null` to return only projects that are not assigned to any Kanban board.
+        required: false
+        description: Filter projects that are in any of the specified Kanban boards. Pass `null` to return only projects that are not assigned to any Kanban board.
+        name: kanbanBoardIds
+        in: query
+      - schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          maxItems: 50
+          description: Filter projects that are in any of the specified Kanban columns. Pass `null` to return only projects that have no status assigned (the "no status" column).
+        required: false
+        description: Filter projects that are in any of the specified Kanban columns. Pass `null` to return only projects that have no status assigned (the "no status" column).
+        name: kanbanColumnIds
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where requestCreatedAt is after this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where requestCreatedAt is after this datetime (exclusive)
+        name: requestCreatedAt.gt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where requestCreatedAt is before this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where requestCreatedAt is before this datetime (exclusive)
+        name: requestCreatedAt.lt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where offerCreatedAt is after this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where offerCreatedAt is after this datetime (exclusive)
+        name: offerCreatedAt.gt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where offerCreatedAt is before this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where offerCreatedAt is before this datetime (exclusive)
+        name: offerCreatedAt.lt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where installationCreatedAt is after this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where installationCreatedAt is after this datetime (exclusive)
+        name: installationCreatedAt.gt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where installationCreatedAt is before this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where installationCreatedAt is before this datetime (exclusive)
+        name: installationCreatedAt.lt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where lastEditedAt is after this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where lastEditedAt is after this datetime (exclusive)
+        name: lastEditedAt.gt
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Filter records where lastEditedAt is before this datetime (exclusive)
+          example: '2026-01-01T15:30:00.000Z'
+        required: false
+        description: Filter records where lastEditedAt is before this datetime (exclusive)
+        name: lastEditedAt.lt
+        in: query
+      - schema:
+          type: integer
+          minimum: 1
+          default: 1
+          description: 'Page number, starting from 1. Default: 1.'
+        required: false
+        description: 'Page number, starting from 1. Default: 1.'
+        name: page
+        in: query
+      - schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+          description: 'Number of items per page. Default: 50. Max: 200.'
+        required: false
+        description: 'Number of items per page. Default: 50. Max: 200.'
+        name: itemsPerPage
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          default: -projectCreatedAt
+          description: 'Sort order. Use field names for ascending (e.g. "createdAt"), minus sign for descending (e.g. "-createdAt"). Chain with commas (e.g. "createdAt,editedAt"). Sortable fields: projectCreatedAt, requestCreatedAt, offerCreatedAt, installationCreatedAt, lastEditedAt. Defaults to -projectCreatedAt.'
+          examples:
+          - -projectCreatedAt
+          - offerCreatedAt
+          - requestCreatedAt,-lastEditedAt
+        required: false
+        description: 'Sort order. Use field names for ascending (e.g. "createdAt"), minus sign for descending (e.g. "-createdAt"). Chain with commas (e.g. "createdAt,editedAt"). Sortable fields: projectCreatedAt, requestCreatedAt, offerCreatedAt, installationCreatedAt, lastEditedAt. Defaults to -projectCreatedAt.'
+        name: sort
+        in: query
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: Paginated list of commercial projects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CommercialProject'
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        minimum: 1
+                        description: Current page number
+                      perPage:
+                        type: integer
+                        minimum: 1
+                        description: Number of items per page
+                      total:
+                        type: integer
+                        minimum: 0
+                        description: Total number of items across all pages
+                      totalPages:
+                        type: integer
+                        minimum: 1
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: Path to the next page, or null if there is no next page
+                      prev:
+                        type:
+                        - string
+                        - 'null'
+                        description: Path to the previous page, or null if there is no previous page
+                    required:
+                    - page
+                    - perPage
+                    - total
+                    - totalPages
+                    - next
+                    - prev
+                required:
+                - data
+                - pagination
+  /commercialProjects/{projectId}:
+    get:
+      summary: Get commercial project
+      description: 'Get a single commercial project by its ID. Works for any stage (request, offer, or installation).
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Commercial Projects
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: projectId
+        in: path
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: The commercial project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommercialProjectDetail'
+components:
+  schemas:
+    CommercialProject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        stage:
+          type: string
+          enum:
+          - request
+          - offer
+          - installation
+        type:
+          type: string
+          enum:
+          - generic
+          - landlordToTenantCommercial
+          - landlordToTenantResidential
+          - powerPurchaseAgreement
+        source:
+          type: string
+          enum:
+          - Api
+          - Leadnodes
+          - Direct
+          - ContactForm
+          - Phone
+          - Other
+          - ManualImport
+          - WattfoxAPI
+          - EzaAPI
+          - DaaAPI
+          - InterleadAPI
+          - AroundhomeAPI
+          description: Where the project originated. Includes partner-channel sources for legacy rows.
+        customerName:
+          type:
+          - string
+          - 'null'
+          description: Business or organization name.
+        customerMessage:
+          type:
+          - string
+          - 'null'
+          description: Message from the customer collected during request stage.
+        latLng:
+          type: object
+          properties:
+            lat:
+              type: number
+            lng:
+              type: number
+          required:
+          - lat
+          - lng
+        address:
+          type: object
+          properties:
+            street:
+              type:
+              - string
+              - 'null'
+            houseNumber:
+              type:
+              - string
+              - 'null'
+            postcode:
+              type:
+              - string
+              - 'null'
+            city:
+              type:
+              - string
+              - 'null'
+            state:
+              type:
+              - string
+              - 'null'
+          required:
+          - street
+          - houseNumber
+          - postcode
+          - city
+          - state
+          description: The project's installation site address. Reverse-geocoded from `latLng` and refreshed whenever `latLng` changes.
+        customerContact:
+          type:
+          - object
+          - 'null'
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Reference to [**Contacts**](#tag/contacts)
+              example: 123e4567-e89b-12d3-a456-426614174000
+            fullName:
+              type: string
+              description: First and last name combined
+            firstName:
+              type: string
+            lastName:
+              type: string
+            primaryEmail:
+              type:
+              - string
+              - 'null'
+          required:
+          - id
+          - fullName
+          - firstName
+          - lastName
+          - primaryEmail
+        keyAccountManagerId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the key account manager assigned to this project, if any. Reference to [**Users**](#tag/users)
+          example: 123e4567-e89b-12d3-a456-426614174000
+        kanbanBoardId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the Kanban board this project is on.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        kanbanColumnId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the project's current Kanban column. Reference to [**Kanban Columns**](#tag/kanban-columns)
+          example: 123e4567-e89b-12d3-a456-426614174000
+        tagIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: IDs of the tags assigned to this project. Reference to [**Tags**](#tag/tags)
+          example:
+          - 123e4567-e89b-12d3-a456-426614174000
+        deal:
+          type: object
+          properties:
+            state:
+              type:
+              - string
+              - 'null'
+              enum:
+              - Open
+              - Won
+              - Lost
+              - null
+              description: Only set once project has moved to offer stage.
+            decidedAt:
+              type:
+              - string
+              - 'null'
+              format: date-time
+              example: '2026-01-01T15:30:00.000Z'
+            lostReason:
+              type:
+              - string
+              - 'null'
+              enum:
+              - notInterested
+              - purchasedFromCompetitor
+              - budgetConstraints
+              - noResponseFromLead
+              - leadIsNotQualified
+              - changedDecision
+              - projectPostponed
+              - wentWithAnotherSolution
+              - featuresNotMatchingRequirements
+              - timingIssues
+              - lackOfResources
+              - highPricing
+              - poorFitForOurServices
+              - unsatisfactoryProductDemo
+              - leadLostContact
+              - internalDecisionToPausePurchase
+              - movedForwardWithInHouseSolution
+              - lackOfTrustInTheBrand
+              - dissatisfiedWithCustomerService
+              - productLimitations
+              - marketConditions
+              - preferredAnotherVendor
+              - technicalIssues
+              - leadHadIncorrectInformation
+              - legalOrRegulatoryIssues
+              - null
+            notes:
+              type:
+              - string
+              - 'null'
+          required:
+          - state
+          - decidedAt
+          - lostReason
+          - notes
+          description: Deal information, only relevant for projects in offer stage or later.
+        dealValue:
+          type:
+          - number
+          - 'null'
+          description: Manual deal-value override on the project.
+        projectCreatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        requestCreatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        offerCreatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        installationCreatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+      required:
+      - id
+      - name
+      - stage
+      - type
+      - source
+      - customerName
+      - customerMessage
+      - latLng
+      - address
+      - customerContact
+      - keyAccountManagerId
+      - kanbanBoardId
+      - kanbanColumnId
+      - tagIds
+      - deal
+      - dealValue
+      - projectCreatedAt
+      - requestCreatedAt
+      - offerCreatedAt
+      - installationCreatedAt
+      - archivedAt
+    CommercialProjectDetail:
+      allOf:
+      - $ref: '#/components/schemas/CommercialProject'
+      - type: object
+        properties:
+          customerContact:
+            type:
+            - object
+            - 'null'
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: Reference to [**Contacts**](#tag/contacts)
+                example: 123e4567-e89b-12d3-a456-426614174000
+              fullName:
+                type: string
+                description: First and last name combined
+              firstName:
+                type: string
+              lastName:
+                type: string
+              primaryEmail:
+                type:
+                - string
+                - 'null'
+              salutation:
+                type:
+                - string
+                - 'null'
+                enum:
+                - Female
+                - Male
+                - Diverse
+                - Family
+                - Business
+                - null
+              secondaryEmail:
+                type:
+                - string
+                - 'null'
+                description: Alternative email address
+              mobile:
+                type:
+                - string
+                - 'null'
+                description: Mobile phone number
+              phone:
+                type:
+                - string
+                - 'null'
+                description: Landline phone number
+              phoneReachability:
+                type:
+                - string
+                - 'null'
+                enum:
+                - Morning
+                - Afternoon
+                - Evening
+                - Fulltime
+                - WeekendOnly
+                - EmailOnly
+                - null
+            required:
+            - id
+            - fullName
+            - firstName
+            - lastName
+            - primaryEmail
+            - salutation
+            - secondaryEmail
+            - mobile
+            - phone
+            - phoneReachability
+          closedAt:
+            type:
+            - string
+            - 'null'
+            format: date-time
+            example: '2026-01-01T15:30:00.000Z'
+            description: 'Effective close date of the deal: the manually set close date if present, otherwise `deal.decidedAt` once the deal is Won. `null` while the deal is undecided.'
+          internalProjectId:
+            type:
+            - string
+            - 'null'
+            description: Internal project reference (e.g. from your CRM or ERP).
+          internalRemark:
+            type:
+            - string
+            - 'null'
+            description: Internal notes on the project.
+          customerId:
+            type:
+            - string
+            - 'null'
+            description: Internal customer reference (e.g. from your CRM or ERP).
+          assignedUserIds:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: IDs of users assigned to this project. Reference to [**Users**](#tag/users)
+            example:
+            - 123e4567-e89b-12d3-a456-426614174000
+          assignedTeamIds:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: IDs of teams assigned to this project. Reference to [**Teams**](#tag/teams)
+            example:
+            - 123e4567-e89b-12d3-a456-426614174000
+          primaryOfferVariantId:
+            type:
+            - string
+            - 'null'
+            format: uuid
+            description: ID of the primary variant for this project's offer.
+            example: 123e4567-e89b-12d3-a456-426614174000
+          customerPortalUrl:
+            type: string
+            format: uri
+            description: URL to the customer-facing portal page for this project. The URL is assembled from the project id and is not validated — following it for an archived or invalid project will 404.
+        required:
+        - closedAt
+        - internalProjectId
+        - internalRemark
+        - customerId
+        - assignedUserIds
+        - assignedTeamIds
+        - primaryOfferVariantId
+        - customerPortalUrl
+  securitySchemes:
+    X-Authorization:
+      type: apiKey
+      in: header
+      name: X-Authorization
+x-tagGroups:
+- name: People
+  tags:
+  - Contacts
+  - Users
+  - Teams
+- name: Projects
+  tags:
+  - Residential Projects
+  - Commercial Projects
+- name: Working on a project
+  tags:
+  - Notes
+  - Tasks
+  - Files
+  - File Folders
+  - Activities
+  - Time Tracking
+  - Checklists
+  - Checklist Templates
+  - Signature Requests
+- name: Calendar
+  tags:
+  - Calendars
+  - Calendar Categories
+  - Appointments
+- name: Catalog
+  tags:
+  - Components
+  - Planning Templates
+  - Planning Packages
+  - Offer Templates
+- name: Workspace setup
+  tags:
+  - Kanban Boards
+  - Kanban Columns
+  - Tags
+  - Lead Sources
+- name: Wiki
+  tags:
+  - Wiki
+- name: Services
+  tags:
+  - Photogrammetry
+- name: API helpers
+  tags:
+  - Upload
+  - Links
+- name: Integrations
+  tags:
+  - Webhooks
+- name: Guides
+  tags:
+  - Migrating from API v2 to v3
+  - Changelog

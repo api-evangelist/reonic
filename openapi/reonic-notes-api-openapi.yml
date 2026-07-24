@@ -1,0 +1,490 @@
+openapi: 3.1.0
+info:
+  title: Reonic REST Api v3 Activities Notes API
+  description: 'The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.
+
+
+    ## Errors
+
+
+    All endpoints return errors with the same JSON shape:
+
+
+    ```json
+
+    { "message": "human-readable description" }
+
+    ```
+
+
+    `400` responses additionally include an `errors` field with per-field validation details.
+
+
+    The HTTP status code identifies the cause:
+
+
+    | Status  | Meaning | When |
+
+    |--------|---------|------|
+
+    | `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |
+
+    | `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |
+
+    | `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |
+
+    | `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |
+
+    | `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |
+
+    | `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |
+
+    | `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |
+
+
+    ## Rate limiting
+
+
+    Limits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:
+
+
+    | Bucket | Limit | Applies to |
+
+    |--------|-------|------------|
+
+    | `cached` | 500 / min | `GET` requests served from the response cache |
+
+    | `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |
+
+
+    Every response includes:
+
+
+    - `X-RateLimit-Bucket` — `cached` or `uncached`
+
+    - `X-RateLimit-Limit` — the bucket''s ceiling (`500` or `30`)
+
+    - `X-RateLimit-Remaining` — calls left in the current window
+
+    - `X-RateLimit-Reset` — Unix epoch seconds at which the window resets
+
+    - `X-RateLimit-Policy` — `<limit>;w=60`
+
+
+    `429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.
+
+
+    ## Caching and Reonic-Cache-Control
+
+
+    `GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.
+
+
+    The standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.
+
+
+    ## Authentication
+
+
+    Every request must include your API key in the `X-Authorization` header:
+
+
+    ```
+
+    X-Authorization: <your-api-key>
+
+    ```
+
+
+    API keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.
+
+    '
+  version: 3.2.0
+  contact:
+    email: kontakt@reonic.de
+    url: https://reonic.com
+    name: Reonic GmbH
+servers:
+- url: '{apiBaseUrl}/rest/v3/'
+security:
+- X-Authorization: []
+tags:
+- name: Notes
+  description: Free-text notes attached to a project or contact.
+paths:
+  /notes:
+    get:
+      summary: List notes
+      description: 'List notes for an entity in a paginated format.
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Notes
+      parameters:
+      - schema:
+          type: string
+          enum:
+          - contact
+          - residentialProject
+          - commercialProject
+          - checklistItem
+          - task
+          - photogrammetryJob
+          description: The type of the parent entity.
+          example: contact
+        required: false
+        description: The type of the parent entity.
+        name: parentType
+        in: query
+      - schema:
+          type: string
+          format: uuid
+          description: Filter by the ID of the parent the notes are attached to.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        required: false
+        description: Filter by the ID of the parent the notes are attached to.
+        name: parentId
+        in: query
+      - schema:
+          type: string
+          format: uuid
+          description: Filter by the ID of the user who created the notes. References [**Users**](#tag/users)
+          example: 123e4567-e89b-12d3-a456-426614174000
+        required: false
+        description: Filter by the ID of the user who created the notes. References [**Users**](#tag/users)
+        name: createdById
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          default: -createdAt
+          description: 'Sort order. Use field names for ascending (e.g. "createdAt"), minus sign for descending (e.g. "-createdAt"). Chain with commas (e.g. "createdAt,editedAt"). Sortable fields: createdAt, createdById, editedAt. Defaults to -createdAt.'
+          examples:
+          - createdAt
+          - -createdAt
+        required: false
+        description: 'Sort order. Use field names for ascending (e.g. "createdAt"), minus sign for descending (e.g. "-createdAt"). Chain with commas (e.g. "createdAt,editedAt"). Sortable fields: createdAt, createdById, editedAt. Defaults to -createdAt.'
+        name: sort
+        in: query
+      - schema:
+          type: integer
+          minimum: 1
+          default: 1
+          description: 'Page number, starting from 1. Default: 1.'
+        required: false
+        description: 'Page number, starting from 1. Default: 1.'
+        name: page
+        in: query
+      - schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+          description: 'Number of items per page. Default: 50. Max: 200.'
+        required: false
+        description: 'Number of items per page. Default: 50. Max: 200.'
+        name: itemsPerPage
+        in: query
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: Paginated list of notes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Note'
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        minimum: 1
+                        description: Current page number
+                      perPage:
+                        type: integer
+                        minimum: 1
+                        description: Number of items per page
+                      total:
+                        type: integer
+                        minimum: 0
+                        description: Total number of items across all pages
+                      totalPages:
+                        type: integer
+                        minimum: 1
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: Path to the next page, or null if there is no next page
+                      prev:
+                        type:
+                        - string
+                        - 'null'
+                        description: Path to the previous page, or null if there is no previous page
+                    required:
+                    - page
+                    - perPage
+                    - total
+                    - totalPages
+                    - next
+                    - prev
+                required:
+                - data
+                - pagination
+  /notes/create:
+    post:
+      description: 'Create a note and attach it to an entity (i.e. contact, task or residentialProject).
+
+
+        **Allowed API keys:** Read and Write, Lead creation only'
+      summary: Create note
+      tags:
+      - Notes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                parent:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      example: 123e4567-e89b-12d3-a456-426614174000
+                    type:
+                      type: string
+                      enum:
+                      - contact
+                      - residentialProject
+                      - commercialProject
+                      - checklistItem
+                      - task
+                      - photogrammetryJob
+                  required:
+                  - id
+                  - type
+                text:
+                  type: string
+                  minLength: 1
+                  maxLength: 10000
+                  description: Supports markdown formatting
+                  example: '**Lorem Ipsum**'
+                pinned:
+                  type: boolean
+                  default: false
+              required:
+              - parent
+              - text
+              additionalProperties: false
+      responses:
+        '201':
+          description: The created note
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+  /notes/{noteId}/update:
+    post:
+      summary: Update note
+      description: 'Pin or unpin a note.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Notes
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: noteId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pinned:
+                  type: boolean
+                  description: '`true` to pin the note, `false` to unpin.'
+              required:
+              - pinned
+              additionalProperties: false
+      responses:
+        '200':
+          description: The updated note
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Note'
+                required:
+                - data
+components:
+  schemas:
+    Note:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        parent:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              example: 123e4567-e89b-12d3-a456-426614174000
+            type:
+              type: string
+              enum:
+              - contact
+              - residentialProject
+              - commercialProject
+              - checklistItem
+              - task
+              - photogrammetryJob
+              description: The type of the parent entity.
+              example: contact
+          required:
+          - id
+          - type
+        text:
+          type: object
+          properties:
+            plain:
+              type: string
+              description: Plaintext version of the notes text content
+              example: Lorem Ipsum
+            markdown:
+              type: string
+              description: Markdown version of the notes text content
+              example: '<!-- MDCV_2 -->
+
+                **Lorem ipsum**'
+          required:
+          - plain
+          - markdown
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        createdById:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        editedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        editedById:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        pinnedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        pinnedById:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+      required:
+      - id
+      - parent
+      - text
+      - createdAt
+      - createdById
+      - editedAt
+      - editedById
+      - pinnedAt
+      - pinnedById
+  securitySchemes:
+    X-Authorization:
+      type: apiKey
+      in: header
+      name: X-Authorization
+x-tagGroups:
+- name: People
+  tags:
+  - Contacts
+  - Users
+  - Teams
+- name: Projects
+  tags:
+  - Residential Projects
+  - Commercial Projects
+- name: Working on a project
+  tags:
+  - Notes
+  - Tasks
+  - Files
+  - File Folders
+  - Activities
+  - Time Tracking
+  - Checklists
+  - Checklist Templates
+  - Signature Requests
+- name: Calendar
+  tags:
+  - Calendars
+  - Calendar Categories
+  - Appointments
+- name: Catalog
+  tags:
+  - Components
+  - Planning Templates
+  - Planning Packages
+  - Offer Templates
+- name: Workspace setup
+  tags:
+  - Kanban Boards
+  - Kanban Columns
+  - Tags
+  - Lead Sources
+- name: Wiki
+  tags:
+  - Wiki
+- name: Services
+  tags:
+  - Photogrammetry
+- name: API helpers
+  tags:
+  - Upload
+  - Links
+- name: Integrations
+  tags:
+  - Webhooks
+- name: Guides
+  tags:
+  - Migrating from API v2 to v3
+  - Changelog

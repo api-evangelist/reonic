@@ -1,0 +1,777 @@
+openapi: 3.1.0
+info:
+  title: Reonic REST Api v3 Activities Checklists API
+  description: 'The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.
+
+
+    ## Errors
+
+
+    All endpoints return errors with the same JSON shape:
+
+
+    ```json
+
+    { "message": "human-readable description" }
+
+    ```
+
+
+    `400` responses additionally include an `errors` field with per-field validation details.
+
+
+    The HTTP status code identifies the cause:
+
+
+    | Status  | Meaning | When |
+
+    |--------|---------|------|
+
+    | `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |
+
+    | `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |
+
+    | `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |
+
+    | `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |
+
+    | `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |
+
+    | `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |
+
+    | `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |
+
+
+    ## Rate limiting
+
+
+    Limits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:
+
+
+    | Bucket | Limit | Applies to |
+
+    |--------|-------|------------|
+
+    | `cached` | 500 / min | `GET` requests served from the response cache |
+
+    | `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |
+
+
+    Every response includes:
+
+
+    - `X-RateLimit-Bucket` — `cached` or `uncached`
+
+    - `X-RateLimit-Limit` — the bucket''s ceiling (`500` or `30`)
+
+    - `X-RateLimit-Remaining` — calls left in the current window
+
+    - `X-RateLimit-Reset` — Unix epoch seconds at which the window resets
+
+    - `X-RateLimit-Policy` — `<limit>;w=60`
+
+
+    `429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.
+
+
+    ## Caching and Reonic-Cache-Control
+
+
+    `GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.
+
+
+    The standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.
+
+
+    ## Authentication
+
+
+    Every request must include your API key in the `X-Authorization` header:
+
+
+    ```
+
+    X-Authorization: <your-api-key>
+
+    ```
+
+
+    API keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.
+
+    '
+  version: 3.2.0
+  contact:
+    email: kontakt@reonic.de
+    url: https://reonic.com
+    name: Reonic GmbH
+servers:
+- url: '{apiBaseUrl}/rest/v3/'
+security:
+- X-Authorization: []
+tags:
+- name: Checklists
+  description: "The active checklist for a residential project.\n\n> [!warning] \n> **Beta:** These endpoints are in beta and may change as the service evolves. Please report issues or unexpected behavior to our team."
+  x-displayName: Checklists (BETA)
+paths:
+  /checklists/{projectId}:
+    get:
+      summary: Get checklist for a project
+      description: 'Returns the active checklist for a residential or commercial project from only projectId, structured as `blocks → segments → items`.
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Checklists
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        required: true
+        name: projectId
+        in: path
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: The active checklist for the project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checklist'
+        '404':
+          description: No active checklist for this project
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                - message
+  /projects/{projectId}/checklist/export:
+    post:
+      summary: Export a project's checklist as a PDF
+      description: 'Starts generating a PDF export of the active checklist for a residential or commercial project. Generation runs in the background and the finished PDF is stored as a file on the project. If you subscribe to the `projectChecklist_pdfGenerated` webhook, an event carrying the file reference is emitted once it is ready.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Checklists
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: projectId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fileName:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+                  description: File name for the generated PDF (without extension). Defaults to the checklist name.
+                  example: Lorem_Ipsum_Checklist
+                notifyByEmail:
+                  type: boolean
+                  default: false
+                  description: Whether to send an email notification once the PDF is finished.
+                  example: false
+              additionalProperties: false
+      responses:
+        '200':
+          description: PDF generation has been started
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      accepted:
+                        type: boolean
+                        description: Always true. The PDF is generated asynchronously.
+                        example: true
+                    required:
+                    - accepted
+                required:
+                - data
+        '404':
+          description: Project not found, or it has no active checklist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                - message
+components:
+  schemas:
+    Checklist:
+      type: object
+      properties:
+        version:
+          type: number
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedById:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        blocks:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+              position:
+                type: number
+              backgroundColor:
+                type: string
+              textColor:
+                type: string
+              versionHash:
+                type: string
+              segments:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    name:
+                      type: string
+                    position:
+                      type: number
+                    backgroundColor:
+                      type: string
+                    textColor:
+                      type: string
+                    versionHash:
+                      type: string
+                    completedAt:
+                      type:
+                      - string
+                      - 'null'
+                      format: date-time
+                      example: '2026-01-01T15:30:00.000Z'
+                    completedById:
+                      type:
+                      - string
+                      - 'null'
+                      format: uuid
+                    items:
+                      type: array
+                      items:
+                        oneOf:
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - checkbox
+                            title:
+                              type:
+                              - string
+                              - 'null'
+                            description:
+                              type:
+                              - string
+                              - 'null'
+                            items:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  text:
+                                    type:
+                                    - string
+                                    - 'null'
+                                  required:
+                                    type: boolean
+                                  archived:
+                                    type: boolean
+                                  markedIrrelevant:
+                                    type: boolean
+                                  markedIrrelevantReason:
+                                    type:
+                                    - string
+                                    - 'null'
+                                  checked:
+                                    type: boolean
+                                required:
+                                - text
+                                - required
+                                - archived
+                                - markedIrrelevant
+                                - markedIrrelevantReason
+                                - checked
+                            markedIrrelevant:
+                              type: boolean
+                            markedIrrelevantReason:
+                              type:
+                              - string
+                              - 'null'
+                          required:
+                          - type
+                          - title
+                          - description
+                          - items
+                          - markedIrrelevant
+                          - markedIrrelevantReason
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - radio
+                            title:
+                              type:
+                              - string
+                              - 'null'
+                            description:
+                              type:
+                              - string
+                              - 'null'
+                            required:
+                              type: boolean
+                            items:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  text:
+                                    type:
+                                    - string
+                                    - 'null'
+                                  checked:
+                                    type: boolean
+                                required:
+                                - text
+                                - checked
+                            markedIrrelevant:
+                              type: boolean
+                            markedIrrelevantReason:
+                              type:
+                              - string
+                              - 'null'
+                          required:
+                          - type
+                          - title
+                          - description
+                          - required
+                          - items
+                          - markedIrrelevant
+                          - markedIrrelevantReason
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - description
+                            title:
+                              type:
+                              - string
+                              - 'null'
+                            description:
+                              type:
+                              - string
+                              - 'null'
+                          required:
+                          - type
+                          - title
+                          - description
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - title
+                            title:
+                              type:
+                              - string
+                              - 'null'
+                          required:
+                          - type
+                          - title
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - freetext
+                            title:
+                              type:
+                              - string
+                              - 'null'
+                            description:
+                              type:
+                              - string
+                              - 'null'
+                            required:
+                              type: boolean
+                            rows:
+                              type: number
+                            text:
+                              type:
+                              - string
+                              - 'null'
+                            markedIrrelevant:
+                              type: boolean
+                            markedIrrelevantReason:
+                              type:
+                              - string
+                              - 'null'
+                          required:
+                          - type
+                          - title
+                          - description
+                          - required
+                          - rows
+                          - text
+                          - markedIrrelevant
+                          - markedIrrelevantReason
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - image
+                            title:
+                              type:
+                              - string
+                              - 'null'
+                            description:
+                              type:
+                              - string
+                              - 'null'
+                            items:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  title:
+                                    type:
+                                    - string
+                                    - 'null'
+                                  description:
+                                    type:
+                                    - string
+                                    - 'null'
+                                  required:
+                                    type: boolean
+                                  maxAttachments:
+                                    type:
+                                    - number
+                                    - 'null'
+                                  attachments:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        type:
+                                          type: string
+                                          enum:
+                                          - pdf
+                                          - image
+                                          - video
+                                          - pvsol
+                                          - xml
+                                          - ugl
+                                          - csv
+                                          - excel
+                                          - zip
+                                        url:
+                                          type:
+                                          - string
+                                          - 'null'
+                                        thumbUrl:
+                                          type:
+                                          - string
+                                          - 'null'
+                                          deprecated: true
+                                          description: Deprecated. Returns the full image URL. Use `url` instead.
+                                      required:
+                                      - type
+                                      - url
+                                      - thumbUrl
+                                  exampleImage:
+                                    type:
+                                    - string
+                                    - 'null'
+                                  allowedAttachmentType:
+                                    type:
+                                    - string
+                                    - 'null'
+                                    enum:
+                                    - Pdf
+                                    - Image
+                                    - Both
+                                    - null
+                                  markedIrrelevant:
+                                    type: boolean
+                                  markedIrrelevantReason:
+                                    type:
+                                    - string
+                                    - 'null'
+                                required:
+                                - title
+                                - description
+                                - required
+                                - maxAttachments
+                                - attachments
+                                - exampleImage
+                                - allowedAttachmentType
+                                - markedIrrelevant
+                                - markedIrrelevantReason
+                            markedIrrelevant:
+                              type: boolean
+                            markedIrrelevantReason:
+                              type:
+                              - string
+                              - 'null'
+                          required:
+                          - type
+                          - title
+                          - description
+                          - items
+                          - markedIrrelevant
+                          - markedIrrelevantReason
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - signature
+                            title:
+                              type:
+                              - string
+                              - 'null'
+                            description:
+                              type:
+                              - string
+                              - 'null'
+                            required:
+                              type: boolean
+                            locksSegment:
+                              type: boolean
+                            image:
+                              type:
+                              - string
+                              - 'null'
+                            signingPersonType:
+                              type:
+                              - string
+                              - 'null'
+                            signingPersonName:
+                              type:
+                              - string
+                              - 'null'
+                            signedAt:
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+                              example: '2026-01-01T15:30:00.000Z'
+                            markedIrrelevant:
+                              type: boolean
+                            markedIrrelevantReason:
+                              type:
+                              - string
+                              - 'null'
+                          required:
+                          - type
+                          - title
+                          - description
+                          - required
+                          - locksSegment
+                          - image
+                          - signingPersonType
+                          - signingPersonName
+                          - signedAt
+                          - markedIrrelevant
+                          - markedIrrelevantReason
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - plannedLayout
+                            title:
+                              type:
+                              - string
+                              - 'null'
+                          required:
+                          - type
+                          - title
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - datasheets
+                            title:
+                              type:
+                              - string
+                              - 'null'
+                            datasheetItemsToShow:
+                              type:
+                              - array
+                              - 'null'
+                              items:
+                                type: string
+                            warrantyItemsToShow:
+                              type:
+                              - array
+                              - 'null'
+                              items:
+                                type: string
+                            instructionItemsToShow:
+                              type:
+                              - array
+                              - 'null'
+                              items:
+                                type: string
+                          required:
+                          - type
+                          - title
+                          - datasheetItemsToShow
+                          - warrantyItemsToShow
+                          - instructionItemsToShow
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - componentList
+                            title:
+                              type:
+                              - string
+                              - 'null'
+                          required:
+                          - type
+                          - title
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - circuitPlan
+                            title:
+                              type:
+                              - string
+                              - 'null'
+                          required:
+                          - type
+                          - title
+                  required:
+                  - id
+                  - name
+                  - position
+                  - backgroundColor
+                  - textColor
+                  - versionHash
+                  - completedAt
+                  - completedById
+                  - items
+            required:
+            - id
+            - name
+            - position
+            - backgroundColor
+            - textColor
+            - versionHash
+            - segments
+      required:
+      - version
+      - updatedAt
+      - updatedById
+      - blocks
+  securitySchemes:
+    X-Authorization:
+      type: apiKey
+      in: header
+      name: X-Authorization
+x-tagGroups:
+- name: People
+  tags:
+  - Contacts
+  - Users
+  - Teams
+- name: Projects
+  tags:
+  - Residential Projects
+  - Commercial Projects
+- name: Working on a project
+  tags:
+  - Notes
+  - Tasks
+  - Files
+  - File Folders
+  - Activities
+  - Time Tracking
+  - Checklists
+  - Checklist Templates
+  - Signature Requests
+- name: Calendar
+  tags:
+  - Calendars
+  - Calendar Categories
+  - Appointments
+- name: Catalog
+  tags:
+  - Components
+  - Planning Templates
+  - Planning Packages
+  - Offer Templates
+- name: Workspace setup
+  tags:
+  - Kanban Boards
+  - Kanban Columns
+  - Tags
+  - Lead Sources
+- name: Wiki
+  tags:
+  - Wiki
+- name: Services
+  tags:
+  - Photogrammetry
+- name: API helpers
+  tags:
+  - Upload
+  - Links
+- name: Integrations
+  tags:
+  - Webhooks
+- name: Guides
+  tags:
+  - Migrating from API v2 to v3
+  - Changelog

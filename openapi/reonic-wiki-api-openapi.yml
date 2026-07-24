@@ -1,0 +1,805 @@
+openapi: 3.1.0
+info:
+  title: Reonic REST Api v3 Activities Wiki API
+  description: 'The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.
+
+
+    ## Errors
+
+
+    All endpoints return errors with the same JSON shape:
+
+
+    ```json
+
+    { "message": "human-readable description" }
+
+    ```
+
+
+    `400` responses additionally include an `errors` field with per-field validation details.
+
+
+    The HTTP status code identifies the cause:
+
+
+    | Status  | Meaning | When |
+
+    |--------|---------|------|
+
+    | `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |
+
+    | `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |
+
+    | `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |
+
+    | `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |
+
+    | `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |
+
+    | `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |
+
+    | `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |
+
+
+    ## Rate limiting
+
+
+    Limits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:
+
+
+    | Bucket | Limit | Applies to |
+
+    |--------|-------|------------|
+
+    | `cached` | 500 / min | `GET` requests served from the response cache |
+
+    | `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |
+
+
+    Every response includes:
+
+
+    - `X-RateLimit-Bucket` — `cached` or `uncached`
+
+    - `X-RateLimit-Limit` — the bucket''s ceiling (`500` or `30`)
+
+    - `X-RateLimit-Remaining` — calls left in the current window
+
+    - `X-RateLimit-Reset` — Unix epoch seconds at which the window resets
+
+    - `X-RateLimit-Policy` — `<limit>;w=60`
+
+
+    `429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.
+
+
+    ## Caching and Reonic-Cache-Control
+
+
+    `GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.
+
+
+    The standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.
+
+
+    ## Authentication
+
+
+    Every request must include your API key in the `X-Authorization` header:
+
+
+    ```
+
+    X-Authorization: <your-api-key>
+
+    ```
+
+
+    API keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.
+
+    '
+  version: 3.2.0
+  contact:
+    email: kontakt@reonic.de
+    url: https://reonic.com
+    name: Reonic GmbH
+servers:
+- url: '{apiBaseUrl}/rest/v3/'
+security:
+- X-Authorization: []
+tags:
+- name: Wiki
+  description: "Your company's shared knowledge base — pages and folders.\n\n> [!warning] \n> **Beta:** These endpoints are in beta and may change as the service evolves. Please report issues or unexpected behavior to our team."
+  x-displayName: Wiki (BETA)
+paths:
+  /wiki:
+    get:
+      summary: Get wiki tree
+      description: 'Returns the company wiki tree (folders and pages). Personal user wikis are not exposed via the API.
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Wiki
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: Company wiki tree
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      oneOf:
+                      - allOf:
+                        - $ref: '#/components/schemas/WikiFolder'
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - folder
+                          required:
+                          - type
+                      - allOf:
+                        - $ref: '#/components/schemas/WikiPage'
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - page
+                          required:
+                          - type
+                    description: List of items
+                required:
+                - data
+  /wiki/pages/{pageId}:
+    get:
+      summary: Get wiki page
+      description: 'Returns a single company wiki page including its current content. Personal user wikis are not exposed via the API.
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Wiki
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: pageId
+        in: path
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: The wiki page with content
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/WikiPage'
+                - type: object
+                  properties:
+                    content:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          example: 123e4567-e89b-12d3-a456-426614174000
+                        content:
+                          type: string
+                        updatedAt:
+                          type:
+                          - string
+                          - 'null'
+                          format: date-time
+                          example: '2026-01-01T15:30:00.000Z'
+                        updatedBy:
+                          type:
+                          - object
+                          - 'null'
+                          properties:
+                            id:
+                              type: string
+                              format: uuid
+                              example: 123e4567-e89b-12d3-a456-426614174000
+                            firstName:
+                              type: string
+                            lastName:
+                              type: string
+                          required:
+                          - id
+                          - firstName
+                          - lastName
+                      required:
+                      - id
+                      - content
+                      - updatedAt
+                      - updatedBy
+                  required:
+                  - content
+  /wiki/pages/create:
+    post:
+      summary: Create wiki page
+      description: 'Creates a new wiki page in the company wiki. Personal user wikis are not exposed via the API.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Wiki
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                folderId:
+                  type: string
+                  format: uuid
+                  example: 123e4567-e89b-12d3-a456-426614174000
+              additionalProperties: false
+      responses:
+        '201':
+          description: The created wiki page
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WikiPage'
+  /wiki/pages/{pageId}/update-content:
+    post:
+      summary: Update wiki page content
+      description: 'Replaces the content body of a company wiki page, creating a new version. Use `/update-details` to change title, icon, or publish state. Personal user wikis are not exposed via the API.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Wiki
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: pageId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  maxLength: 500000
+              required:
+              - content
+              additionalProperties: false
+      responses:
+        '200':
+          description: The updated wiki page content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                        example: 123e4567-e89b-12d3-a456-426614174000
+                      content:
+                        type: string
+                      updatedAt:
+                        type:
+                        - string
+                        - 'null'
+                        format: date-time
+                        example: '2026-01-01T15:30:00.000Z'
+                      updatedBy:
+                        type:
+                        - object
+                        - 'null'
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                            example: 123e4567-e89b-12d3-a456-426614174000
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                        required:
+                        - id
+                        - firstName
+                        - lastName
+                    required:
+                    - id
+                    - content
+                    - updatedAt
+                    - updatedBy
+                required:
+                - data
+  /wiki/pages/{pageId}/update-details:
+    post:
+      summary: Update wiki page details (title, icon, publish state)
+      description: 'Updates the title, icon, and/or publish state of a company wiki page. Use `/update-content` to change the page body. At least one field must be provided. Personal user wikis are not exposed via the API.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Wiki
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: pageId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  minLength: 1
+                  maxLength: 256
+                icon:
+                  type: string
+                  minLength: 1
+                  maxLength: 64
+                isPublished:
+                  type: boolean
+              additionalProperties: false
+      responses:
+        '200':
+          description: The updated wiki page
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/WikiPage'
+                required:
+                - data
+  /wiki/pages/{pageId}/delete:
+    post:
+      summary: Delete wiki page
+      description: 'Deletes a company wiki page. Personal user wikis are not exposed via the API.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Wiki
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: pageId
+        in: path
+      responses:
+        '200':
+          description: The deleted wiki page id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                        example: 123e4567-e89b-12d3-a456-426614174000
+                    required:
+                    - id
+                required:
+                - data
+  /wiki/folders/create:
+    post:
+      summary: Create wiki folder
+      description: 'Creates a new wiki folder in the company wiki. Personal user wikis are not exposed via the API.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Wiki
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 256
+              required:
+              - name
+              additionalProperties: false
+      responses:
+        '201':
+          description: The created wiki folder
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WikiFolder'
+  /wiki/folders/{folderId}/update:
+    post:
+      summary: Update wiki folder
+      description: 'Updates the name of a company wiki folder. Personal user wikis are not exposed via the API.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Wiki
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: folderId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 256
+              required:
+              - name
+              additionalProperties: false
+      responses:
+        '200':
+          description: The updated wiki folder
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/WikiFolder'
+                required:
+                - data
+  /wiki/folders/{folderId}/delete:
+    post:
+      summary: Delete wiki folder
+      description: 'Deletes a company wiki folder and all its pages. Personal user wikis are not exposed via the API.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Wiki
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: folderId
+        in: path
+      responses:
+        '200':
+          description: The deleted wiki folder id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                        example: 123e4567-e89b-12d3-a456-426614174000
+                    required:
+                    - id
+                required:
+                - data
+  /wiki/search:
+    get:
+      summary: Search wiki
+      description: 'Searches company wiki pages by title and content. Personal user wikis are not exposed via the API.
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Wiki
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Search query
+        required: true
+        description: Search query
+        name: q
+        in: query
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          example: 123e4567-e89b-12d3-a456-426614174000
+                        title:
+                          type:
+                          - string
+                          - 'null'
+                        icon:
+                          type:
+                          - string
+                          - 'null'
+                        folderName:
+                          type:
+                          - string
+                          - 'null'
+                        matchCount:
+                          type: number
+                        matchedInTitle:
+                          type: boolean
+                        matchedInContent:
+                          type: boolean
+                        contentSnippet:
+                          type:
+                          - string
+                          - 'null'
+                      required:
+                      - id
+                      - title
+                      - icon
+                      - folderName
+                      - matchCount
+                      - matchedInTitle
+                      - matchedInContent
+                      - contentSnippet
+                    description: List of items
+                required:
+                - data
+components:
+  schemas:
+    WikiFolder:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        position:
+          type: number
+        pages:
+          type: array
+          items:
+            $ref: '#/components/schemas/WikiPage'
+      required:
+      - id
+      - name
+      - position
+      - pages
+    WikiPage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        title:
+          type:
+          - string
+          - 'null'
+        icon:
+          type:
+          - string
+          - 'null'
+        isPublished:
+          type: boolean
+        position:
+          type: number
+        folderName:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        createdBy:
+          type:
+          - object
+          - 'null'
+          properties:
+            id:
+              type: string
+              format: uuid
+              example: 123e4567-e89b-12d3-a456-426614174000
+            firstName:
+              type: string
+            lastName:
+              type: string
+          required:
+          - id
+          - firstName
+          - lastName
+        updatedBy:
+          type:
+          - object
+          - 'null'
+          properties:
+            id:
+              type: string
+              format: uuid
+              example: 123e4567-e89b-12d3-a456-426614174000
+            firstName:
+              type: string
+            lastName:
+              type: string
+          required:
+          - id
+          - firstName
+          - lastName
+      required:
+      - id
+      - title
+      - icon
+      - isPublished
+      - position
+      - folderName
+      - createdAt
+      - updatedAt
+      - createdBy
+      - updatedBy
+  securitySchemes:
+    X-Authorization:
+      type: apiKey
+      in: header
+      name: X-Authorization
+x-tagGroups:
+- name: People
+  tags:
+  - Contacts
+  - Users
+  - Teams
+- name: Projects
+  tags:
+  - Residential Projects
+  - Commercial Projects
+- name: Working on a project
+  tags:
+  - Notes
+  - Tasks
+  - Files
+  - File Folders
+  - Activities
+  - Time Tracking
+  - Checklists
+  - Checklist Templates
+  - Signature Requests
+- name: Calendar
+  tags:
+  - Calendars
+  - Calendar Categories
+  - Appointments
+- name: Catalog
+  tags:
+  - Components
+  - Planning Templates
+  - Planning Packages
+  - Offer Templates
+- name: Workspace setup
+  tags:
+  - Kanban Boards
+  - Kanban Columns
+  - Tags
+  - Lead Sources
+- name: Wiki
+  tags:
+  - Wiki
+- name: Services
+  tags:
+  - Photogrammetry
+- name: API helpers
+  tags:
+  - Upload
+  - Links
+- name: Integrations
+  tags:
+  - Webhooks
+- name: Guides
+  tags:
+  - Migrating from API v2 to v3
+  - Changelog

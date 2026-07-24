@@ -1,0 +1,695 @@
+openapi: 3.1.0
+info:
+  title: Reonic REST Api v3 Activities Photogrammetry API
+  description: 'The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.
+
+
+    ## Errors
+
+
+    All endpoints return errors with the same JSON shape:
+
+
+    ```json
+
+    { "message": "human-readable description" }
+
+    ```
+
+
+    `400` responses additionally include an `errors` field with per-field validation details.
+
+
+    The HTTP status code identifies the cause:
+
+
+    | Status  | Meaning | When |
+
+    |--------|---------|------|
+
+    | `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |
+
+    | `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |
+
+    | `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |
+
+    | `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |
+
+    | `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |
+
+    | `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |
+
+    | `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |
+
+
+    ## Rate limiting
+
+
+    Limits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:
+
+
+    | Bucket | Limit | Applies to |
+
+    |--------|-------|------------|
+
+    | `cached` | 500 / min | `GET` requests served from the response cache |
+
+    | `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |
+
+
+    Every response includes:
+
+
+    - `X-RateLimit-Bucket` — `cached` or `uncached`
+
+    - `X-RateLimit-Limit` — the bucket''s ceiling (`500` or `30`)
+
+    - `X-RateLimit-Remaining` — calls left in the current window
+
+    - `X-RateLimit-Reset` — Unix epoch seconds at which the window resets
+
+    - `X-RateLimit-Policy` — `<limit>;w=60`
+
+
+    `429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.
+
+
+    ## Caching and Reonic-Cache-Control
+
+
+    `GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.
+
+
+    The standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.
+
+
+    ## Authentication
+
+
+    Every request must include your API key in the `X-Authorization` header:
+
+
+    ```
+
+    X-Authorization: <your-api-key>
+
+    ```
+
+
+    API keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.
+
+    '
+  version: 3.2.0
+  contact:
+    email: kontakt@reonic.de
+    url: https://reonic.com
+    name: Reonic GmbH
+servers:
+- url: '{apiBaseUrl}/rest/v3/'
+security:
+- X-Authorization: []
+tags:
+- name: Photogrammetry
+  description: "3D reconstruction jobs built from uploaded site imagery.\n\n> [!warning] \n> **Beta:** These endpoints are in beta and may change as the service evolves. Please report issues or unexpected behavior to our team."
+  x-displayName: Photogrammetry (BETA)
+paths:
+  /photogrammetry/jobs:
+    get:
+      summary: List photogrammetry jobs
+      description: 'List photogrammetry jobs visible to the caller, with optional filters. Page size is fixed at 20.
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Photogrammetry
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: integer
+          minimum: 1
+          default: 1
+          description: 'Page number, starting from 1. Default: 1.'
+        required: false
+        description: 'Page number, starting from 1. Default: 1.'
+        name: page
+        in: query
+      - schema:
+          type: string
+          maxLength: 200
+        required: false
+        name: search
+        in: query
+      - schema:
+          type:
+          - boolean
+          - 'null'
+        required: false
+        name: archived
+        in: query
+      - schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - notStarted
+            - running
+            - preRenderCompleted
+            - completed
+            - failed
+          description: 'Comma-separated list or repeated query param. Allowed values: notStarted, running, preRenderCompleted, completed, failed.'
+        required: false
+        description: 'Comma-separated list or repeated query param. Allowed values: notStarted, running, preRenderCompleted, completed, failed.'
+        style: form
+        explode: false
+        name: status
+        in: query
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: Paginated list of photogrammetry jobs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        name:
+                          type:
+                          - string
+                          - 'null'
+                        status:
+                          type: string
+                          enum:
+                          - notStarted
+                          - running
+                          - preRenderCompleted
+                          - completed
+                          - failed
+                        gltfFileUrl:
+                          type:
+                          - string
+                          - 'null'
+                        orthophotoFileUrl:
+                          type:
+                          - string
+                          - 'null'
+                        coordinateFileUrl:
+                          type:
+                          - string
+                          - 'null'
+                        createdAt:
+                          type: string
+                        createdById:
+                          type:
+                          - string
+                          - 'null'
+                          format: uuid
+                        updatedAt:
+                          type: string
+                        updatedById:
+                          type:
+                          - string
+                          - 'null'
+                          format: uuid
+                        startedAt:
+                          type:
+                          - string
+                          - 'null'
+                        startedById:
+                          type:
+                          - string
+                          - 'null'
+                          format: uuid
+                        stoppedAt:
+                          type:
+                          - string
+                          - 'null'
+                        preRenderCompletedAt:
+                          type:
+                          - string
+                          - 'null'
+                        archivedAt:
+                          type:
+                          - string
+                          - 'null'
+                      required:
+                      - id
+                      - name
+                      - status
+                      - gltfFileUrl
+                      - orthophotoFileUrl
+                      - coordinateFileUrl
+                      - createdAt
+                      - createdById
+                      - updatedAt
+                      - updatedById
+                      - startedAt
+                      - startedById
+                      - stoppedAt
+                      - preRenderCompletedAt
+                      - archivedAt
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        minimum: 1
+                        description: Current page number
+                      perPage:
+                        type: integer
+                        minimum: 1
+                        description: Number of items per page
+                      total:
+                        type: integer
+                        minimum: 0
+                        description: Total number of items across all pages
+                      totalPages:
+                        type: integer
+                        minimum: 1
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: Path to the next page, or null if there is no next page
+                      prev:
+                        type:
+                        - string
+                        - 'null'
+                        description: Path to the previous page, or null if there is no previous page
+                    required:
+                    - page
+                    - perPage
+                    - total
+                    - totalPages
+                    - next
+                    - prev
+                required:
+                - data
+                - pagination
+  /photogrammetry/jobs/{jobId}:
+    get:
+      summary: Get photogrammetry job
+      description: 'Get a single photogrammetry job by id.
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Photogrammetry
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: jobId
+        in: path
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: The photogrammetry job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhotogrammetryJob'
+  /photogrammetry/jobs/create:
+    post:
+      summary: Create photogrammetry job
+      description: 'Create a new photogrammetry job. The job is returned in `notStarted` state with no assets. Use `POST /photogrammetry/jobs/{jobId}/assets/add` to attach uploaded assets.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Photogrammetry
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+              additionalProperties: false
+      responses:
+        '201':
+          description: The newly created photogrammetry job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhotogrammetryJob'
+  /photogrammetry/jobs/{jobId}/update:
+    post:
+      summary: Update photogrammetry job
+      description: 'Update a photogrammetry job''s metadata. Asset list mutations go through `POST /photogrammetry/jobs/{jobId}/assets/add` and `/assets/delete`.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Photogrammetry
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: jobId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 200
+              additionalProperties: false
+      responses:
+        '200':
+          description: The updated photogrammetry job
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/PhotogrammetryJob'
+                required:
+                - data
+  /photogrammetry/jobs/{jobId}/assets/add:
+    post:
+      summary: Add assets to photogrammetry job
+      description: 'Attach one or more previously-uploaded assets to a photogrammetry job. Each `uploadId` must come from a prior `POST /uploads/create` call whose `uploadUrl` has already received the file content. Returns the job with its full asset list.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Photogrammetry
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: jobId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assets:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      uploadId:
+                        type: string
+                        minLength: 1
+                        maxLength: 500
+                        description: The `uploadId` returned from `POST /uploads/create`.
+                      type:
+                        type: string
+                        enum:
+                        - image
+                        - video
+                      frames:
+                        type: integer
+                        minimum: 1
+                        maximum: 10000
+                        default: 1
+                      meta:
+                        type: object
+                        additionalProperties: {}
+                        default: {}
+                    required:
+                    - uploadId
+                    - type
+                    additionalProperties: false
+                  minItems: 1
+                  maxItems: 100
+              required:
+              - assets
+              additionalProperties: false
+      responses:
+        '200':
+          description: The job with the updated asset list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhotogrammetryJob'
+  /photogrammetry/jobs/{jobId}/assets/delete:
+    post:
+      summary: Delete assets from photogrammetry job
+      description: 'Remove one or more assets from a photogrammetry job by id. Asset ids that don''t belong to the job are ignored. Returns the job with its remaining asset list.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Photogrammetry
+      x-badges:
+      - name: BETA
+        position: before
+        color: '#ea580c'
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: jobId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assetIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  minItems: 1
+                  maxItems: 100
+              required:
+              - assetIds
+              additionalProperties: false
+      responses:
+        '200':
+          description: The job with the updated asset list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/PhotogrammetryJob'
+                required:
+                - data
+components:
+  schemas:
+    PhotogrammetryJob:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        status:
+          type: string
+          enum:
+          - notStarted
+          - running
+          - preRenderCompleted
+          - completed
+          - failed
+        assets:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                type: string
+                enum:
+                - image
+                - video
+              frames:
+                type: integer
+                minimum: 0
+              url:
+                type: string
+              meta:
+                type:
+                - object
+                - 'null'
+                additionalProperties: {}
+            required:
+            - id
+            - type
+            - frames
+            - url
+            - meta
+        gltfFileUrl:
+          type:
+          - string
+          - 'null'
+        orthophotoFileUrl:
+          type:
+          - string
+          - 'null'
+        coordinateFileUrl:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+        createdById:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        updatedAt:
+          type: string
+        updatedById:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        startedAt:
+          type:
+          - string
+          - 'null'
+        startedById:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        stoppedAt:
+          type:
+          - string
+          - 'null'
+        preRenderCompletedAt:
+          type:
+          - string
+          - 'null'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - name
+      - status
+      - assets
+      - gltfFileUrl
+      - orthophotoFileUrl
+      - coordinateFileUrl
+      - createdAt
+      - createdById
+      - updatedAt
+      - updatedById
+      - startedAt
+      - startedById
+      - stoppedAt
+      - preRenderCompletedAt
+      - archivedAt
+  securitySchemes:
+    X-Authorization:
+      type: apiKey
+      in: header
+      name: X-Authorization
+x-tagGroups:
+- name: People
+  tags:
+  - Contacts
+  - Users
+  - Teams
+- name: Projects
+  tags:
+  - Residential Projects
+  - Commercial Projects
+- name: Working on a project
+  tags:
+  - Notes
+  - Tasks
+  - Files
+  - File Folders
+  - Activities
+  - Time Tracking
+  - Checklists
+  - Checklist Templates
+  - Signature Requests
+- name: Calendar
+  tags:
+  - Calendars
+  - Calendar Categories
+  - Appointments
+- name: Catalog
+  tags:
+  - Components
+  - Planning Templates
+  - Planning Packages
+  - Offer Templates
+- name: Workspace setup
+  tags:
+  - Kanban Boards
+  - Kanban Columns
+  - Tags
+  - Lead Sources
+- name: Wiki
+  tags:
+  - Wiki
+- name: Services
+  tags:
+  - Photogrammetry
+- name: API helpers
+  tags:
+  - Upload
+  - Links
+- name: Integrations
+  tags:
+  - Webhooks
+- name: Guides
+  tags:
+  - Migrating from API v2 to v3
+  - Changelog

@@ -1,0 +1,654 @@
+openapi: 3.1.0
+info:
+  title: Reonic REST Api v3 Activities Files API
+  description: 'The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.
+
+
+    ## Errors
+
+
+    All endpoints return errors with the same JSON shape:
+
+
+    ```json
+
+    { "message": "human-readable description" }
+
+    ```
+
+
+    `400` responses additionally include an `errors` field with per-field validation details.
+
+
+    The HTTP status code identifies the cause:
+
+
+    | Status  | Meaning | When |
+
+    |--------|---------|------|
+
+    | `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |
+
+    | `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |
+
+    | `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |
+
+    | `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |
+
+    | `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |
+
+    | `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |
+
+    | `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |
+
+
+    ## Rate limiting
+
+
+    Limits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:
+
+
+    | Bucket | Limit | Applies to |
+
+    |--------|-------|------------|
+
+    | `cached` | 500 / min | `GET` requests served from the response cache |
+
+    | `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |
+
+
+    Every response includes:
+
+
+    - `X-RateLimit-Bucket` — `cached` or `uncached`
+
+    - `X-RateLimit-Limit` — the bucket''s ceiling (`500` or `30`)
+
+    - `X-RateLimit-Remaining` — calls left in the current window
+
+    - `X-RateLimit-Reset` — Unix epoch seconds at which the window resets
+
+    - `X-RateLimit-Policy` — `<limit>;w=60`
+
+
+    `429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.
+
+
+    ## Caching and Reonic-Cache-Control
+
+
+    `GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.
+
+
+    The standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.
+
+
+    ## Authentication
+
+
+    Every request must include your API key in the `X-Authorization` header:
+
+
+    ```
+
+    X-Authorization: <your-api-key>
+
+    ```
+
+
+    API keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.
+
+    '
+  version: 3.2.0
+  contact:
+    email: kontakt@reonic.de
+    url: https://reonic.com
+    name: Reonic GmbH
+servers:
+- url: '{apiBaseUrl}/rest/v3/'
+security:
+- X-Authorization: []
+tags:
+- name: Files
+  description: Files attached to a project or contact. File responses include a download URL valid for 24 hours; refetch the file to obtain a fresh URL after it expires.
+paths:
+  /files:
+    get:
+      summary: List files
+      description: 'List files attached to an entity (i.e. contact or residential project) in paginated format.
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Files
+      parameters:
+      - schema:
+          type: string
+          enum:
+          - contact
+          - residentialProject
+          - commercialProject
+          description: The type of the parent entity.
+          example: residentialProject
+        required: false
+        description: The type of the parent entity.
+        name: parentType
+        in: query
+      - schema:
+          type: string
+          format: uuid
+          description: Requires `parentType` to be defined.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        required: false
+        description: Requires `parentType` to be defined.
+        name: parentId
+        in: query
+      - schema:
+          type: string
+          format: uuid
+          description: Returns files created by a specific user. Cannot be combined with `createdByCustomer`.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        required: false
+        description: Returns files created by a specific user. Cannot be combined with `createdByCustomer`.
+        name: createdById
+        in: query
+      - schema:
+          type:
+          - boolean
+          - 'null'
+          description: 'Filters by creator origin: `true` returns customer-uploaded files, `false` returns files uploaded by users. Cannot be combined with `createdById`.'
+          example: true
+        required: false
+        description: 'Filters by creator origin: `true` returns customer-uploaded files, `false` returns files uploaded by users. Cannot be combined with `createdById`.'
+        name: createdByCustomer
+        in: query
+      - schema:
+          type: integer
+          minimum: 1
+          default: 1
+          description: 'Page number, starting from 1. Default: 1.'
+        required: false
+        description: 'Page number, starting from 1. Default: 1.'
+        name: page
+        in: query
+      - schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+          description: 'Number of items per page. Default: 50. Max: 200.'
+        required: false
+        description: 'Number of items per page. Default: 50. Max: 200.'
+        name: itemsPerPage
+        in: query
+      - schema:
+          type:
+          - string
+          - 'null'
+          default: -createdAt
+          description: 'Sort order. Use field names for ascending (e.g. "createdAt"), minus sign for descending (e.g. "-createdAt"). Chain with commas (e.g. "createdAt,editedAt"). Sortable fields: createdAt, createdById. Defaults to -createdAt.'
+          examples:
+          - -createdAt
+          - createdAt
+        required: false
+        description: 'Sort order. Use field names for ascending (e.g. "createdAt"), minus sign for descending (e.g. "-createdAt"). Chain with commas (e.g. "createdAt,editedAt"). Sortable fields: createdAt, createdById. Defaults to -createdAt.'
+        name: sort
+        in: query
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: Paginated list of files
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/File'
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        minimum: 1
+                        description: Current page number
+                      perPage:
+                        type: integer
+                        minimum: 1
+                        description: Number of items per page
+                      total:
+                        type: integer
+                        minimum: 0
+                        description: Total number of items across all pages
+                      totalPages:
+                        type: integer
+                        minimum: 1
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: Path to the next page, or null if there is no next page
+                      prev:
+                        type:
+                        - string
+                        - 'null'
+                        description: Path to the previous page, or null if there is no previous page
+                    required:
+                    - page
+                    - perPage
+                    - total
+                    - totalPages
+                    - next
+                    - prev
+                required:
+                - data
+                - pagination
+  /files/{fileId}:
+    get:
+      summary: Get file
+      description: 'Get a single file by its ID.
+
+
+        **Allowed API keys:** Read-only, Read and Write'
+      tags:
+      - Files
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: fileId
+        in: path
+      - schema:
+          type: string
+          example: no-cache
+        required: false
+        name: Reonic-Cache-Control
+        in: header
+        description: Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).
+      responses:
+        '200':
+          description: The file
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+  /files/create:
+    post:
+      description: 'Create a file record attached to an entity (i.e. contact or residential project). Provide the file via either `uploadId` (recommended — see `POST /uploads/create`) or a public `url` we download for you. Allowed types: image, pdf, csv, excel.
+
+
+        **Allowed API keys:** Read and Write'
+      summary: Create file
+      tags:
+      - Files
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uploadId:
+                  type: string
+                  maxLength: 500
+                  description: Identifier returned by `POST /uploads/create`. PUT the file to that endpoint's `uploadUrl` before calling this. Mutually exclusive with `url`.
+                url:
+                  type: string
+                  maxLength: 2000
+                  format: uri
+                  description: Publicly accessible URL we'll download (max 100 MB). Mutually exclusive with `uploadId`.
+                  example: https://your-website.com/test-document.pdf
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 500
+                  description: File name
+                  example: test-document.pdf
+                parent:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      example: 123e4567-e89b-12d3-a456-426614174000
+                    type:
+                      type: string
+                      enum:
+                      - contact
+                      - residentialProject
+                      - commercialProject
+                  required:
+                  - id
+                  - type
+                folderId:
+                  type:
+                  - string
+                  - 'null'
+                  format: uuid
+                  description: Optional folder to create the file in.
+                sharedWithTeamIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  maxItems: 50
+                  description: Reference to [**Teams**](#tag/teams)
+                  example:
+                  - 123e4567-e89b-12d3-a456-426614174000
+                  - 123e4567-e89b-12d3-a456-426614174002
+                sharedWithUserIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  maxItems: 100
+                  description: Reference to [**Users**](#tag/users)
+                  example:
+                  - 123e4567-e89b-12d3-a456-426614174000
+                  - 123e4567-e89b-12d3-a456-426614174002
+                position:
+                  type: integer
+                  minimum: 0
+                  deprecated: true
+                  description: Deprecated. This field will be removed at the end of July 2026.
+                visibleInCustomerPortal:
+                  type: boolean
+                  default: false
+                  description: Whether this file is visible in the customer portal or not.
+              required:
+              - name
+              - parent
+              additionalProperties: false
+      responses:
+        '201':
+          description: The created file
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+        '400':
+          description: Could not resolve the file source (download failed, upload missing, or disallowed mime type).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    default: Could not resolve file
+  /files/{fileId}/delete:
+    post:
+      summary: Delete file
+      description: 'Delete a file by its ID.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Files
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: fileId
+        in: path
+      responses:
+        '200':
+          description: The deleted file ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                        example: 123e4567-e89b-12d3-a456-426614174000
+                    required:
+                    - id
+                    additionalProperties: false
+                required:
+                - data
+  /files/{fileId}/update:
+    post:
+      summary: Update file
+      description: 'Update a file by its ID. Omitted fields are left unchanged. Pass `folderId=null` to move the file to the root of its parent entity.
+
+
+        **Allowed API keys:** Read and Write'
+      tags:
+      - Files
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: fileId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 500
+                  description: File name
+                  example: test-document.pdf
+                folderId:
+                  type:
+                  - string
+                  - 'null'
+                  format: uuid
+                  description: Target folder, or null to move out of any folder. Omit to leave the location unchanged.
+                  example: 123e4567-e89b-12d3-a456-426614174000
+                sharedWithTeamIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  maxItems: 50
+                  description: Reference to [**Teams**](#tag/teams). Replaces the existing list — pass the full set of team IDs the file should be shared with, or an empty array to unshare from all teams. Omit to leave the existing list unchanged.
+                  example:
+                  - 123e4567-e89b-12d3-a456-426614174000
+                  - 123e4567-e89b-12d3-a456-426614174002
+                sharedWithUserIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  maxItems: 100
+                  description: Reference to [**Users**](#tag/users). Replaces the existing list — pass the full set of user IDs the file should be shared with, or an empty array to unshare from all users. Omit to leave the existing list unchanged.
+                  example:
+                  - 123e4567-e89b-12d3-a456-426614174000
+                  - 123e4567-e89b-12d3-a456-426614174002
+                position:
+                  type: integer
+                  minimum: 0
+                  deprecated: true
+                  description: Deprecated. This field will be removed at the end of July 2026.
+                visibleInCustomerPortal:
+                  type: boolean
+                  description: Whether this file is visible in the customer portal or not.
+              additionalProperties: false
+      responses:
+        '200':
+          description: The updated file
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/File'
+                required:
+                - data
+components:
+  schemas:
+    File:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - pdf
+          - image
+          - video
+          - pvsol
+          - xml
+          - ugl
+          - csv
+          - excel
+          - zip
+        url:
+          type: string
+          format: uri
+          description: Download URL for the file. Valid for 24 hours from the time the response is generated; refetch the file to obtain a fresh URL after it expires.
+        parent:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              example: 123e4567-e89b-12d3-a456-426614174000
+            type:
+              type: string
+              enum:
+              - contact
+              - residentialProject
+              - commercialProject
+              description: The type of the parent entity.
+              example: residentialProject
+          required:
+          - id
+          - type
+        folderId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: Reference to [**File Folders**](#tag/file-folders)
+          example: 123e4567-e89b-12d3-a456-426614174000
+        sharedWithTeamIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Reference to [**Teams**](#tag/teams)
+        sharedWithUserIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Reference to [**Users**](#tag/users)
+        position:
+          type: integer
+          minimum: 0
+          deprecated: true
+          description: Deprecated. This field will be removed at the end of July 2026.
+        visibleInCustomerPortal:
+          type: boolean
+          description: Whether this file is visible in the customer portal or not.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        createdById:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: '`null` if uploaded by customer'
+          example: 123e4567-e89b-12d3-a456-426614174000
+      required:
+      - id
+      - name
+      - type
+      - url
+      - parent
+      - folderId
+      - sharedWithTeamIds
+      - sharedWithUserIds
+      - position
+      - visibleInCustomerPortal
+      - createdAt
+      - createdById
+  securitySchemes:
+    X-Authorization:
+      type: apiKey
+      in: header
+      name: X-Authorization
+x-tagGroups:
+- name: People
+  tags:
+  - Contacts
+  - Users
+  - Teams
+- name: Projects
+  tags:
+  - Residential Projects
+  - Commercial Projects
+- name: Working on a project
+  tags:
+  - Notes
+  - Tasks
+  - Files
+  - File Folders
+  - Activities
+  - Time Tracking
+  - Checklists
+  - Checklist Templates
+  - Signature Requests
+- name: Calendar
+  tags:
+  - Calendars
+  - Calendar Categories
+  - Appointments
+- name: Catalog
+  tags:
+  - Components
+  - Planning Templates
+  - Planning Packages
+  - Offer Templates
+- name: Workspace setup
+  tags:
+  - Kanban Boards
+  - Kanban Columns
+  - Tags
+  - Lead Sources
+- name: Wiki
+  tags:
+  - Wiki
+- name: Services
+  tags:
+  - Photogrammetry
+- name: API helpers
+  tags:
+  - Upload
+  - Links
+- name: Integrations
+  tags:
+  - Webhooks
+- name: Guides
+  tags:
+  - Migrating from API v2 to v3
+  - Changelog
