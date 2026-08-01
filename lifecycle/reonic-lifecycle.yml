@@ -1,0 +1,23 @@
+generated: '2026-07-20'
+method: searched
+source: https://api.reonic.de/rest/v3/docs (Changelog + Migrating v2 to v3 sections)
+versioning:
+  scheme: uri-path
+  current: v3
+  spec_version: 3.2.0
+  docs: https://api.reonic.de/rest/v3/docs
+deprecation:
+  deprecated_version: v2
+  sunset: '2026-10-01'
+  policy: >-
+    API v2 and v3 run side by side until v2 is shut down from 1 Oct 2026, allowing
+    per-resource migration. v3 is not backwards compatible with v2 (v2 keys rejected,
+    paths changed, lists now wrapped in a data/pagination envelope).
+  migration_guide: https://api.reonic.de/rest/v3/docs (section "Migrating from API v2 to v3")
+status_page: null
+status_page_note: No public status page found (status.reonic.de / status.reonic.com unreachable).
+sla: null
+webhook_lifecycle:
+  disabled_on_failure: Subscription is disabled after all retries are exhausted; workspace contact emailed.
+  body_version: 1 (bumped only on breaking envelope changes)
+deprecated_operations: []

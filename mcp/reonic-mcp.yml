@@ -1,0 +1,343 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/reonic-openapi-original.json
+status: candidate
+server:
+  name: reonic
+  transport: http
+  note: No official Reonic MCP server published as of probe date; tools derived from OpenAPI v3 operations
+    as candidates.
+tools:
+- name: get_checklists_projectid
+  description: Get checklist for a project
+  source_operation: openapi/reonic-openapi-original.json#GET /checklists/{projectId}
+- name: create_projects_projectid_checklist_export
+  description: Export a project's checklist as a PDF
+  source_operation: openapi/reonic-openapi-original.json#POST /projects/{projectId}/checklist/export
+- name: get_users
+  description: List users
+  source_operation: openapi/reonic-openapi-original.json#GET /users
+- name: get_users_userid
+  description: Get user
+  source_operation: openapi/reonic-openapi-original.json#GET /users/{userId}
+- name: create_users_create
+  description: Create user
+  source_operation: openapi/reonic-openapi-original.json#POST /users/create
+- name: create_users_userid_update
+  description: Update user
+  source_operation: openapi/reonic-openapi-original.json#POST /users/{userId}/update
+- name: get_tasks_tags
+  description: Get task tags
+  source_operation: openapi/reonic-openapi-original.json#GET /tasks/tags
+- name: get_tasks_count
+  description: Get task counts
+  source_operation: openapi/reonic-openapi-original.json#GET /tasks/count
+- name: get_tasks
+  description: List tasks
+  source_operation: openapi/reonic-openapi-original.json#GET /tasks
+- name: create_tasks_create
+  description: Create task
+  source_operation: openapi/reonic-openapi-original.json#POST /tasks/create
+- name: get_tasks_taskid
+  description: Get task
+  source_operation: openapi/reonic-openapi-original.json#GET /tasks/{taskId}
+- name: create_tasks_taskid_update
+  description: Update task
+  source_operation: openapi/reonic-openapi-original.json#POST /tasks/{taskId}/update
+- name: create_tasks_taskid_complete
+  description: Complete task
+  source_operation: openapi/reonic-openapi-original.json#POST /tasks/{taskId}/complete
+- name: create_tasks_taskid_uncomplete
+  description: Uncomplete task
+  source_operation: openapi/reonic-openapi-original.json#POST /tasks/{taskId}/uncomplete
+- name: create_tasks_taskid_delete
+  description: Delete task
+  source_operation: openapi/reonic-openapi-original.json#POST /tasks/{taskId}/delete
+- name: get_residentialprojects
+  description: List residential projects
+  source_operation: openapi/reonic-openapi-original.json#GET /residentialProjects
+- name: get_residentialprojects_projectid
+  description: Get residential project
+  source_operation: openapi/reonic-openapi-original.json#GET /residentialProjects/{projectId}
+- name: create_residentialprojects_create
+  description: Create residential project
+  source_operation: openapi/reonic-openapi-original.json#POST /residentialProjects/create
+- name: create_residentialprojects_projectid_update
+  description: Update residential project
+  source_operation: openapi/reonic-openapi-original.json#POST /residentialProjects/{projectId}/update
+- name: get_residentialprojects_projectid_heatingload_roomwise
+  description: Get heating load (room-wise)
+  source_operation: openapi/reonic-openapi-original.json#GET /residentialProjects/{projectId}/heatingLoad/roomWise
+- name: get_residentialprojects_projectid_variants
+  description: List variants
+  source_operation: openapi/reonic-openapi-original.json#GET /residentialProjects/{projectId}/variants
+- name: get_residentialprojects_projectid_variants_variantid
+  description: Get variant
+  source_operation: openapi/reonic-openapi-original.json#GET /residentialProjects/{projectId}/variants/{variantId}
+- name: get_residentialprojects_projectid_signaturerequests
+  description: List residential projects signature requests
+  source_operation: openapi/reonic-openapi-original.json#GET /residentialProjects/{projectId}/signatureRequests
+- name: get_commercialprojects
+  description: List commercial projects
+  source_operation: openapi/reonic-openapi-original.json#GET /commercialProjects
+- name: get_commercialprojects_projectid
+  description: Get commercial project
+  source_operation: openapi/reonic-openapi-original.json#GET /commercialProjects/{projectId}
+- name: get_tags
+  description: List tags
+  source_operation: openapi/reonic-openapi-original.json#GET /tags
+- name: get_tags_tagid
+  description: Get tag
+  source_operation: openapi/reonic-openapi-original.json#GET /tags/{tagId}
+- name: create_tags_create
+  description: Create tag
+  source_operation: openapi/reonic-openapi-original.json#POST /tags/create
+- name: create_tags_tagid_update
+  description: Update tag
+  source_operation: openapi/reonic-openapi-original.json#POST /tags/{tagId}/update
+- name: get_leadsources
+  description: List lead sources
+  source_operation: openapi/reonic-openapi-original.json#GET /leadSources
+- name: get_leadsources_leadsourceid
+  description: Get lead source
+  source_operation: openapi/reonic-openapi-original.json#GET /leadSources/{leadSourceId}
+- name: get_notes
+  description: List notes
+  source_operation: openapi/reonic-openapi-original.json#GET /notes
+- name: create_notes_create
+  description: Create note
+  source_operation: openapi/reonic-openapi-original.json#POST /notes/create
+- name: create_notes_noteid_update
+  description: Update note
+  source_operation: openapi/reonic-openapi-original.json#POST /notes/{noteId}/update
+- name: get_files
+  description: List files
+  source_operation: openapi/reonic-openapi-original.json#GET /files
+- name: get_filefolders
+  description: List file folders
+  source_operation: openapi/reonic-openapi-original.json#GET /fileFolders
+- name: get_filefolders_folderid
+  description: Get file folder
+  source_operation: openapi/reonic-openapi-original.json#GET /fileFolders/{folderId}
+- name: get_files_fileid
+  description: Get file
+  source_operation: openapi/reonic-openapi-original.json#GET /files/{fileId}
+- name: create_files_create
+  description: Create file
+  source_operation: openapi/reonic-openapi-original.json#POST /files/create
+- name: create_files_fileid_delete
+  description: Delete file
+  source_operation: openapi/reonic-openapi-original.json#POST /files/{fileId}/delete
+- name: create_files_fileid_update
+  description: Update file
+  source_operation: openapi/reonic-openapi-original.json#POST /files/{fileId}/update
+- name: get_appointments
+  description: List appointments
+  source_operation: openapi/reonic-openapi-original.json#GET /appointments
+- name: create_appointments_create
+  description: Create appointment
+  source_operation: openapi/reonic-openapi-original.json#POST /appointments/create
+- name: create_appointments_appointmentid_update
+  description: Update appointment
+  source_operation: openapi/reonic-openapi-original.json#POST /appointments/{appointmentId}/update
+- name: create_appointments_appointmentid_delete
+  description: Delete appointment
+  source_operation: openapi/reonic-openapi-original.json#POST /appointments/{appointmentId}/delete
+- name: get_calendars
+  description: List calendars
+  source_operation: openapi/reonic-openapi-original.json#GET /calendars
+- name: get_calendarcategories
+  description: List calendar categories
+  source_operation: openapi/reonic-openapi-original.json#GET /calendarCategories
+- name: get_timetracking_eventtypes
+  description: Get time tracking event types
+  source_operation: openapi/reonic-openapi-original.json#GET /timetracking/eventTypes
+- name: get_timetracking
+  description: List time tracking entries
+  source_operation: openapi/reonic-openapi-original.json#GET /timetracking
+- name: create_timetracking_create
+  description: Create time tracking entries
+  source_operation: openapi/reonic-openapi-original.json#POST /timetracking/create
+- name: create_timetracking_entryid_update
+  description: Update time tracking entry
+  source_operation: openapi/reonic-openapi-original.json#POST /timetracking/{entryId}/update
+- name: create_timetracking_entryid_archive
+  description: Archive or restore time tracking entry
+  source_operation: openapi/reonic-openapi-original.json#POST /timetracking/{entryId}/archive
+- name: get_components
+  description: List components
+  source_operation: openapi/reonic-openapi-original.json#GET /components
+- name: get_components_componentid
+  description: Get component
+  source_operation: openapi/reonic-openapi-original.json#GET /components/{componentId}
+- name: create_components_create
+  description: Create component
+  source_operation: openapi/reonic-openapi-original.json#POST /components/create
+- name: create_components_componentid_update
+  description: Update component
+  source_operation: openapi/reonic-openapi-original.json#POST /components/{componentId}/update
+- name: get_activities
+  description: List activity feed
+  source_operation: openapi/reonic-openapi-original.json#GET /activities
+- name: get_activities_manual
+  description: Get manual activities
+  source_operation: openapi/reonic-openapi-original.json#GET /activities/manual
+- name: get_activities_manual_activityid
+  description: Get manual activity
+  source_operation: openapi/reonic-openapi-original.json#GET /activities/manual/{activityId}
+- name: create_activities_manual_create
+  description: Create manual activity
+  source_operation: openapi/reonic-openapi-original.json#POST /activities/manual/create
+- name: create_activities_manual_activityid_update
+  description: Update manual activity
+  source_operation: openapi/reonic-openapi-original.json#POST /activities/manual/{activityId}/update
+- name: create_activities_manual_activityid_delete
+  description: Delete manual activity
+  source_operation: openapi/reonic-openapi-original.json#POST /activities/manual/{activityId}/delete
+- name: get_kanbancolumns
+  description: List Kanban columns
+  source_operation: openapi/reonic-openapi-original.json#GET /kanbanColumns
+- name: get_kanbancolumns_columnid
+  description: Get Kanban column
+  source_operation: openapi/reonic-openapi-original.json#GET /kanbanColumns/{columnId}
+- name: get_kanbanboards
+  description: List Kanban boards
+  source_operation: openapi/reonic-openapi-original.json#GET /kanbanBoards
+- name: get_kanbanboards_boardid
+  description: Get Kanban board
+  source_operation: openapi/reonic-openapi-original.json#GET /kanbanBoards/{boardId}
+- name: get_contacts
+  description: List contacts
+  source_operation: openapi/reonic-openapi-original.json#GET /contacts
+- name: get_contacts_contactid
+  description: Get contact
+  source_operation: openapi/reonic-openapi-original.json#GET /contacts/{contactId}
+- name: create_contacts_create
+  description: Create contact
+  source_operation: openapi/reonic-openapi-original.json#POST /contacts/create
+- name: create_contacts_contactid_update
+  description: Update contact
+  source_operation: openapi/reonic-openapi-original.json#POST /contacts/{contactId}/update
+- name: get_teams
+  description: List teams
+  source_operation: openapi/reonic-openapi-original.json#GET /teams
+- name: get_teams_teamid
+  description: Get team
+  source_operation: openapi/reonic-openapi-original.json#GET /teams/{teamId}
+- name: create_teams_create
+  description: Create team
+  source_operation: openapi/reonic-openapi-original.json#POST /teams/create
+- name: create_teams_teamid_update
+  description: Update team
+  source_operation: openapi/reonic-openapi-original.json#POST /teams/{teamId}/update
+- name: get_planningtemplates
+  description: List planning templates
+  source_operation: openapi/reonic-openapi-original.json#GET /planningTemplates
+- name: get_planningtemplates_templateid
+  description: Get planning template
+  source_operation: openapi/reonic-openapi-original.json#GET /planningTemplates/{templateId}
+- name: create_planningtemplates_create
+  description: Create planning template
+  source_operation: openapi/reonic-openapi-original.json#POST /planningTemplates/create
+- name: create_planningtemplates_templateid_update
+  description: Update planning template
+  source_operation: openapi/reonic-openapi-original.json#POST /planningTemplates/{templateId}/update
+- name: get_planningpackages
+  description: List planning packages
+  source_operation: openapi/reonic-openapi-original.json#GET /planningPackages
+- name: get_planningpackages_packageid
+  description: Get planning package
+  source_operation: openapi/reonic-openapi-original.json#GET /planningPackages/{packageId}
+- name: create_planningpackages_create
+  description: Create planning package
+  source_operation: openapi/reonic-openapi-original.json#POST /planningPackages/create
+- name: create_planningpackages_packageid_update
+  description: Update planning package
+  source_operation: openapi/reonic-openapi-original.json#POST /planningPackages/{packageId}/update
+- name: create_planningpackages_packageid_delete
+  description: Delete planning package
+  source_operation: openapi/reonic-openapi-original.json#POST /planningPackages/{packageId}/delete
+- name: get_offertemplates
+  description: List offer templates
+  source_operation: openapi/reonic-openapi-original.json#GET /offerTemplates
+- name: get_offertemplates_offertemplateid
+  description: Get offer template
+  source_operation: openapi/reonic-openapi-original.json#GET /offerTemplates/{offerTemplateId}
+- name: create_offertemplates_create
+  description: Create offer template
+  source_operation: openapi/reonic-openapi-original.json#POST /offerTemplates/create
+- name: create_offertemplates_offertemplateid_update
+  description: Update offer template
+  source_operation: openapi/reonic-openapi-original.json#POST /offerTemplates/{offerTemplateId}/update
+- name: create_offertemplates_offertemplateid_delete
+  description: Delete offer template
+  source_operation: openapi/reonic-openapi-original.json#POST /offerTemplates/{offerTemplateId}/delete
+- name: get_checklisttemplates
+  description: List checklist templates
+  source_operation: openapi/reonic-openapi-original.json#GET /checklistTemplates
+- name: get_checklisttemplates_checklistid
+  description: Get checklist template
+  source_operation: openapi/reonic-openapi-original.json#GET /checklistTemplates/{checklistId}
+- name: create_checklisttemplates_create
+  description: Create checklist template
+  source_operation: openapi/reonic-openapi-original.json#POST /checklistTemplates/create
+- name: create_checklisttemplates_checklistid_update
+  description: Update checklist template
+  source_operation: openapi/reonic-openapi-original.json#POST /checklistTemplates/{checklistId}/update
+- name: create_checklisttemplates_checklistid_delete
+  description: Delete checklist template
+  source_operation: openapi/reonic-openapi-original.json#POST /checklistTemplates/{checklistId}/delete
+- name: get_wiki
+  description: Get wiki tree
+  source_operation: openapi/reonic-openapi-original.json#GET /wiki
+- name: get_wiki_pages_pageid
+  description: Get wiki page
+  source_operation: openapi/reonic-openapi-original.json#GET /wiki/pages/{pageId}
+- name: create_wiki_pages_create
+  description: Create wiki page
+  source_operation: openapi/reonic-openapi-original.json#POST /wiki/pages/create
+- name: create_wiki_pages_pageid_update_content
+  description: Update wiki page content
+  source_operation: openapi/reonic-openapi-original.json#POST /wiki/pages/{pageId}/update-content
+- name: create_wiki_pages_pageid_update_details
+  description: Update wiki page details (title, icon, publish state)
+  source_operation: openapi/reonic-openapi-original.json#POST /wiki/pages/{pageId}/update-details
+- name: create_wiki_pages_pageid_delete
+  description: Delete wiki page
+  source_operation: openapi/reonic-openapi-original.json#POST /wiki/pages/{pageId}/delete
+- name: create_wiki_folders_create
+  description: Create wiki folder
+  source_operation: openapi/reonic-openapi-original.json#POST /wiki/folders/create
+- name: create_wiki_folders_folderid_update
+  description: Update wiki folder
+  source_operation: openapi/reonic-openapi-original.json#POST /wiki/folders/{folderId}/update
+- name: create_wiki_folders_folderid_delete
+  description: Delete wiki folder
+  source_operation: openapi/reonic-openapi-original.json#POST /wiki/folders/{folderId}/delete
+- name: get_wiki_search
+  description: Search wiki
+  source_operation: openapi/reonic-openapi-original.json#GET /wiki/search
+- name: create_uploads_create
+  description: Create upload URL
+  source_operation: openapi/reonic-openapi-original.json#POST /uploads/create
+- name: get_links
+  description: Resolve a deep link to a Portal URL
+  source_operation: openapi/reonic-openapi-original.json#GET /links
+- name: get_photogrammetry_jobs
+  description: List photogrammetry jobs
+  source_operation: openapi/reonic-openapi-original.json#GET /photogrammetry/jobs
+- name: get_photogrammetry_jobs_jobid
+  description: Get photogrammetry job
+  source_operation: openapi/reonic-openapi-original.json#GET /photogrammetry/jobs/{jobId}
+- name: create_photogrammetry_jobs_create
+  description: Create photogrammetry job
+  source_operation: openapi/reonic-openapi-original.json#POST /photogrammetry/jobs/create
+- name: create_photogrammetry_jobs_jobid_update
+  description: Update photogrammetry job
+  source_operation: openapi/reonic-openapi-original.json#POST /photogrammetry/jobs/{jobId}/update
+- name: create_photogrammetry_jobs_jobid_assets_add
+  description: Add assets to photogrammetry job
+  source_operation: openapi/reonic-openapi-original.json#POST /photogrammetry/jobs/{jobId}/assets/add
+- name: create_photogrammetry_jobs_jobid_assets_delete
+  description: Delete assets from photogrammetry job
+  source_operation: openapi/reonic-openapi-original.json#POST /photogrammetry/jobs/{jobId}/assets/delete

@@ -1,0 +1,34 @@
+# Reonic
+
+> Reonic is an AI-powered operating system for renewable-energy installers, covering the full workflow for selling and installing photovoltaic systems, heat pumps, EV chargers, and battery storage — from lead capture through 3D roof planning, simulation, quoting with digital signature, project management, and installation documentation. The Reonic REST API v3 provides programmatic access to contacts, residential and commercial projects, tasks, files, components, planning templates, webhooks, and more.
+
+## API
+
+- [Reonic REST API v3 docs](https://api.reonic.de/rest/v3/docs): Interactive documentation (Swagger UI) for 111 endpoints across 33 resource areas.
+- [OpenAPI 3.1 document](https://api.reonic.de/rest/v3/openapi): Machine-readable spec (version 3.2.0).
+- Base URL: https://api.reonic.de/rest/v3/
+- Authentication: API key in the `X-Authorization` header; keys carry the `rnc_v3_` prefix and are read-only or read-and-write.
+
+## Specs (this repo)
+
+- OpenAPI: openapi/reonic-openapi-original.json
+- Webhooks (AsyncAPI 3.0): asyncapi/reonic-webhooks-asyncapi.yml
+- Authentication profile: authentication/reonic-authentication.yml
+- API conventions: conventions/reonic-conventions.yml
+- Error catalog: errors/reonic-problem-types.yml
+- Data model: data-model/reonic-data-model.yml
+- Lifecycle & versioning: lifecycle/reonic-lifecycle.yml
+
+## Docs
+
+- [Developer / integrations docs](https://docs.reonic.de/docs/category/integrationen/)
+- [Product & integrations](https://reonic.com/en-gb/product/360h/integrations/)
+- [Blog](https://reonic.com/de-de/blog/)
+- [Terms of service](https://reonic.com/de-de/legal/terms/)
+- [Privacy / data protection](https://reonic.com/de-de/legal/dataprotection/)
+
+## Notes
+
+- Rate limits: 500/min cached GET, 30/min uncached (all POST); `X-RateLimit-*` headers, `Retry-After` on 429.
+- Webhooks: 17 event types delivered as signed HTTPS POST (HMAC SHA-256, `X-Reonic-Signature`); dedupe on `X-Reonic-Event-Id`.
+- API v2 is deprecated and shuts down from 1 Oct 2026.

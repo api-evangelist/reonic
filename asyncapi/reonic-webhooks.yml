@@ -1,0 +1,62 @@
+generated: '2026-07-20'
+method: searched
+source: openapi/reonic-openapi-original.json (webhooks object + Webhooks tag docs)
+delivery: HTTPS POST to a customer-configured URL (Settings > API / Developers > Webhooks)
+body_envelope:
+  version: 1
+  type: <event>
+  occurredAt: <ISO8601>
+  data: <event-specific ids>
+signing:
+  algorithm: HMAC SHA-256
+  header: X-Reonic-Signature
+  format: sha256=<hex>
+  signed_payload: ${timestamp}.${rawBody}
+  secret_prefix: whsec_
+  timestamp_header: X-Reonic-Timestamp
+  replay_window_minutes: 5
+headers:
+- X-Reonic-Event
+- X-Reonic-Client-Id
+- X-Reonic-Event-Id
+- X-Reonic-Delivery-Id
+- X-Reonic-Timestamp
+- X-Reonic-Signature
+idempotency: Dedupe on X-Reonic-Event-Id (stable across redeliveries).
+retries: 1m, 5m, 30m, 2h, 5h, 12h, 1d, 2d; subscription disabled after exhaustion.
+event_count: 17
+events:
+- event: residentialProject_created
+  summary: Residential project created
+- event: commercialProject_created
+  summary: Commercial project created
+- event: residentialOffer_signatureRequested
+  summary: Residential offer signature requested
+- event: residentialOffer_signed
+  summary: Residential offer signed
+- event: residentialOffer_signatureWithdrawn
+  summary: Residential offer signature withdrawn
+- event: residentialProject_kanbanColumnChanged
+  summary: Residential project Kanban column changed
+- event: commercialProject_kanbanColumnChanged
+  summary: Commercial project Kanban column changed
+- event: residentialProject_dealStateChanged
+  summary: Residential project deal-state changed
+- event: commercialProject_dealStateChanged
+  summary: Commercial project deal-state changed
+- event: project_archived
+  summary: Project archived
+- event: projectChecklist_segmentCompletionChanged
+  summary: Project checklist segment completion changed
+- event: projectChecklist_pdfGenerated
+  summary: Checklist PDF generated
+- event: contact_created
+  summary: Contact created
+- event: project_created
+  summary: Project created
+- event: project_kanbanColumnChanged
+  summary: Project Kanban column changed
+- event: project_dealStateChanged
+  summary: Project deal-state changed
+- event: test
+  summary: Test event

@@ -1,0 +1,40 @@
+generated: '2026-07-20'
+method: searched
+source: https://api.reonic.de/rest/v3/docs (spec info.description error table)
+format: custom-json
+envelope:
+  shape: '{ "message": "human-readable description" }'
+  validation_field: errors
+  note: 400 responses additionally include an errors field with per-field validation details. This is
+    NOT RFC 9457 problem+json; the envelope is a bare message string.
+problems:
+- status: 400
+  title: Bad Request
+  meaning: Path params, query string, or request body failed validation.
+  field: errors
+  remediation: Inspect the errors field for the per-field validation breakdown.
+- status: 401
+  title: Unauthorized
+  meaning: X-Authorization header missing, malformed, not an active key, or wrong API version. API v3
+    requires a v3 key with the rnc_v3_ prefix.
+  remediation: Send a valid v3 key (rnc_v3_ prefix) in X-Authorization.
+- status: 403
+  title: Forbidden
+  meaning: The API key is read-only and the request targeted a write (POST) endpoint.
+  remediation: Issue a key with write access.
+- status: 404
+  title: Not Found
+  meaning: A resource referenced by a path id does not exist or is not visible to your workspace.
+  remediation: Verify the id and that it belongs to your workspace.
+- status: 429
+  title: Too Many Requests
+  meaning: The per-client rate limit was exceeded.
+  remediation: Honor the Retry-After header; back off using X-RateLimit-Reset.
+- status: 500
+  title: Internal Server Error
+  meaning: Unexpected failure.
+  remediation: Safe to retry once; contact support if it persists.
+- status: 503
+  title: Service Unavailable
+  meaning: A backing dependency is temporarily unavailable.
+  remediation: Retry with exponential backoff.

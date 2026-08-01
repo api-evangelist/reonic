@@ -1,0 +1,23 @@
+generated: '2026-07-20'
+method: searched
+source: openapi/reonic-openapi-original.json
+docs: https://api.reonic.de/rest/v3/docs
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  key_prefix: rnc_v3_
+  key_access_levels: [read-only, read-and-write]
+  notes: >-
+    Every request must include the full API key (including the rnc_v3_ prefix) in the
+    X-Authorization header. Keys are issued in the Reonic Portal (Settings > Integrations).
+    Read-only keys receive 403 on write (POST) endpoints. v2 keys do not work on v3.
+    OIDC Single Sign-On is offered for app login only, not for API access.
+schemes:
+- name: X-Authorization
+  type: apiKey
+  in: header
+  parameter: X-Authorization
+  sources:
+  - openapi/reonic-openapi-original.json

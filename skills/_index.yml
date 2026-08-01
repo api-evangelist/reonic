@@ -1,0 +1,15 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/reonic-openapi-original.json
+note: >-
+  The Reonic OpenAPI declares no operationIds; skill steps reference operations by
+  HTTP method + path, each verified present in the spec.
+skills:
+- file: reonic-create-lead.md
+  name: Create a lead and residential project in Reonic
+  api: openapi/reonic-openapi-original.json
+  operations: ["POST /contacts/create", "POST /residentialProjects/create", "GET /leadSources", "GET /residentialProjects/{projectId}"]
+- file: reonic-consume-webhooks.md
+  name: Consume and verify Reonic webhooks
+  api: openapi/reonic-openapi-original.json
+  operations: ["GET /residentialProjects/{projectId}", "GET /commercialProjects/{projectId}", "GET /contacts/{contactId}"]

@@ -1,0 +1,35 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/reonic-openapi-original.json + docs.reonic.de
+standards:
+- id: oauth2
+  conforms: false
+  evidence: API auth is apiKey (X-Authorization) only; OIDC SSO exists for app login, not API access.
+- id: openid-connect
+  conforms: true
+  evidence: OIDC Single Sign-On offered for Reonic app login (integrations page).
+  scope: app-login-only
+- id: apikey-auth
+  conforms: true
+  evidence: securitySchemes X-Authorization apiKey in header (rnc_v3_ keys).
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use a custom { message } envelope, not application/problem+json.
+- id: rfc6585-429
+  conforms: true
+  evidence: 429 Too Many Requests with Retry-After and RFC-style RateLimit headers.
+- id: ratelimit-headers
+  conforms: true
+  evidence: X-RateLimit-Limit/Remaining/Reset/Policy (<limit>;w=60) on every response.
+- id: webhooks-hmac-sha256
+  conforms: true
+  evidence: HMAC SHA-256 signatures (X-Reonic-Signature sha256=<hex> over timestamp.rawBody).
+- id: pagination
+  conforms: true
+  evidence: Page-based pagination (page/itemsPerPage) with data/pagination envelope and next/prev links.
+- id: openapi-3.1
+  conforms: true
+  evidence: Published OpenAPI 3.1.0 document at /rest/v3/openapi.
+- id: request-idempotency
+  conforms: false
+  evidence: No idempotency key on write requests; idempotency is a webhook-consumer concern via X-Reonic-Event-Id.

@@ -1,8 +1,27 @@
 aid: reonic
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/reonic.png
 name: Reonic
-description: 'Reonic is a company surfaced as a portfolio company of northzone, point-nine and added to
-  the API Evangelist network as a stub for enrichment. Sector: climate-energy; ai. This profile is a lead
-  awaiting the enrichment pipeline.'
+description: >-
+  Reonic is a German climate-tech company (founded 2021, Augsburg) building an AI-powered operating
+  system for renewable-energy installers. Its platform covers the full workflow for selling and
+  installing photovoltaic systems, heat pumps, EV chargers, and battery storage — CRM and lead
+  management, 3D roof planning and shading simulation, instant pricing, proposal generation with
+  digital signature, project and installation tracking, and documentation. The Reonic REST API v3
+  exposes 111 endpoints across 33 resource areas (contacts, residential and commercial projects,
+  tasks, files, components, planning templates, time tracking, wiki, photogrammetry, and more),
+  authenticated with rnc_v3_ API keys, plus a 17-event signed webhook surface.
 url: https://raw.githubusercontent.com/api-evangelist/reonic/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -13,16 +32,420 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
-- Climate Energy; Ai
-apis: []
+- Climate Energy
+- Solar
+- Renewable Energy
+- Photovoltaic
+- Heat Pumps
+- Installer Software
+- SaaS
+- CRM
+- Project Management
+apis:
+- aid: reonic:reonic-activities-api
+  name: Reonic Activities API
+  description: >-
+    Timeline of events on a project — automatic activity records and manually logged calls and meetings.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Activities
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-activities-api-openapi.yml
+- aid: reonic:reonic-appointments-api
+  name: Reonic Appointments API
+  description: >-
+    Appointments on Reonic-hosted calendars only. External calendars (Google, Microsoft) cannot be read
+    or written through the API.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Appointments
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-appointments-api-openapi.yml
+- aid: reonic:reonic-calendar-categories-api
+  name: Reonic Calendar Categories API
+  description: Groupings used to organize [**Calendars**](#tag/calendars).
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Calendar Categories
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-calendar-categories-api-openapi.yml
+- aid: reonic:reonic-calendars-api
+  name: Reonic Calendars API
+  description: >-
+    Reonic-hosted calendars only. External calendar integrations (Google, Microsoft) are visible inside
+    the Reonic Portal but are not exposed through the public API.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Calendars
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-calendars-api-openapi.yml
+- aid: reonic:reonic-checklist-templates-api
+  name: Reonic Checklist Templates API
+  description: "Reusable checklists. Apply one to a residential project to populate its [**Checklists**](#tag/checklists).\n\
+    \n> [!warning] \n> **Beta:** These endpoints are in beta and may change as the service evolves. Please\
+    \ report issues or unexpected behavior to our team."
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Checklist Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-checklist-templates-api-openapi.yml
+- aid: reonic:reonic-checklists-api
+  name: Reonic Checklists API
+  description: "The active checklist for a residential project.\n\n> [!warning] \n> **Beta:** These endpoints\
+    \ are in beta and may change as the service evolves. Please report issues or unexpected behavior to\
+    \ our team."
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Checklists
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-checklists-api-openapi.yml
+- aid: reonic:reonic-commercial-projects-api
+  name: Reonic Commercial Projects API
+  description: "Commercial customer projects across the request, offer, and installation lifecycle stages.\n\
+    \n> [!warning] \n> **Beta:** These endpoints are in beta and may change as the service evolves. Please\
+    \ report issues or unexpected behavior to our team."
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Commercial Projects
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-commercial-projects-api-openapi.yml
+- aid: reonic:reonic-components-api
+  name: Reonic Components API
+  description: >-
+    Catalog of solar, storage, EV charger, and heat-pump products available to your workspace.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Components
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-components-api-openapi.yml
+- aid: reonic:reonic-contacts-api
+  name: Reonic Contacts API
+  description: >-
+    External people you interact with, such as customers or leads. Not to be confused with [**Users**](#tag/users),
+    which represent members of your workspace.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Contacts
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-contacts-api-openapi.yml
+- aid: reonic:reonic-file-folders-api
+  name: Reonic File Folders API
+  description: "Folders that organize [**Files**](#tag/files) within a project or contact.\n> [!note]\
+    \ \n> Personal and template folders are not exposed via the API."
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - File Folders
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-file-folders-api-openapi.yml
+- aid: reonic:reonic-files-api
+  name: Reonic Files API
+  description: >-
+    Files attached to a project or contact. File responses include a download URL valid for 24 hours;
+    refetch the file to obtain a fresh URL after it expires.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Files
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-files-api-openapi.yml
+- aid: reonic:reonic-kanban-boards-api
+  name: Reonic Kanban Boards API
+  description: >-
+    Kanban boards used to group project columns within a lifecycle stage such as request, offer, or installation.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Kanban Boards
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-kanban-boards-api-openapi.yml
+- aid: reonic:reonic-kanban-columns-api
+  name: Reonic Kanban Columns API
+  description: Kanban columns projects move through on a [**Kanban Boards**](#tag/kanban-boards).
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Kanban Columns
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-kanban-columns-api-openapi.yml
+- aid: reonic:reonic-lead-sources-api
+  name: Reonic Lead Sources API
+  description: >-
+    Channels that brought a customer/contact to your workspace, such as referrals, ad campaigns, or partner
+    integrations. Used to attribute projects to their origin.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Lead Sources
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-lead-sources-api-openapi.yml
+- aid: reonic:reonic-links-api
+  name: Reonic Links API
+  description: Resolve a resource into a URL where it can be viewed in the Reonic web app.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Links
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-links-api-openapi.yml
+- aid: reonic:reonic-notes-api
+  name: Reonic Notes API
+  description: Free-text notes attached to a project or contact.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Notes
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-notes-api-openapi.yml
+- aid: reonic:reonic-offer-templates-api
+  name: Reonic Offer Templates API
+  description: "Pre-configured combinations of planning packages used to quickly populate package categories\
+    \ when creating an offer.\n\n> [!warning] \n> **Beta:** These endpoints are in beta and may change\
+    \ as the service evolves. Please report issues or unexpected behavior to our team."
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Offer Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-offer-templates-api-openapi.yml
+- aid: reonic:reonic-photogrammetry-api
+  name: Reonic Photogrammetry API
+  description: "3D reconstruction jobs built from uploaded site imagery.\n\n> [!warning] \n> **Beta:**\
+    \ These endpoints are in beta and may change as the service evolves. Please report issues or unexpected\
+    \ behavior to our team."
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Photogrammetry
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-photogrammetry-api-openapi.yml
+- aid: reonic:reonic-planning-packages-api
+  name: Reonic Planning Packages API
+  description: >-
+    Standard offer packages for PV, storage, heat pumps, and EV chargers, built from common [**Components**](#tag/components)
+    and service combinations.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Planning Packages
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-planning-packages-api-openapi.yml
+- aid: reonic:reonic-planning-templates-api
+  name: Reonic Planning Templates API
+  description: >-
+    Small groups of [**Components**](#tag/components) that can be added to targeted planning sections
+    when a project type or requirement calls for extra components.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Planning Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-planning-templates-api-openapi.yml
+- aid: reonic:reonic-residential-projects-api
+  name: Reonic Residential Projects API
+  description: >-
+    Residential customer projects across the request, offer, and installation lifecycle stages.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Residential Projects
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-residential-projects-api-openapi.yml
+- aid: reonic:reonic-signature-requests-api
+  name: Reonic Signature Requests API
+  description: >-
+    Requests sent to a customer to sign a residential project's offer. Each carries the offer PDF for
+    every variant the customer can choose between, available even before signing, plus the signed document
+    once completed.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Signature Requests
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-signature-requests-api-openapi.yml
+- aid: reonic:reonic-tags-api
+  name: Reonic Tags API
+  description: Reusable labels for categorizing and filtering projects, contacts, and other entities.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Tags
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-tags-api-openapi.yml
+- aid: reonic:reonic-tasks-api
+  name: Reonic Tasks API
+  description: "To-do items attached to a project or contact, with due dates, assignees, and completion\
+    \ state.\n\n> [!warning] \n> **Beta:** These endpoints are in beta and may change as the service evolves.\
+    \ Please report issues or unexpected behavior to our team."
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Tasks
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-tasks-api-openapi.yml
+- aid: reonic:reonic-teams-api
+  name: Reonic Teams API
+  description: Groups of users. Teams can be assigned to projects and nested under one another.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Teams
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-teams-api-openapi.yml
+- aid: reonic:reonic-time-tracking-api
+  name: Reonic Time Tracking API
+  description: "Time entries logged against projects.\n\n> [!warning] \n> **Beta:** These endpoints are\
+    \ in beta and may change as the service evolves. Please report issues or unexpected behavior to our\
+    \ team."
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Time Tracking
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-time-tracking-api-openapi.yml
+- aid: reonic:reonic-upload-api
+  name: Reonic Upload API
+  description: >-
+    Two-step uploads for endpoints that accept user-provided file content.
+
+
+    Call `POST /uploads/create` to obtain an `uploadUrl` and an `uploadId`. `PUT` the raw file body to
+    `uploadUrl` within 1 hour, with a `Content-Type` header matching the file — not `multipart/form-data`.
+    Then reference the `uploadId` from a registration endpoint such as those in [**Files**](#tag/files)
+    or [**Photogrammetry**](#tag/photogrammetry) to attach the file to a resource.
+
+
+    Prefer this flow over a registration endpoint's `url` shortcut when the file isn't already hosted
+    at a public URL, or when you'd rather not expose it on the internet.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Upload
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-upload-api-openapi.yml
+- aid: reonic:reonic-users-api
+  name: Reonic Users API
+  description: >-
+    Members of your workspace, such as employees. Not to be confused with [**Contacts**](#tag/contacts),
+    which represent external people like customers or leads.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-users-api-openapi.yml
+- aid: reonic:reonic-wiki-api
+  name: Reonic Wiki API
+  description: "Your company's shared knowledge base — pages and folders.\n\n> [!warning] \n> **Beta:**\
+    \ These endpoints are in beta and may change as the service evolves. Please report issues or unexpected\
+    \ behavior to our team."
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Wiki
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-wiki-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DeveloperPortal
+  url: https://docs.reonic.de/
+- type: Documentation
+  url: https://docs.reonic.de/docs/category/integrationen/
+- type: APIReference
+  url: https://api.reonic.de/rest/v3/docs
+- type: Blog
+  url: https://reonic.com/de-de/blog/
+- type: Support
+  url: mailto:support@reonic.de
+- type: SignUp
+  url: https://portal.reonic.de
+- type: TermsOfService
+  url: https://reonic.com/de-de/legal/terms/
+- type: PrivacyPolicy
+  url: https://reonic.com/de-de/legal/dataprotection/
+- type: GitHubOrganization
+  url: https://github.com/reonic
+- type: Authentication
+  url: authentication/reonic-authentication.yml
+- type: Conventions
+  url: conventions/reonic-conventions.yml
+- type: ErrorCatalog
+  url: errors/reonic-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/reonic-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/reonic-lifecycle.yml
+- type: ChangeLog
+  url: changelog/reonic-changelog.yml
+- type: Conformance
+  url: conformance/reonic-conformance.yml
+- type: DataModel
+  url: data-model/reonic-data-model.yml
+- type: WellKnown
+  url: well-known/reonic-well-known.yml
+- type: AsyncAPI
+  url: asyncapi/reonic-webhooks-asyncapi.yml
+- type: Webhooks
+  url: asyncapi/reonic-webhooks.yml
+- type: MCPServer
+  url: mcp/reonic-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/reonic-llms.txt
+- type: AgenticAccess
+  url: agentic-access/reonic-agentic-access.yml
+- type: DomainSecurity
+  url: security/reonic-domain-security.yml
 - type: Website
   url: https://reonic.de
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 16
+  pass: local-v1

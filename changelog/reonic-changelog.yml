@@ -1,0 +1,15 @@
+generated: '2026-07-20'
+method: searched
+source: https://api.reonic.de/rest/v3/docs (Changelog section)
+scheme: semver
+current_version: 3.2.0
+docs: https://api.reonic.de/rest/v3/docs
+entries:
+- version: 3.2.0
+  date: '2026-07-02'
+  additions:
+  - List residential projects signature requests endpoint
+  breaking: false
+note: >-
+  The API changelog is embedded in the OpenAPI document (Changelog tag), newest first.
+  Only the current window is captured here; the live spec is the source of truth.

@@ -1,0 +1,1080 @@
+generated: '2026-07-20'
+x-method: searched
+x-source: openapi/reonic-openapi-original.json (webhooks object)
+asyncapi: 3.0.0
+info:
+  title: Reonic Webhooks
+  version: '1'
+  description: Event surface for the Reonic REST API v3. Reonic POSTs a signed JSON body (HMAC SHA-256,
+    X-Reonic-Signature) to your configured HTTPS endpoint when a selected event occurs. Payloads are thin
+    (ids only); fetch current state via the v3 REST API. Derived from the OpenAPI webhooks object.
+  contact:
+    name: Reonic GmbH
+    email: kontakt@reonic.de
+    url: https://reonic.com
+defaultContentType: application/json
+channels:
+  residentialProject_created:
+    address: null
+    messages:
+      residentialProject_createdEvent:
+        $ref: '#/components/messages/residentialProject_createdEvent'
+    description: Residential project created
+  commercialProject_created:
+    address: null
+    messages:
+      commercialProject_createdEvent:
+        $ref: '#/components/messages/commercialProject_createdEvent'
+    description: Commercial project created
+  residentialOffer_signatureRequested:
+    address: null
+    messages:
+      residentialOffer_signatureRequestedEvent:
+        $ref: '#/components/messages/residentialOffer_signatureRequestedEvent'
+    description: Residential offer signature requested
+  residentialOffer_signed:
+    address: null
+    messages:
+      residentialOffer_signedEvent:
+        $ref: '#/components/messages/residentialOffer_signedEvent'
+    description: Residential offer signed
+  residentialOffer_signatureWithdrawn:
+    address: null
+    messages:
+      residentialOffer_signatureWithdrawnEvent:
+        $ref: '#/components/messages/residentialOffer_signatureWithdrawnEvent'
+    description: Residential offer signature withdrawn
+  residentialProject_kanbanColumnChanged:
+    address: null
+    messages:
+      residentialProject_kanbanColumnChangedEvent:
+        $ref: '#/components/messages/residentialProject_kanbanColumnChangedEvent'
+    description: Residential project Kanban column changed
+  commercialProject_kanbanColumnChanged:
+    address: null
+    messages:
+      commercialProject_kanbanColumnChangedEvent:
+        $ref: '#/components/messages/commercialProject_kanbanColumnChangedEvent'
+    description: Commercial project Kanban column changed
+  residentialProject_dealStateChanged:
+    address: null
+    messages:
+      residentialProject_dealStateChangedEvent:
+        $ref: '#/components/messages/residentialProject_dealStateChangedEvent'
+    description: Residential project deal-state changed
+  commercialProject_dealStateChanged:
+    address: null
+    messages:
+      commercialProject_dealStateChangedEvent:
+        $ref: '#/components/messages/commercialProject_dealStateChangedEvent'
+    description: Commercial project deal-state changed
+  project_archived:
+    address: null
+    messages:
+      project_archivedEvent:
+        $ref: '#/components/messages/project_archivedEvent'
+    description: Project archived
+  projectChecklist_segmentCompletionChanged:
+    address: null
+    messages:
+      projectChecklist_segmentCompletionChangedEvent:
+        $ref: '#/components/messages/projectChecklist_segmentCompletionChangedEvent'
+    description: Project checklist segment completion changed
+  projectChecklist_pdfGenerated:
+    address: null
+    messages:
+      projectChecklist_pdfGeneratedEvent:
+        $ref: '#/components/messages/projectChecklist_pdfGeneratedEvent'
+    description: Checklist PDF generated
+  contact_created:
+    address: null
+    messages:
+      contact_createdEvent:
+        $ref: '#/components/messages/contact_createdEvent'
+    description: Contact created
+  project_created:
+    address: null
+    messages:
+      project_createdEvent:
+        $ref: '#/components/messages/project_createdEvent'
+    description: Project created
+  project_kanbanColumnChanged:
+    address: null
+    messages:
+      project_kanbanColumnChangedEvent:
+        $ref: '#/components/messages/project_kanbanColumnChangedEvent'
+    description: Project Kanban column changed
+  project_dealStateChanged:
+    address: null
+    messages:
+      project_dealStateChangedEvent:
+        $ref: '#/components/messages/project_dealStateChangedEvent'
+    description: Project deal-state changed
+  test:
+    address: null
+    messages:
+      testEvent:
+        $ref: '#/components/messages/testEvent'
+    description: Test event
+operations:
+  receive_residentialProject_created:
+    action: receive
+    channel:
+      $ref: '#/channels/residentialProject_created'
+    summary: Receive Residential project created webhook
+  receive_commercialProject_created:
+    action: receive
+    channel:
+      $ref: '#/channels/commercialProject_created'
+    summary: Receive Commercial project created webhook
+  receive_residentialOffer_signatureRequested:
+    action: receive
+    channel:
+      $ref: '#/channels/residentialOffer_signatureRequested'
+    summary: Receive Residential offer signature requested webhook
+  receive_residentialOffer_signed:
+    action: receive
+    channel:
+      $ref: '#/channels/residentialOffer_signed'
+    summary: Receive Residential offer signed webhook
+  receive_residentialOffer_signatureWithdrawn:
+    action: receive
+    channel:
+      $ref: '#/channels/residentialOffer_signatureWithdrawn'
+    summary: Receive Residential offer signature withdrawn webhook
+  receive_residentialProject_kanbanColumnChanged:
+    action: receive
+    channel:
+      $ref: '#/channels/residentialProject_kanbanColumnChanged'
+    summary: Receive Residential project Kanban column changed webhook
+  receive_commercialProject_kanbanColumnChanged:
+    action: receive
+    channel:
+      $ref: '#/channels/commercialProject_kanbanColumnChanged'
+    summary: Receive Commercial project Kanban column changed webhook
+  receive_residentialProject_dealStateChanged:
+    action: receive
+    channel:
+      $ref: '#/channels/residentialProject_dealStateChanged'
+    summary: Receive Residential project deal-state changed webhook
+  receive_commercialProject_dealStateChanged:
+    action: receive
+    channel:
+      $ref: '#/channels/commercialProject_dealStateChanged'
+    summary: Receive Commercial project deal-state changed webhook
+  receive_project_archived:
+    action: receive
+    channel:
+      $ref: '#/channels/project_archived'
+    summary: Receive Project archived webhook
+  receive_projectChecklist_segmentCompletionChanged:
+    action: receive
+    channel:
+      $ref: '#/channels/projectChecklist_segmentCompletionChanged'
+    summary: Receive Project checklist segment completion changed webhook
+  receive_projectChecklist_pdfGenerated:
+    action: receive
+    channel:
+      $ref: '#/channels/projectChecklist_pdfGenerated'
+    summary: Receive Checklist PDF generated webhook
+  receive_contact_created:
+    action: receive
+    channel:
+      $ref: '#/channels/contact_created'
+    summary: Receive Contact created webhook
+  receive_project_created:
+    action: receive
+    channel:
+      $ref: '#/channels/project_created'
+    summary: Receive Project created webhook
+  receive_project_kanbanColumnChanged:
+    action: receive
+    channel:
+      $ref: '#/channels/project_kanbanColumnChanged'
+    summary: Receive Project Kanban column changed webhook
+  receive_project_dealStateChanged:
+    action: receive
+    channel:
+      $ref: '#/channels/project_dealStateChanged'
+    summary: Receive Project deal-state changed webhook
+  receive_test:
+    action: receive
+    channel:
+      $ref: '#/channels/test'
+    summary: Receive Test event webhook
+components:
+  messages:
+    residentialProject_createdEvent:
+      name: residentialProject_created
+      title: Residential project created
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: residentialProject_created
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: residentialProject_created
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              projectId:
+                type: string
+                format: uuid
+                description: ID of the project this event relates to. Fetch its current state via [**Residential
+                  Projects**](#tag/residential-projects).
+                example: 123e4567-e89b-12d3-a456-426614174000
+            required:
+            - projectId
+    commercialProject_createdEvent:
+      name: commercialProject_created
+      title: Commercial project created
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: commercialProject_created
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: commercialProject_created
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              projectId:
+                type: string
+                format: uuid
+                description: ID of the project this event relates to. Fetch its current state via [**Commercial
+                  Projects**](#tag/commercial-projects).
+                example: 123e4567-e89b-12d3-a456-426614174000
+            required:
+            - projectId
+    residentialOffer_signatureRequestedEvent:
+      name: residentialOffer_signatureRequested
+      title: Residential offer signature requested
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: residentialOffer_signatureRequested
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: residentialOffer_signatureRequested
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              projectId:
+                type: string
+                format: uuid
+                description: ID of the project this event relates to. Fetch its current state via [**Residential
+                  Projects**](#tag/residential-projects).
+                example: 123e4567-e89b-12d3-a456-426614174000
+              signatureRequestId:
+                type: string
+                format: uuid
+                description: ID of the signature request. Listed under `signatureRequests` on the [**Residential
+                  Projects**](#tag/residential-projects) detail response.
+                example: 123e4567-e89b-12d3-a456-426614174000
+              variantIds:
+                type: array
+                items:
+                  type: string
+                  format: uuid
+                description: The offer variants presented to the customer for signature.
+                example:
+                - 123e4567-e89b-12d3-a456-426614174000
+                - 123e4567-e89b-12d3-a456-426614174002
+              signatureOptions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    variantId:
+                      type: string
+                      format: uuid
+                      description: The offer variant this signature option belongs to.
+                      example: 123e4567-e89b-12d3-a456-426614174000
+                    paymentOptionId:
+                      type:
+                      - string
+                      - 'null'
+                      format: uuid
+                      description: The payment option this signature option belongs to. `null` for legacy/default-payment
+                        documents.
+                      example: 123e4567-e89b-12d3-a456-426614174002
+                  required:
+                  - variantId
+                  - paymentOptionId
+                description: The variant/payment option combinations presented to the customer for signature.
+            required:
+            - projectId
+            - signatureRequestId
+            - variantIds
+    residentialOffer_signedEvent:
+      name: residentialOffer_signed
+      title: Residential offer signed
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: residentialOffer_signed
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: residentialOffer_signed
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              projectId:
+                type: string
+                format: uuid
+                description: ID of the project this event relates to. Fetch its current state via [**Residential
+                  Projects**](#tag/residential-projects).
+                example: 123e4567-e89b-12d3-a456-426614174000
+              signatureRequestId:
+                type: string
+                format: uuid
+                description: ID of the signature request. Listed under `signatureRequests` on the [**Residential
+                  Projects**](#tag/residential-projects) detail response.
+                example: 123e4567-e89b-12d3-a456-426614174000
+              signedVariantId:
+                type: string
+                format: uuid
+                description: The offer variant the customer signed.
+                example: 123e4567-e89b-12d3-a456-426614174000
+              signedPaymentOptionId:
+                type:
+                - string
+                - 'null'
+                format: uuid
+                description: The payment option the customer signed. `null` for legacy/default-payment
+                  documents.
+                example: 123e4567-e89b-12d3-a456-426614174000
+            required:
+            - projectId
+            - signatureRequestId
+            - signedVariantId
+    residentialOffer_signatureWithdrawnEvent:
+      name: residentialOffer_signatureWithdrawn
+      title: Residential offer signature withdrawn
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: residentialOffer_signatureWithdrawn
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: residentialOffer_signatureWithdrawn
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              projectId:
+                type: string
+                format: uuid
+                description: ID of the project this event relates to. Fetch its current state via [**Residential
+                  Projects**](#tag/residential-projects).
+                example: 123e4567-e89b-12d3-a456-426614174000
+              signatureRequestId:
+                type: string
+                format: uuid
+                description: ID of the signature request. Listed under `signatureRequests` on the [**Residential
+                  Projects**](#tag/residential-projects) detail response.
+                example: 123e4567-e89b-12d3-a456-426614174000
+            required:
+            - projectId
+            - signatureRequestId
+    residentialProject_kanbanColumnChangedEvent:
+      name: residentialProject_kanbanColumnChanged
+      title: Residential project Kanban column changed
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: residentialProject_kanbanColumnChanged
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: residentialProject_kanbanColumnChanged
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              projectId:
+                type: string
+                format: uuid
+                description: ID of the project this event relates to. Fetch its current state via [**Residential
+                  Projects**](#tag/residential-projects).
+                example: 123e4567-e89b-12d3-a456-426614174000
+              previousStage:
+                type:
+                - string
+                - 'null'
+                enum:
+                - request
+                - offer
+                - installation
+                - null
+              newStage:
+                type:
+                - string
+                - 'null'
+                enum:
+                - request
+                - offer
+                - installation
+                - null
+              previousKanbanColumnId:
+                type:
+                - string
+                - 'null'
+                format: uuid
+                description: Reference to [**Kanban Columns**](#tag/kanban-columns).
+                example: 123e4567-e89b-12d3-a456-426614174000
+              newKanbanColumnId:
+                type:
+                - string
+                - 'null'
+                format: uuid
+                description: Reference to [**Kanban Columns**](#tag/kanban-columns).
+                example: 123e4567-e89b-12d3-a456-426614174000
+            required:
+            - projectId
+            - previousStage
+            - newStage
+            - previousKanbanColumnId
+            - newKanbanColumnId
+    commercialProject_kanbanColumnChangedEvent:
+      name: commercialProject_kanbanColumnChanged
+      title: Commercial project Kanban column changed
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: commercialProject_kanbanColumnChanged
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: commercialProject_kanbanColumnChanged
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              projectId:
+                type: string
+                format: uuid
+                description: ID of the project this event relates to. Fetch its current state via [**Commercial
+                  Projects**](#tag/commercial-projects).
+                example: 123e4567-e89b-12d3-a456-426614174000
+              previousStage:
+                type:
+                - string
+                - 'null'
+                enum:
+                - request
+                - offer
+                - installation
+                - null
+              newStage:
+                type:
+                - string
+                - 'null'
+                enum:
+                - request
+                - offer
+                - installation
+                - null
+              previousKanbanColumnId:
+                type:
+                - string
+                - 'null'
+                format: uuid
+                description: Reference to [**Kanban Columns**](#tag/kanban-columns).
+                example: 123e4567-e89b-12d3-a456-426614174000
+              newKanbanColumnId:
+                type:
+                - string
+                - 'null'
+                format: uuid
+                description: Reference to [**Kanban Columns**](#tag/kanban-columns).
+                example: 123e4567-e89b-12d3-a456-426614174000
+            required:
+            - projectId
+            - previousStage
+            - newStage
+            - previousKanbanColumnId
+            - newKanbanColumnId
+    residentialProject_dealStateChangedEvent:
+      name: residentialProject_dealStateChanged
+      title: Residential project deal-state changed
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: residentialProject_dealStateChanged
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: residentialProject_dealStateChanged
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              projectId:
+                type: string
+                format: uuid
+                description: ID of the project this event relates to. Fetch its current state via [**Residential
+                  Projects**](#tag/residential-projects).
+                example: 123e4567-e89b-12d3-a456-426614174000
+              previousDealState:
+                type:
+                - string
+                - 'null'
+                enum:
+                - Open
+                - Won
+                - Lost
+                - null
+              newDealState:
+                type:
+                - string
+                - 'null'
+                enum:
+                - Open
+                - Won
+                - Lost
+                - null
+            required:
+            - projectId
+            - previousDealState
+            - newDealState
+    commercialProject_dealStateChangedEvent:
+      name: commercialProject_dealStateChanged
+      title: Commercial project deal-state changed
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: commercialProject_dealStateChanged
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: commercialProject_dealStateChanged
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              projectId:
+                type: string
+                format: uuid
+                description: ID of the project this event relates to. Fetch its current state via [**Commercial
+                  Projects**](#tag/commercial-projects).
+                example: 123e4567-e89b-12d3-a456-426614174000
+              previousDealState:
+                type:
+                - string
+                - 'null'
+                enum:
+                - Open
+                - Won
+                - Lost
+                - null
+              newDealState:
+                type:
+                - string
+                - 'null'
+                enum:
+                - Open
+                - Won
+                - Lost
+                - null
+            required:
+            - projectId
+            - previousDealState
+            - newDealState
+    project_archivedEvent:
+      name: project_archived
+      title: Project archived
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: project_archived
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: project_archived
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              projectId:
+                type: string
+                format: uuid
+                description: ID of the project this event relates to. Fetch its current state via [**Residential
+                  Projects**](#tag/residential-projects) or [**Commercial Projects**](#tag/commercial-projects),
+                  depending on `projectType`.
+                example: 123e4567-e89b-12d3-a456-426614174000
+              projectType:
+                type: string
+                enum:
+                - residential
+                - commercial
+                description: Which vertical the project belongs to.
+                example: residential
+            required:
+            - projectId
+            - projectType
+    projectChecklist_segmentCompletionChangedEvent:
+      name: projectChecklist_segmentCompletionChanged
+      title: Project checklist segment completion changed
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: projectChecklist_segmentCompletionChanged
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: projectChecklist_segmentCompletionChanged
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              projectId:
+                type: string
+                format: uuid
+                description: ID of the project this event relates to. Fetch its current state via [**Residential
+                  Projects**](#tag/residential-projects).
+                example: 123e4567-e89b-12d3-a456-426614174000
+              checklistId:
+                type: string
+                format: uuid
+                description: Reference to [**Checklists**](#tag/checklists).
+                example: 123e4567-e89b-12d3-a456-426614174000
+              segmentId:
+                type: string
+                format: uuid
+                description: ID of the segment within the [**Checklists**](#tag/checklists) response.
+                example: 123e4567-e89b-12d3-a456-426614174000
+              completed:
+                type: boolean
+                description: Whether the segment is completed after this change.
+                example: true
+              changedByUserId:
+                type: string
+                format: uuid
+                description: Reference to [**Users**](#tag/users) — the user who completed or un-completed
+                  the segment.
+                example: 123e4567-e89b-12d3-a456-426614174000
+            required:
+            - projectId
+            - checklistId
+            - segmentId
+            - completed
+            - changedByUserId
+    projectChecklist_pdfGeneratedEvent:
+      name: projectChecklist_pdfGenerated
+      title: Checklist PDF generated
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: projectChecklist_pdfGenerated
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: projectChecklist_pdfGenerated
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              projectId:
+                type: string
+                format: uuid
+                description: Reference to [**Residential Projects**](#tag/residential-projects) or [**Commercial
+                  Projects**](#tag/commercial-projects) — the project this checklist belongs to.
+                example: 123e4567-e89b-12d3-a456-426614174000
+              projectType:
+                type: string
+                enum:
+                - residentialProject
+                - commercialProject
+                description: The type of project the checklist belongs to, indicating which endpoint to
+                  use for projectId.
+                example: residentialProject
+              checklistId:
+                type: string
+                format: uuid
+                description: Reference to [**Checklists**](#tag/checklists).
+                example: 123e4567-e89b-12d3-a456-426614174000
+              fileId:
+                type: string
+                format: uuid
+                description: Reference to [**Files**](#tag/files) — fetch it to obtain the download URL
+                  for the generated PDF.
+                example: 123e4567-e89b-12d3-a456-426614174000
+            required:
+            - projectId
+            - projectType
+            - checklistId
+            - fileId
+    contact_createdEvent:
+      name: contact_created
+      title: Contact created
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: contact_created
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: contact_created
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              contactId:
+                type: string
+                format: uuid
+                description: Reference to [**Contacts**](#tag/contacts).
+                example: 123e4567-e89b-12d3-a456-426614174000
+            required:
+            - contactId
+    project_createdEvent:
+      name: project_created
+      title: Project created
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: project_created
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: project_created
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              projectId:
+                type: string
+                format: uuid
+                description: ID of the project this event relates to. Fetch its current state via [**Residential
+                  Projects**](#tag/residential-projects) or [**Commercial Projects**](#tag/commercial-projects),
+                  depending on `projectType`.
+                example: 123e4567-e89b-12d3-a456-426614174000
+              projectType:
+                type: string
+                enum:
+                - residential
+                - commercial
+                description: Which vertical the project belongs to.
+                example: residential
+            required:
+            - projectId
+            - projectType
+    project_kanbanColumnChangedEvent:
+      name: project_kanbanColumnChanged
+      title: Project Kanban column changed
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: project_kanbanColumnChanged
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: project_kanbanColumnChanged
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              projectId:
+                type: string
+                format: uuid
+                description: ID of the project this event relates to. Fetch its current state via [**Residential
+                  Projects**](#tag/residential-projects) or [**Commercial Projects**](#tag/commercial-projects),
+                  depending on `projectType`.
+                example: 123e4567-e89b-12d3-a456-426614174000
+              projectType:
+                type: string
+                enum:
+                - residential
+                - commercial
+                description: Which vertical the project belongs to.
+                example: residential
+              previousStage:
+                type:
+                - string
+                - 'null'
+                enum:
+                - request
+                - offer
+                - installation
+                - null
+              newStage:
+                type:
+                - string
+                - 'null'
+                enum:
+                - request
+                - offer
+                - installation
+                - null
+              previousKanbanColumnId:
+                type:
+                - string
+                - 'null'
+                format: uuid
+                description: Reference to [**Kanban Columns**](#tag/kanban-columns).
+                example: 123e4567-e89b-12d3-a456-426614174000
+              newKanbanColumnId:
+                type:
+                - string
+                - 'null'
+                format: uuid
+                description: Reference to [**Kanban Columns**](#tag/kanban-columns).
+                example: 123e4567-e89b-12d3-a456-426614174000
+            required:
+            - projectId
+            - projectType
+            - previousStage
+            - newStage
+            - previousKanbanColumnId
+            - newKanbanColumnId
+    project_dealStateChangedEvent:
+      name: project_dealStateChanged
+      title: Project deal-state changed
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: project_dealStateChanged
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: project_dealStateChanged
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              projectId:
+                type: string
+                format: uuid
+                description: ID of the project this event relates to. Fetch its current state via [**Residential
+                  Projects**](#tag/residential-projects) or [**Commercial Projects**](#tag/commercial-projects),
+                  depending on `projectType`.
+                example: 123e4567-e89b-12d3-a456-426614174000
+              projectType:
+                type: string
+                enum:
+                - residential
+                - commercial
+                description: Which vertical the project belongs to.
+                example: residential
+              previousDealState:
+                type:
+                - string
+                - 'null'
+                enum:
+                - Open
+                - Won
+                - Lost
+                - null
+              newDealState:
+                type:
+                - string
+                - 'null'
+                enum:
+                - Open
+                - Won
+                - Lost
+                - null
+            required:
+            - projectId
+            - projectType
+            - previousDealState
+            - newDealState
+    testEvent:
+      name: test
+      title: Test event
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          X-Reonic-Event:
+            type: string
+            const: test
+      payload:
+        type: object
+        properties:
+          version:
+            type: number
+            const: 1
+          type:
+            type: string
+            const: test
+          occurredAt:
+            type: string
+            format: date-time
+          data:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Human-readable confirmation that your webhook setup is working.
+            required:
+            - message

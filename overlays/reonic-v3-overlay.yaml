@@ -1,0 +1,19 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Reonic REST API v3
+  version: 1.0.0
+extends: openapi/reonic-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-20'
+    x-apievangelist-provider: reonic
+    x-apievangelist-auth: apiKey (X-Authorization, rnc_v3_ keys)
+    x-apievangelist-webhooks: 17 events, HMAC SHA-256 signed (see asyncapi/reonic-webhooks-asyncapi.yml)
+    x-apievangelist-notes: >-
+      Operations in this spec carry no operationIds; API Evangelist artifacts (MCP, skills)
+      reference operations by HTTP method + path. Errors use a custom { message } envelope,
+      not RFC 9457.
+- target: $.servers[0]
+  update:
+    description: Production base URL; apiBaseUrl resolves to https://api.reonic.de

@@ -1,0 +1,54 @@
+generated: '2026-07-20'
+method: searched
+source: https://api.reonic.de/rest/v3/docs (OpenAPI 3.1 info.description)
+authentication:
+  style: api-key
+  header: X-Authorization
+  key_prefix: rnc_v3_
+  key_scopes: [read-only, read-and-write]
+  notes: >-
+    Send the full key value including the rnc_v3_ prefix. v2 keys do not work on v3.
+    Read-only keys receive 403 on POST (write) endpoints. See authentication/reonic-authentication.yml.
+pagination:
+  style: page-number
+  params:
+    page: Page number starting from 1 (default 1)
+    itemsPerPage: Items per page (default 50, max 200)
+    sort: Field-name sort; prefix for direction
+  response_envelope:
+    wrapper: '{ data: [...], pagination: {...} }'
+    fields: [page, perPage, total, next, prev]
+    next: Follow pagination.next until it is null.
+filtering:
+  operators: Range filters via field.gt / field.lt (e.g. createdAt.gt, updatedAt.lt)
+  equality: Field-specific filters such as email, phoneNumber
+idempotency:
+  request_writes: false
+  note: >-
+    Write requests (POST) do NOT accept an idempotency key. Idempotency is a webhook-consumer
+    concern: dedupe deliveries on the X-Reonic-Event-Id header, which is stable across redeliveries.
+rate_limiting:
+  window_seconds: 60
+  buckets:
+    cached: 500/min (GET served from cache)
+    uncached: 30/min (cache misses, no-cache GETs, all POSTs)
+  headers: [X-RateLimit-Bucket, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-RateLimit-Policy]
+  retry_after: Present on 429 (seconds)
+  shared: Limits are shared across all API keys you hold.
+caching:
+  ttl: GET responses cached up to 1 hour
+  control_header: Reonic-Cache-Control (set to no-cache to force fresh read; counts against uncached bucket)
+  note: The standard Cache-Control header is NOT honored.
+versioning:
+  scheme: uri-path
+  current: v3 (spec version 3.2.0)
+  previous: v2 (shutdown from 1 Oct 2026; not backwards compatible)
+  cross_link: lifecycle/reonic-lifecycle.yml
+error_envelope:
+  shape: '{ "message": "..." }'
+  validation_field: errors (400 only)
+  cross_link: errors/reonic-problem-types.yml
+request_tracing:
+  note: No request-id header documented on the REST API. Webhook deliveries carry X-Reonic-Delivery-Id / X-Reonic-Event-Id.
+webhooks:
+  cross_link: asyncapi/reonic-webhooks.yml
