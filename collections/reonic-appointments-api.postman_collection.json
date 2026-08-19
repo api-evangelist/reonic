@@ -1,0 +1,559 @@
+{
+  "item": [
+    {
+      "id": "e7a01506-93a9-4bdd-a06e-7ef83d6d6024",
+      "name": "Appointments",
+      "description": {
+        "content": "Appointments on Reonic-hosted calendars only. External calendars (Google, Microsoft) cannot be read or written through the API.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "90efba6a-f1b3-4418-adfb-79d338b757e7",
+          "name": "List appointments",
+          "request": {
+            "name": "List appointments",
+            "description": {
+              "content": "Lists appointments on Reonic calendars in a paginated format.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "appointments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "calendarIds",
+                  "value": "<uuid>",
+                  "description": "Comma-separated list or repeated query param of calendar IDs to fetch appointments for."
+                },
+                {
+                  "disabled": false,
+                  "key": "residentialProjectId",
+                  "value": "<uuid>",
+                  "description": "Return only appointments linked to the given residential project. Mutually exclusive with `commercialProjectId`. Reference to [**Residential Projects**](#tag/residential-projects)"
+                },
+                {
+                  "disabled": false,
+                  "key": "commercialProjectId",
+                  "value": "<uuid>",
+                  "description": "Return only appointments linked to the given commercial project. Mutually exclusive with `residentialProjectId`. Reference to [**Commercial Projects**](#tag/commercial-projects)"
+                },
+                {
+                  "disabled": false,
+                  "key": "start.gt",
+                  "value": "<string,null-date-time>",
+                  "description": "Filter records where start is after this datetime (exclusive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "start.lt",
+                  "value": "<string,null-date-time>",
+                  "description": "Defaults to the day one year from now."
+                },
+                {
+                  "disabled": false,
+                  "key": "end.gt",
+                  "value": "<string,null-date-time>",
+                  "description": "Defaults to now, so that by default only upcoming appointments are returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "end.lt",
+                  "value": "<string,null-date-time>",
+                  "description": "Filter records where end is before this datetime (exclusive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number, starting from 1. Default: 1."
+                },
+                {
+                  "disabled": false,
+                  "key": "itemsPerPage",
+                  "value": "50",
+                  "description": "Number of items per page. Default: 50. Max: 200."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "start",
+                  "description": "Sort order. Use field names for ascending (e.g. \"createdAt\"), minus sign for descending (e.g. \"-createdAt\"). Chain with commas (e.g. \"createdAt,editedAt\"). Sortable fields: start, end. Defaults to start."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "48900f8d-08bb-45f2-9000-ae660889bb62",
+              "name": "Paginated list of appointments",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "appointments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "calendarIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "residentialProjectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "commercialProjectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "start.gt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "start.lt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "end.gt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "end.lt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "itemsPerPage",
+                      "value": "50"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "start"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"calendarId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"customerPortalTitle\": \"string\",\n      \"description\": \"string\",\n      \"customerPortalDescription\": \"string\",\n      \"visibleInCustomerPortal\": true,\n      \"start\": \"2026-01-01T15:30:00.000Z\",\n      \"end\": \"2026-01-01T15:30:00.000Z\",\n      \"allDay\": true,\n      \"location\": \"string\",\n      \"residentialProjectId\": \"e2aaf1b1-9ca7-fc5b-036d-d32190a072ce\",\n      \"commercialProjectId\": \"e9fb9a50-1293-9001-18fd-cdd1747a13c6\",\n      \"attendeeIds\": [\n        \"b23f89e6-427c-d22f-f67f-a56ac556e063\",\n        \"b48997f9-c81b-9f1f-2976-66fec49a0449\"\n      ],\n      \"title\": \"\"\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"calendarId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"customerPortalTitle\": \"string\",\n      \"description\": \"string\",\n      \"customerPortalDescription\": \"string\",\n      \"visibleInCustomerPortal\": true,\n      \"start\": \"2026-01-01T15:30:00.000Z\",\n      \"end\": \"2026-01-01T15:30:00.000Z\",\n      \"allDay\": false,\n      \"location\": \"string\",\n      \"residentialProjectId\": \"9cb2b3b3-4176-c80b-34ef-eab6a91a13dc\",\n      \"commercialProjectId\": \"026360b8-5720-be0d-0592-6f210c5735b8\",\n      \"attendeeIds\": [\n        \"569d44aa-13b0-fc21-8107-11f13c5342e2\",\n        \"964bb91c-c403-af22-159a-fe7aa5c3d3fa\"\n      ],\n      \"title\": \"\"\n    }\n  ],\n  \"pagination\": {\n    \"page\": 3140,\n    \"perPage\": 6824,\n    \"total\": 9471,\n    \"totalPages\": 5478,\n    \"next\": \"string\",\n    \"prev\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6ff51adf-3426-407e-a75c-4dd2631f0380",
+          "name": "Create appointment",
+          "request": {
+            "name": "Create appointment",
+            "description": {
+              "content": "Create an appointment on a Reonic calendar.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "appointments",
+                "create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"calendarId\": \"<uuid>\",\n  \"title\": \"<string>\",\n  \"start\": \"<dateTime>\",\n  \"end\": \"<dateTime>\",\n  \"allDay\": \"<boolean>\",\n  \"customerPortalTitle\": \"<string,null>\",\n  \"description\": \"<string,null>\",\n  \"customerPortalDescription\": \"<string,null>\",\n  \"visibleInCustomerPortal\": false,\n  \"attendeeIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"location\": \"<string,null>\",\n  \"residentialProjectId\": \"<string,null-uuid>\",\n  \"commercialProjectId\": \"<string,null-uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4dd6812e-86c8-4f58-804b-2e8ba05bdadc",
+              "name": "The created appointment",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "appointments",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"calendarId\": \"<uuid>\",\n  \"title\": \"<string>\",\n  \"start\": \"2026-01-01T15:30:00.000Z\",\n  \"end\": \"2026-01-01T15:30:00.000Z\",\n  \"allDay\": \"<boolean>\",\n  \"customerPortalTitle\": \"<string,null>\",\n  \"description\": \"<string,null>\",\n  \"customerPortalDescription\": \"<string,null>\",\n  \"visibleInCustomerPortal\": false,\n  \"attendeeIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"location\": \"<string,null>\",\n  \"residentialProjectId\": \"<string,null-uuid>\",\n  \"commercialProjectId\": \"<string,null-uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"calendarId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"customerPortalTitle\": \"string\",\n  \"description\": \"string\",\n  \"customerPortalDescription\": \"string\",\n  \"visibleInCustomerPortal\": true,\n  \"start\": \"2026-01-01T15:30:00.000Z\",\n  \"end\": \"2026-01-01T15:30:00.000Z\",\n  \"allDay\": true,\n  \"location\": \"string\",\n  \"residentialProjectId\": \"bb3bf188-28cf-20b6-52f9-92e4e57655e8\",\n  \"commercialProjectId\": \"b89a0c12-d179-1d21-96c5-bea403440448\",\n  \"attendeeIds\": [\n    \"68a27cfa-a19a-49b9-c230-c136c977f40d\",\n    \"f233a310-e805-c54a-8d01-f45642112ebb\"\n  ],\n  \"title\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9b13e8fb-22d3-4c5f-aea8-b2cd873e166e",
+          "name": "Update appointment",
+          "request": {
+            "name": "Update appointment",
+            "description": {
+              "content": "Update fields of an appointment on a Reonic calendar. Omit fields to leave them untouched, send `null` to clear them (where possible) or send a value to replace it.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "appointments",
+                ":appointmentId",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "appointmentId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"<string>\",\n  \"customerPortalTitle\": \"<string,null>\",\n  \"description\": \"<string,null>\",\n  \"customerPortalDescription\": \"<string,null>\",\n  \"visibleInCustomerPortal\": \"<boolean>\",\n  \"start\": \"<dateTime>\",\n  \"end\": \"<dateTime>\",\n  \"allDay\": \"<boolean>\",\n  \"attendeeIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"location\": \"<string,null>\",\n  \"residentialProjectId\": \"<string,null-uuid>\",\n  \"commercialProjectId\": \"<string,null-uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5887f0e7-10ae-4fce-851d-01218a64d7ae",
+              "name": "The updated appointment",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "appointments",
+                    ":appointmentId",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "appointmentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"customerPortalTitle\": \"<string,null>\",\n  \"description\": \"<string,null>\",\n  \"customerPortalDescription\": \"<string,null>\",\n  \"visibleInCustomerPortal\": \"<boolean>\",\n  \"start\": \"2026-01-01T15:30:00.000Z\",\n  \"end\": \"2026-01-01T15:30:00.000Z\",\n  \"allDay\": \"<boolean>\",\n  \"attendeeIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"location\": \"<string,null>\",\n  \"residentialProjectId\": \"<string,null-uuid>\",\n  \"commercialProjectId\": \"<string,null-uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"calendarId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"customerPortalTitle\": \"string\",\n  \"description\": \"string\",\n  \"customerPortalDescription\": \"string\",\n  \"visibleInCustomerPortal\": true,\n  \"start\": \"2026-01-01T15:30:00.000Z\",\n  \"end\": \"2026-01-01T15:30:00.000Z\",\n  \"allDay\": true,\n  \"location\": \"string\",\n  \"residentialProjectId\": \"bb3bf188-28cf-20b6-52f9-92e4e57655e8\",\n  \"commercialProjectId\": \"b89a0c12-d179-1d21-96c5-bea403440448\",\n  \"attendeeIds\": [\n    \"68a27cfa-a19a-49b9-c230-c136c977f40d\",\n    \"f233a310-e805-c54a-8d01-f45642112ebb\"\n  ],\n  \"title\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f80ea590-6a6d-4fdc-9dc4-48031537b0f6",
+          "name": "Delete appointment",
+          "request": {
+            "name": "Delete appointment",
+            "description": {
+              "content": "Delete an appointment on a Reonic calendar.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "appointments",
+                ":appointmentId",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "appointmentId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "32dd7b64-d005-4a00-b28a-536533527e36",
+              "name": "ID of the deleted appointment",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "appointments",
+                    ":appointmentId",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "appointmentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"cae5ff2d-c20d-8bf2-cf95-e2190d8eb803\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "{{apiBaseUrl}}/rest/v3/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "abd4c651-ac96-4452-bd2e-7b5f4f9603d4",
+    "name": "Reonic REST Api v3 Activities Appointments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.\n\n## Errors\n\nAll endpoints return errors with the same JSON shape:\n\n```json\n{ \"message\": \"human-readable description\" }\n```\n\n`400` responses additionally include an `errors` field with per-field validation details.\n\nThe HTTP status code identifies the cause:\n\n| Status  | Meaning | When |\n|--------|---------|------|\n| `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |\n| `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |\n| `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |\n| `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |\n| `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |\n| `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |\n| `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |\n\n## Rate limiting\n\nLimits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:\n\n| Bucket | Limit | Applies to |\n|--------|-------|------------|\n| `cached` | 500 / min | `GET` requests served from the response cache |\n| `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |\n\nEvery response includes:\n\n- `X-RateLimit-Bucket` — `cached` or `uncached`\n- `X-RateLimit-Limit` — the bucket's ceiling (`500` or `30`)\n- `X-RateLimit-Remaining` — calls left in the current window\n- `X-RateLimit-Reset` — Unix epoch seconds at which the window resets\n- `X-RateLimit-Policy` — `<limit>;w=60`\n\n`429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.\n\n## Caching and Reonic-Cache-Control\n\n`GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.\n\nThe standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.\n\n## Authentication\n\nEvery request must include your API key in the `X-Authorization` header:\n\n```\nX-Authorization: <your-api-key>\n```\n\nAPI keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.\n\n\nContact Support:\n Name: Reonic GmbH\n Email: kontakt@reonic.de",
+      "type": "text/plain"
+    }
+  }
+}

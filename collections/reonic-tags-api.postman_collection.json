@@ -1,0 +1,547 @@
+{
+  "item": [
+    {
+      "id": "91abaa65-0258-40ca-81ab-c099e0fbb4ac",
+      "name": "Tags",
+      "description": {
+        "content": "Reusable labels for categorizing and filtering projects, contacts, and other entities.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ffc5f7ad-e92c-42ea-95fe-1ee6603db7c7",
+          "name": "List tags",
+          "request": {
+            "name": "List tags",
+            "description": {
+              "content": "List all tags.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tags"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "parentType",
+                  "value": "<string>",
+                  "description": "Type of entity the tag can be applied to."
+                },
+                {
+                  "disabled": false,
+                  "key": "archived",
+                  "value": "exclude",
+                  "description": "Controls whether archived tags appear in results. Default: exclude."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bd81e36c-9b21-45ec-9320-6b3525e43afc",
+              "name": "List of all tags",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "parentType",
+                      "value": "residentialProject"
+                    },
+                    {
+                      "key": "archived",
+                      "value": "exclude"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"label\": \"string\",\n      \"parentType\": \"residentialProject\",\n      \"textColor\": \"#000000\",\n      \"backgroundColor\": \"#00FF00\",\n      \"createdAt\": \"2020-05-15T19:39:33.992Z\",\n      \"updatedAt\": \"1982-05-04T15:43:23.697Z\",\n      \"archivedAt\": \"1991-01-04T02:23:23.905Z\"\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"label\": \"string\",\n      \"parentType\": \"residentialProject\",\n      \"textColor\": \"#000000\",\n      \"backgroundColor\": \"#00FF00\",\n      \"createdAt\": \"1965-01-13T00:32:18.388Z\",\n      \"updatedAt\": \"1980-07-11T06:48:14.698Z\",\n      \"archivedAt\": \"1993-05-14T09:12:09.547Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "44f2cf68-7045-4e79-bfe7-94cb75efc14c",
+          "name": "Get tag",
+          "request": {
+            "name": "Get tag",
+            "description": {
+              "content": "Get a single tag by its ID.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tags",
+                ":tagId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "tagId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "352616b7-c586-4be0-b768-55504e00babe",
+              "name": "Tag details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tags",
+                    ":tagId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "tagId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"label\": \"string\",\n  \"parentType\": \"residentialProject\",\n  \"textColor\": \"#000000\",\n  \"backgroundColor\": \"#00FF00\",\n  \"createdAt\": \"1959-10-13T03:32:20.775Z\",\n  \"updatedAt\": \"2016-10-13T03:25:35.023Z\",\n  \"archivedAt\": \"1998-05-25T19:47:37.058Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a863cba2-2e28-40e9-b87d-533b150bff51",
+              "name": "Tag not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tags",
+                    ":tagId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "tagId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e5993f94-db9d-454f-a01e-b31fc0cf4c33",
+          "name": "Create tag",
+          "request": {
+            "name": "Create tag",
+            "description": {
+              "content": "Create a new tag\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tags",
+                "create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"label\": \"<string>\",\n  \"parentType\": \"<string>\",\n  \"textColor\": \"<string>\",\n  \"backgroundColor\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bc698099-b094-43cc-955a-19a1fbe0743f",
+              "name": "The created tag",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tags",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"label\": \"<string>\",\n  \"parentType\": \"residentialProject\",\n  \"textColor\": \"#000000\",\n  \"backgroundColor\": \"#00FF00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"label\": \"string\",\n  \"parentType\": \"residentialProject\",\n  \"textColor\": \"#000000\",\n  \"backgroundColor\": \"#00FF00\",\n  \"createdAt\": \"1959-10-13T03:32:20.775Z\",\n  \"updatedAt\": \"2016-10-13T03:25:35.023Z\",\n  \"archivedAt\": \"1998-05-25T19:47:37.058Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ade05fc3-6aee-4f30-aee4-255f1d6fe345",
+          "name": "Update tag",
+          "request": {
+            "name": "Update tag",
+            "description": {
+              "content": "Update a tag by its ID.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tags",
+                ":tagId",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "tagId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"label\": \"<string>\",\n  \"textColor\": \"<string>\",\n  \"backgroundColor\": \"<string>\",\n  \"archived\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9b3eecb2-f431-48a3-8f47-59a816ba54df",
+              "name": "Updated tag",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tags",
+                    ":tagId",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "tagId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"label\": \"<string>\",\n  \"textColor\": \"#000000\",\n  \"backgroundColor\": \"#00FF00\",\n  \"archived\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"label\": \"string\",\n    \"parentType\": \"residentialProject\",\n    \"textColor\": \"#000000\",\n    \"backgroundColor\": \"#00FF00\",\n    \"createdAt\": \"1990-09-05T03:27:36.197Z\",\n    \"updatedAt\": \"1992-06-20T09:37:44.519Z\",\n    \"archivedAt\": \"2025-08-18T09:02:51.943Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "{{apiBaseUrl}}/rest/v3/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4863e08e-4a77-4b45-a461-ae26ec68eee9",
+    "name": "Reonic REST Api v3 Activities Tags API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.\n\n## Errors\n\nAll endpoints return errors with the same JSON shape:\n\n```json\n{ \"message\": \"human-readable description\" }\n```\n\n`400` responses additionally include an `errors` field with per-field validation details.\n\nThe HTTP status code identifies the cause:\n\n| Status  | Meaning | When |\n|--------|---------|------|\n| `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |\n| `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |\n| `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |\n| `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |\n| `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |\n| `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |\n| `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |\n\n## Rate limiting\n\nLimits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:\n\n| Bucket | Limit | Applies to |\n|--------|-------|------------|\n| `cached` | 500 / min | `GET` requests served from the response cache |\n| `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |\n\nEvery response includes:\n\n- `X-RateLimit-Bucket` — `cached` or `uncached`\n- `X-RateLimit-Limit` — the bucket's ceiling (`500` or `30`)\n- `X-RateLimit-Remaining` — calls left in the current window\n- `X-RateLimit-Reset` — Unix epoch seconds at which the window resets\n- `X-RateLimit-Policy` — `<limit>;w=60`\n\n`429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.\n\n## Caching and Reonic-Cache-Control\n\n`GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.\n\nThe standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.\n\n## Authentication\n\nEvery request must include your API key in the `X-Authorization` header:\n\n```\nX-Authorization: <your-api-key>\n```\n\nAPI keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.\n\n\nContact Support:\n Name: Reonic GmbH\n Email: kontakt@reonic.de",
+      "type": "text/plain"
+    }
+  }
+}

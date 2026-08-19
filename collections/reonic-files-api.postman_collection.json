@@ -1,0 +1,689 @@
+{
+  "item": [
+    {
+      "id": "f36a502e-2142-48af-8559-7f276fe7746d",
+      "name": "Files",
+      "description": {
+        "content": "Files attached to a project or contact. File responses include a download URL valid for 24 hours; refetch the file to obtain a fresh URL after it expires.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "66ddd111-634f-4b77-990b-bd2ad326f3e2",
+          "name": "List files",
+          "request": {
+            "name": "List files",
+            "description": {
+              "content": "List files attached to an entity (i.e. contact or residential project) in paginated format.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "files"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "parentType",
+                  "value": "<string>",
+                  "description": "The type of the parent entity."
+                },
+                {
+                  "disabled": false,
+                  "key": "parentId",
+                  "value": "<uuid>",
+                  "description": "Requires `parentType` to be defined."
+                },
+                {
+                  "disabled": false,
+                  "key": "createdById",
+                  "value": "<uuid>",
+                  "description": "Returns files created by a specific user. Cannot be combined with `createdByCustomer`."
+                },
+                {
+                  "disabled": false,
+                  "key": "createdByCustomer",
+                  "value": "<boolean,null>",
+                  "description": "Filters by creator origin: `true` returns customer-uploaded files, `false` returns files uploaded by users. Cannot be combined with `createdById`."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number, starting from 1. Default: 1."
+                },
+                {
+                  "disabled": false,
+                  "key": "itemsPerPage",
+                  "value": "50",
+                  "description": "Number of items per page. Default: 50. Max: 200."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "-createdAt",
+                  "description": "Sort order. Use field names for ascending (e.g. \"createdAt\"), minus sign for descending (e.g. \"-createdAt\"). Chain with commas (e.g. \"createdAt,editedAt\"). Sortable fields: createdAt, createdById. Defaults to -createdAt."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4cc2fb51-19a4-4e4a-b1a4-687a83eddf86",
+              "name": "Paginated list of files",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "parentType",
+                      "value": "residentialProject"
+                    },
+                    {
+                      "key": "parentId",
+                      "value": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    {
+                      "key": "createdById",
+                      "value": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    {
+                      "key": "createdByCustomer",
+                      "value": "true"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "itemsPerPage",
+                      "value": "50"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "-createdAt"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"type\": \"pdf\",\n      \"url\": \"https://nPGcbAediHkakxJKHgcM.jfbMfvrdFddigNHFD5WF5YdV-3hHvO.qA3U4AD\",\n      \"parent\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"type\": \"residentialProject\"\n      },\n      \"folderId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"sharedWithTeamIds\": [\n        \"d00b606e-f1fb-225a-12c8-549a6c7baa86\",\n        \"d5b8df15-f003-ce6c-f5c5-34689fdb3732\"\n      ],\n      \"sharedWithUserIds\": [\n        \"e5355626-f4e6-1729-a13e-55c20d668ce1\",\n        \"145504a2-08e8-b21f-9925-7070b8803579\"\n      ],\n      \"position\": 1094,\n      \"visibleInCustomerPortal\": false,\n      \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n      \"createdById\": \"123e4567-e89b-12d3-a456-426614174000\"\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"type\": \"excel\",\n      \"url\": \"http://hzChFKWOPVTwUJtLxABRcBAdknokAEq.kudtD5H5SFgy6SxPjrbH+77C4mE6hxQmb81P-SPM0LaOQqu\",\n      \"parent\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"type\": \"residentialProject\"\n      },\n      \"folderId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"sharedWithTeamIds\": [\n        \"69ae9838-d95f-5d68-1fbc-ea1102a828e0\",\n        \"75c515ad-7cdd-e7a0-b13a-ee96b43e01fd\"\n      ],\n      \"sharedWithUserIds\": [\n        \"4cfa6e84-6750-9ed5-2c5c-4d0b70b95955\",\n        \"c32abe87-55dd-6da7-b5f2-eacb2a64bcee\"\n      ],\n      \"position\": 3125,\n      \"visibleInCustomerPortal\": true,\n      \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n      \"createdById\": \"123e4567-e89b-12d3-a456-426614174000\"\n    }\n  ],\n  \"pagination\": {\n    \"page\": 946,\n    \"perPage\": 804,\n    \"total\": 2149,\n    \"totalPages\": 3402,\n    \"next\": \"string\",\n    \"prev\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2d45be4a-a5fb-40db-9a08-e56017d83074",
+          "name": "Get file",
+          "request": {
+            "name": "Get file",
+            "description": {
+              "content": "Get a single file by its ID.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "files",
+                ":fileId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "fileId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e47ae2f6-7e57-4f0d-8cff-74704e407df8",
+              "name": "The file",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "files",
+                    ":fileId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "fileId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"name\": \"string\",\n  \"type\": \"xml\",\n  \"url\": \"https://KxLEGmYGpf.lsqiys4G32mLFj37lg-XIU7ttQ\",\n  \"parent\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"type\": \"residentialProject\"\n  },\n  \"folderId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"sharedWithTeamIds\": [\n    \"2746d759-fa08-4470-8e79-6331a778c2a6\",\n    \"ceab6c86-2ee6-a73b-610c-10fff138fe12\"\n  ],\n  \"sharedWithUserIds\": [\n    \"eee04062-d5c3-d98c-74d8-1513011e319f\",\n    \"21f81a55-9734-e87c-0ece-2b25a371e25e\"\n  ],\n  \"position\": 1341,\n  \"visibleInCustomerPortal\": true,\n  \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n  \"createdById\": \"123e4567-e89b-12d3-a456-426614174000\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a8feb03f-35a5-4a54-bbcf-b43d45984806",
+          "name": "Create file",
+          "request": {
+            "name": "Create file",
+            "description": {
+              "content": "Create a file record attached to an entity (i.e. contact or residential project). Provide the file via either `uploadId` (recommended — see `POST /uploads/create`) or a public `url` we download for you. Allowed types: image, pdf, csv, excel.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "files",
+                "create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"parent\": {\n    \"id\": \"<uuid>\",\n    \"type\": \"<string>\"\n  },\n  \"uploadId\": \"<string>\",\n  \"url\": \"<uri>\",\n  \"folderId\": \"<string,null-uuid>\",\n  \"sharedWithTeamIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"sharedWithUserIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"position\": \"<integer>\",\n  \"visibleInCustomerPortal\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "68e58f4e-a530-40ff-aabb-0b5e37f2e94a",
+              "name": "The created file",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "files",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"test-document.pdf\",\n  \"parent\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"type\": \"<string>\"\n  },\n  \"uploadId\": \"<string>\",\n  \"url\": \"https://your-website.com/test-document.pdf\",\n  \"folderId\": \"<string,null-uuid>\",\n  \"sharedWithTeamIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\",\n    \"123e4567-e89b-12d3-a456-426614174002\"\n  ],\n  \"sharedWithUserIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\",\n    \"123e4567-e89b-12d3-a456-426614174002\"\n  ],\n  \"position\": \"<integer>\",\n  \"visibleInCustomerPortal\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"name\": \"string\",\n  \"type\": \"xml\",\n  \"url\": \"https://KxLEGmYGpf.lsqiys4G32mLFj37lg-XIU7ttQ\",\n  \"parent\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"type\": \"residentialProject\"\n  },\n  \"folderId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"sharedWithTeamIds\": [\n    \"2746d759-fa08-4470-8e79-6331a778c2a6\",\n    \"ceab6c86-2ee6-a73b-610c-10fff138fe12\"\n  ],\n  \"sharedWithUserIds\": [\n    \"eee04062-d5c3-d98c-74d8-1513011e319f\",\n    \"21f81a55-9734-e87c-0ece-2b25a371e25e\"\n  ],\n  \"position\": 1341,\n  \"visibleInCustomerPortal\": true,\n  \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n  \"createdById\": \"123e4567-e89b-12d3-a456-426614174000\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d58339af-9ef8-47a7-85c7-e77c66544c96",
+              "name": "Could not resolve the file source (download failed, upload missing, or disallowed mime type).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "files",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"test-document.pdf\",\n  \"parent\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"type\": \"<string>\"\n  },\n  \"uploadId\": \"<string>\",\n  \"url\": \"https://your-website.com/test-document.pdf\",\n  \"folderId\": \"<string,null-uuid>\",\n  \"sharedWithTeamIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\",\n    \"123e4567-e89b-12d3-a456-426614174002\"\n  ],\n  \"sharedWithUserIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\",\n    \"123e4567-e89b-12d3-a456-426614174002\"\n  ],\n  \"position\": \"<integer>\",\n  \"visibleInCustomerPortal\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Could not resolve file\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8ff1dda1-608c-49c8-a6f9-2e92f18d94f4",
+          "name": "Delete file",
+          "request": {
+            "name": "Delete file",
+            "description": {
+              "content": "Delete a file by its ID.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "files",
+                ":fileId",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "fileId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "32723feb-c7ba-4389-87de-d4f308bd327e",
+              "name": "The deleted file ID",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "files",
+                    ":fileId",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "fileId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2c2b7d9d-46a6-4dc9-8be1-56f9a15ee29c",
+          "name": "Update file",
+          "request": {
+            "name": "Update file",
+            "description": {
+              "content": "Update a file by its ID. Omitted fields are left unchanged. Pass `folderId=null` to move the file to the root of its parent entity.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "files",
+                ":fileId",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "fileId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"folderId\": \"<string,null-uuid>\",\n  \"sharedWithTeamIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"sharedWithUserIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"position\": \"<integer>\",\n  \"visibleInCustomerPortal\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "76d41e75-6ac4-44bd-8fc5-0a5a64fde1c3",
+              "name": "The updated file",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "files",
+                    ":fileId",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "fileId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"test-document.pdf\",\n  \"folderId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"sharedWithTeamIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\",\n    \"123e4567-e89b-12d3-a456-426614174002\"\n  ],\n  \"sharedWithUserIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\",\n    \"123e4567-e89b-12d3-a456-426614174002\"\n  ],\n  \"position\": \"<integer>\",\n  \"visibleInCustomerPortal\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"name\": \"string\",\n    \"type\": \"zip\",\n    \"url\": \"http://zVhOgOeoe.ehXnTBnY-hlnThSTCyls+Vz92QlX2bhceQY\",\n    \"parent\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"type\": \"residentialProject\"\n    },\n    \"folderId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"sharedWithTeamIds\": [\n      \"67d01cc6-3c78-ceb6-8a73-55dc4d8aab7f\",\n      \"e753757e-311e-d6ef-786d-1b6cfc82efca\"\n    ],\n    \"sharedWithUserIds\": [\n      \"74050b05-4639-133a-80a0-3f7fbfbdac23\",\n      \"73661dba-671a-a40b-4287-ea19c5b1a535\"\n    ],\n    \"position\": 1948,\n    \"visibleInCustomerPortal\": true,\n    \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n    \"createdById\": \"123e4567-e89b-12d3-a456-426614174000\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "{{apiBaseUrl}}/rest/v3/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "396c41bc-d0d8-4e78-a91a-abb94bc1c311",
+    "name": "Reonic REST Api v3 Activities Files API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.\n\n## Errors\n\nAll endpoints return errors with the same JSON shape:\n\n```json\n{ \"message\": \"human-readable description\" }\n```\n\n`400` responses additionally include an `errors` field with per-field validation details.\n\nThe HTTP status code identifies the cause:\n\n| Status  | Meaning | When |\n|--------|---------|------|\n| `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |\n| `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |\n| `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |\n| `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |\n| `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |\n| `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |\n| `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |\n\n## Rate limiting\n\nLimits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:\n\n| Bucket | Limit | Applies to |\n|--------|-------|------------|\n| `cached` | 500 / min | `GET` requests served from the response cache |\n| `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |\n\nEvery response includes:\n\n- `X-RateLimit-Bucket` — `cached` or `uncached`\n- `X-RateLimit-Limit` — the bucket's ceiling (`500` or `30`)\n- `X-RateLimit-Remaining` — calls left in the current window\n- `X-RateLimit-Reset` — Unix epoch seconds at which the window resets\n- `X-RateLimit-Policy` — `<limit>;w=60`\n\n`429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.\n\n## Caching and Reonic-Cache-Control\n\n`GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.\n\nThe standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.\n\n## Authentication\n\nEvery request must include your API key in the `X-Authorization` header:\n\n```\nX-Authorization: <your-api-key>\n```\n\nAPI keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.\n\n\nContact Support:\n Name: Reonic GmbH\n Email: kontakt@reonic.de",
+      "type": "text/plain"
+    }
+  }
+}

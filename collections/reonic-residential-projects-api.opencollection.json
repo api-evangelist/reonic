@@ -1,0 +1,321 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Residential Projects API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Residential Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List residential projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/residentialProjects",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "stage",
+                "value": "",
+                "type": "query",
+                "description": "Filter by lifecycle stages: request, offer, installation. Omit to include all stages."
+              },
+              {
+                "name": "dealState",
+                "value": "",
+                "type": "query",
+                "description": "Filter by deal state. Omit to include all. Pass `null` to return only projects that have no deal state."
+              },
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query",
+                "description": "Controls whether archived projects appear in results. Default: exclude."
+              },
+              {
+                "name": "tagIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter projects that are tagged with any of the specified tag IDs. Pass `null` to return only projects that have no tags."
+              },
+              {
+                "name": "leadSourceIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter projects that have a lead source with any of the specified IDs. Pass `null` to return only projects that have no lead source."
+              },
+              {
+                "name": "kanbanBoardIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter projects that are in any of the specified Kanban boards. Pass `null` to return only projects that are not assigned to any Kanban board. Mutually exclusive with `kanbanColumnIds`."
+              },
+              {
+                "name": "kanbanColumnIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter projects that are in any of the specified Kanban columns. Pass `null` to return only projects that have no status assigned (the \"no status\" column). Mutually exclusive with `kanbanBoardIds`."
+              },
+              {
+                "name": "customerNumber",
+                "value": "",
+                "type": "query",
+                "description": "Filter projects by their exact internal customer number (e.g. from your CRM or ERP)."
+              },
+              {
+                "name": "contactId",
+                "value": "",
+                "type": "query",
+                "description": "Filter projects whose customer contact has this ID. Reference to [**Contacts**](#tag/contacts)"
+              },
+              {
+                "name": "projectCreatedAt.gt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where projectCreatedAt is after this datetime (exclusive)"
+              },
+              {
+                "name": "projectCreatedAt.lt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where projectCreatedAt is before this datetime (exclusive)"
+              },
+              {
+                "name": "requestCreatedAt.gt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where requestCreatedAt is after this datetime (exclusive)"
+              },
+              {
+                "name": "requestCreatedAt.lt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where requestCreatedAt is before this datetime (exclusive)"
+              },
+              {
+                "name": "offerCreatedAt.gt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where offerCreatedAt is after this datetime (exclusive)"
+              },
+              {
+                "name": "offerCreatedAt.lt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where offerCreatedAt is before this datetime (exclusive)"
+              },
+              {
+                "name": "installationCreatedAt.gt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where installationCreatedAt is after this datetime (exclusive)"
+              },
+              {
+                "name": "installationCreatedAt.lt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where installationCreatedAt is before this datetime (exclusive)"
+              },
+              {
+                "name": "updatedAt.gt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where updatedAt is after this datetime (exclusive)"
+              },
+              {
+                "name": "updatedAt.lt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where updatedAt is before this datetime (exclusive)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number, starting from 1. Default: 1."
+              },
+              {
+                "name": "itemsPerPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page. Default: 50. Max: 200."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. Use field names for ascending (e.g. \"createdAt\"), minus sign for descending (e.g. \"-createdAt\"). Chain with commas (e.g. \"createdAt,editedAt\"). Sortable fields: projectCreatedAt, requestCreatedAt, offerCreatedAt, installationCreatedAt, updatedAt. Defaults to -projectCreatedAt."
+              }
+            ]
+          },
+          "docs": "List residential projects across all lifecycle stages (request, offer, installation) in a paginated format. Use the `stage` query param to restrict to one or more stages; omit to span all three.\n\n**Examples:**\n- Most recent offers: `GET /residentialProjects?stage=offer&sort=-offerCreatedAt&page=1`\n- Open offers: `GET /residentialProjects?stage=offer&dealState=Open`\n- Projects assigned to specific Kanban columns: `GET /residentialProjects?kanbanColumnIds=<uuid>&kanbanColumnIds=<uuid>`\n\n**Allowed "
+        },
+        {
+          "info": {
+            "name": "Get residential project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/residentialProjects/:projectId",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single residential project by its ID. Works for any stage (request, offer, or installation).\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Create residential project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/residentialProjects/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a residential project at a given lifecycle stage.\n\n**Allowed API keys:** Read and Write, Lead creation only"
+        },
+        {
+          "info": {
+            "name": "Update residential project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/residentialProjects/:projectId/update",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update fields of a residential project. Stage-agnostic — the same fields are editable at any lifecycle stage. If you want to update contact details, use the dedicated endpoint — see [**Contacts**](#tag/contacts) for more details on that.\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Get heating load (room-wise)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/residentialProjects/:projectId/heatingLoad/roomWise",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "useReplacementRadiators",
+                "value": "",
+                "type": "query",
+                "description": "Whether to use replacement radiators in the heating load simulation"
+              }
+            ]
+          },
+          "docs": "Retrieve room-wise heating load simulation results for a residential project.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "List variants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/residentialProjects/:projectId/variants",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List all variants (planned offer configurations) of a residential project, each with its full bill of materials grouped by system. Variants are populated once the project reaches the offer stage.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Get variant",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/residentialProjects/:projectId/variants/:variantId",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "variantId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single variant (planned offer configuration) of a residential project, with its full bill of materials grouped by system. Returns the same shape as an entry in the list-variants response.\n\n**Allowed API keys:** Read-only, Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

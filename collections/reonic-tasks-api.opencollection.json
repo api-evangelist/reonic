@@ -1,0 +1,286 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Tasks API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tasks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get task tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/tasks/tags",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Get task tags\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Get task counts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/tasks/count",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "parentId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parentType",
+                "value": "",
+                "type": "query",
+                "description": "The type of the parent entity."
+              }
+            ]
+          },
+          "docs": "Get task counts and stats for a parent entity\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "List tasks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/tasks",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "parentId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parentType",
+                "value": "",
+                "type": "query",
+                "description": "The type of the parent entity."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "dueFrom",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "dueTo",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "completedFrom",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "completedTo",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "userIds",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list or repeated query param."
+              },
+              {
+                "name": "teamIds",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list or repeated query param."
+              },
+              {
+                "name": "completed",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number, starting from 1. Default: 1."
+              },
+              {
+                "name": "itemsPerPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page. Default: 50. Max: 200."
+              }
+            ]
+          },
+          "docs": "List tasks with filters and pagination. `parentId` and `parentType` must be provided together (or omitted together).\n\n**Examples:**\n- Open tasks for a residential project: `GET /tasks?parentId=<uuid>&parentType=residentialProject&completed=false&orderBy=dueAt&sort=asc`\n- All tasks due this week: `GET /tasks?dueFrom=2026-04-27T00:00:00Z&dueTo=2026-05-04T00:00:00Z&completed=false`\n- Tasks assigned to specific users: `GET /tasks?userIds=<uuid>&userIds=<uuid>&completed=false`\n\n**Allowed API keys:** "
+        },
+        {
+          "info": {
+            "name": "Create task",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/tasks/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a task\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Get task",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/tasks/:taskId",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single task by its ID\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Update task",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/tasks/:taskId/update",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a task\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Complete task",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/tasks/:taskId/complete",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Complete a task\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Uncomplete task",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/tasks/:taskId/uncomplete",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Uncomplete a task\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Delete task",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/tasks/:taskId/delete",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a task\n\n**Allowed API keys:** Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

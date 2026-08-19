@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities File Folders API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "File Folders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List file folders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/fileFolders",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "parentType",
+                "value": "",
+                "type": "query",
+                "description": "The type of the parent entity."
+              },
+              {
+                "name": "parentId",
+                "value": "",
+                "type": "query",
+                "description": "ID of the entity to list folders for."
+              }
+            ]
+          },
+          "docs": "List all file folders attached to an entity, such as a contact or residential project.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Get file folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/fileFolders/:folderId",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "folderId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the file folder."
+              }
+            ]
+          },
+          "docs": "Get a single file folder by its ID.\n\n**Allowed API keys:** Read-only, Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

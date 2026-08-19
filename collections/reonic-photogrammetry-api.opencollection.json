@@ -1,0 +1,172 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Photogrammetry API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Photogrammetry",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List photogrammetry jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/photogrammetry/jobs",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number, starting from 1. Default: 1."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list or repeated query param. Allowed values: notStarted, running, preRenderCompleted, completed, failed."
+              }
+            ]
+          },
+          "docs": "List photogrammetry jobs visible to the caller, with optional filters. Page size is fixed at 20.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Get photogrammetry job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/photogrammetry/jobs/:jobId",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single photogrammetry job by id.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Create photogrammetry job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/photogrammetry/jobs/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new photogrammetry job. The job is returned in `notStarted` state with no assets. Use `POST /photogrammetry/jobs/{jobId}/assets/add` to attach uploaded assets.\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Update photogrammetry job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/photogrammetry/jobs/:jobId/update",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a photogrammetry job's metadata. Asset list mutations go through `POST /photogrammetry/jobs/{jobId}/assets/add` and `/assets/delete`.\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Add assets to photogrammetry job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/photogrammetry/jobs/:jobId/assets/add",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Attach one or more previously-uploaded assets to a photogrammetry job. Each `uploadId` must come from a prior `POST /uploads/create` call whose `uploadUrl` has already received the file content. Returns the job with its full asset list.\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Delete assets from photogrammetry job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/photogrammetry/jobs/:jobId/assets/delete",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Remove one or more assets from a photogrammetry job by id. Asset ids that don't belong to the job are ignored. Returns the job with its remaining asset list.\n\n**Allowed API keys:** Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

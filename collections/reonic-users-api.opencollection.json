@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Users API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/users",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query",
+                "description": "Controls whether archived users appear in results. Default: exclude."
+              },
+              {
+                "name": "deleted",
+                "value": "",
+                "type": "query",
+                "description": "Controls whether deleted users appear in results. Default: exclude."
+              }
+            ]
+          },
+          "docs": "List all users.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Get user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/users/:userId",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single user by their ID.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Create user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/users/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new user. A user who already exists in another organization is added to yours; if the email already belongs to a member of your organization, the request is rejected.\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Update user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/users/:userId/update",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a user's access level, external status, or archived state.\n\n**Allowed API keys:** Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

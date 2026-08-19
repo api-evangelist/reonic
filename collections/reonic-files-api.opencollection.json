@@ -1,0 +1,166 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Files API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Files",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List files",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/files",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "parentType",
+                "value": "",
+                "type": "query",
+                "description": "The type of the parent entity."
+              },
+              {
+                "name": "parentId",
+                "value": "",
+                "type": "query",
+                "description": "Requires `parentType` to be defined."
+              },
+              {
+                "name": "createdById",
+                "value": "",
+                "type": "query",
+                "description": "Returns files created by a specific user. Cannot be combined with `createdByCustomer`."
+              },
+              {
+                "name": "createdByCustomer",
+                "value": "",
+                "type": "query",
+                "description": "Filters by creator origin: `true` returns customer-uploaded files, `false` returns files uploaded by users. Cannot be combined with `createdById`."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number, starting from 1. Default: 1."
+              },
+              {
+                "name": "itemsPerPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page. Default: 50. Max: 200."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. Use field names for ascending (e.g. \"createdAt\"), minus sign for descending (e.g. \"-createdAt\"). Chain with commas (e.g. \"createdAt,editedAt\"). Sortable fields: createdAt, createdById. Defaults to -createdAt."
+              }
+            ]
+          },
+          "docs": "List files attached to an entity (i.e. contact or residential project) in paginated format.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Get file",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/files/:fileId",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single file by its ID.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Create file",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/files/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a file record attached to an entity (i.e. contact or residential project). Provide the file via either `uploadId` (recommended — see `POST /uploads/create`) or a public `url` we download for you. Allowed types: image, pdf, csv, excel.\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Delete file",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/files/:fileId/delete",
+            "params": [
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a file by its ID.\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Update file",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/files/:fileId/update",
+            "params": [
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a file by its ID. Omitted fields are left unchanged. Pass `folderId=null` to move the file to the root of its parent entity.\n\n**Allowed API keys:** Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

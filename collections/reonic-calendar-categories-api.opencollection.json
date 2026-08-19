@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Calendar Categories API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Calendar Categories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List calendar categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/calendarCategories",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "List all calendar categories\n\n**Allowed API keys:** Read-only, Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

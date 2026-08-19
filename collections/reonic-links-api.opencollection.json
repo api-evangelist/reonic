@@ -1,0 +1,60 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Links API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Links",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Resolve a deep link to a Portal URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/links",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "subPath",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Given a resource type and id, returns the Portal URL where that resource can be viewed. For `residentialProject` / `commercialProject`, the URL is resolved to the project's current stage (request, offer, or installation); pass the stage-specific type instead to skip that resolution. The optional `subPath` selects a Portal sub-view (e.g. `basics`, `checklist`, `documents`); ignored for resource types that don't have sub-views.\n\n**Allowed API keys:** Read-only, Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

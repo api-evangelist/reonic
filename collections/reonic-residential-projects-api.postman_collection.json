@@ -1,0 +1,1241 @@
+{
+  "item": [
+    {
+      "id": "dd0a949b-f486-4dac-836b-a03e555c40d7",
+      "name": "Residential Projects",
+      "description": {
+        "content": "Residential customer projects across the request, offer, and installation lifecycle stages.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "16828387-c194-4bac-aa7b-6ca97d4fbec7",
+          "name": "List residential projects",
+          "request": {
+            "name": "List residential projects",
+            "description": {
+              "content": "List residential projects across all lifecycle stages (request, offer, installation) in a paginated format. Use the `stage` query param to restrict to one or more stages; omit to span all three.\n\n**Examples:**\n- Most recent offers: `GET /residentialProjects?stage=offer&sort=-offerCreatedAt&page=1`\n- Open offers: `GET /residentialProjects?stage=offer&dealState=Open`\n- Projects assigned to specific Kanban columns: `GET /residentialProjects?kanbanColumnIds=<uuid>&kanbanColumnIds=<uuid>`\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "residentialProjects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "stage",
+                  "value": "<string>",
+                  "description": "Filter by lifecycle stages: request, offer, installation. Omit to include all stages."
+                },
+                {
+                  "disabled": false,
+                  "key": "stage",
+                  "value": "<string>",
+                  "description": "Filter by lifecycle stages: request, offer, installation. Omit to include all stages."
+                },
+                {
+                  "disabled": false,
+                  "key": "dealState",
+                  "value": "<string>",
+                  "description": "Filter by deal state. Omit to include all. Pass `null` to return only projects that have no deal state."
+                },
+                {
+                  "disabled": false,
+                  "key": "dealState",
+                  "value": "<string>",
+                  "description": "Filter by deal state. Omit to include all. Pass `null` to return only projects that have no deal state."
+                },
+                {
+                  "disabled": false,
+                  "key": "archived",
+                  "value": "exclude",
+                  "description": "Controls whether archived projects appear in results. Default: exclude."
+                },
+                {
+                  "disabled": false,
+                  "key": "tagIds",
+                  "value": "<uuid>",
+                  "description": "Filter projects that are tagged with any of the specified tag IDs. Pass `null` to return only projects that have no tags."
+                },
+                {
+                  "disabled": false,
+                  "key": "tagIds",
+                  "value": "<uuid>",
+                  "description": "Filter projects that are tagged with any of the specified tag IDs. Pass `null` to return only projects that have no tags."
+                },
+                {
+                  "disabled": false,
+                  "key": "leadSourceIds",
+                  "value": "<uuid>",
+                  "description": "Filter projects that have a lead source with any of the specified IDs. Pass `null` to return only projects that have no lead source."
+                },
+                {
+                  "disabled": false,
+                  "key": "leadSourceIds",
+                  "value": "<uuid>",
+                  "description": "Filter projects that have a lead source with any of the specified IDs. Pass `null` to return only projects that have no lead source."
+                },
+                {
+                  "disabled": false,
+                  "key": "kanbanBoardIds",
+                  "value": "<uuid>",
+                  "description": "Filter projects that are in any of the specified Kanban boards. Pass `null` to return only projects that are not assigned to any Kanban board. Mutually exclusive with `kanbanColumnIds`."
+                },
+                {
+                  "disabled": false,
+                  "key": "kanbanBoardIds",
+                  "value": "<uuid>",
+                  "description": "Filter projects that are in any of the specified Kanban boards. Pass `null` to return only projects that are not assigned to any Kanban board. Mutually exclusive with `kanbanColumnIds`."
+                },
+                {
+                  "disabled": false,
+                  "key": "kanbanColumnIds",
+                  "value": "<uuid>",
+                  "description": "Filter projects that are in any of the specified Kanban columns. Pass `null` to return only projects that have no status assigned (the \"no status\" column). Mutually exclusive with `kanbanBoardIds`."
+                },
+                {
+                  "disabled": false,
+                  "key": "kanbanColumnIds",
+                  "value": "<uuid>",
+                  "description": "Filter projects that are in any of the specified Kanban columns. Pass `null` to return only projects that have no status assigned (the \"no status\" column). Mutually exclusive with `kanbanBoardIds`."
+                },
+                {
+                  "disabled": false,
+                  "key": "customerNumber",
+                  "value": "<string>",
+                  "description": "Filter projects by their exact internal customer number (e.g. from your CRM or ERP)."
+                },
+                {
+                  "disabled": false,
+                  "key": "contactId",
+                  "value": "<uuid>",
+                  "description": "Filter projects whose customer contact has this ID. Reference to [**Contacts**](#tag/contacts)"
+                },
+                {
+                  "disabled": false,
+                  "key": "projectCreatedAt.gt",
+                  "value": "<string,null-date-time>",
+                  "description": "Filter records where projectCreatedAt is after this datetime (exclusive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "projectCreatedAt.lt",
+                  "value": "<string,null-date-time>",
+                  "description": "Filter records where projectCreatedAt is before this datetime (exclusive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "requestCreatedAt.gt",
+                  "value": "<string,null-date-time>",
+                  "description": "Filter records where requestCreatedAt is after this datetime (exclusive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "requestCreatedAt.lt",
+                  "value": "<string,null-date-time>",
+                  "description": "Filter records where requestCreatedAt is before this datetime (exclusive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "offerCreatedAt.gt",
+                  "value": "<string,null-date-time>",
+                  "description": "Filter records where offerCreatedAt is after this datetime (exclusive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "offerCreatedAt.lt",
+                  "value": "<string,null-date-time>",
+                  "description": "Filter records where offerCreatedAt is before this datetime (exclusive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "installationCreatedAt.gt",
+                  "value": "<string,null-date-time>",
+                  "description": "Filter records where installationCreatedAt is after this datetime (exclusive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "installationCreatedAt.lt",
+                  "value": "<string,null-date-time>",
+                  "description": "Filter records where installationCreatedAt is before this datetime (exclusive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "updatedAt.gt",
+                  "value": "<string,null-date-time>",
+                  "description": "Filter records where updatedAt is after this datetime (exclusive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "updatedAt.lt",
+                  "value": "<string,null-date-time>",
+                  "description": "Filter records where updatedAt is before this datetime (exclusive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number, starting from 1. Default: 1."
+                },
+                {
+                  "disabled": false,
+                  "key": "itemsPerPage",
+                  "value": "50",
+                  "description": "Number of items per page. Default: 50. Max: 200."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "-projectCreatedAt",
+                  "description": "Sort order. Use field names for ascending (e.g. \"createdAt\"), minus sign for descending (e.g. \"-createdAt\"). Chain with commas (e.g. \"createdAt,editedAt\"). Sortable fields: projectCreatedAt, requestCreatedAt, offerCreatedAt, installationCreatedAt, updatedAt. Defaults to -projectCreatedAt."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "55c2fd84-24ae-46d0-95dc-d51973355068",
+              "name": "Paginated list of residential projects",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "residentialProjects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "stage",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "stage",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "dealState",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "dealState",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "archived",
+                      "value": "exclude"
+                    },
+                    {
+                      "key": "tagIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "tagIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "leadSourceIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "leadSourceIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "kanbanBoardIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "kanbanBoardIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "kanbanColumnIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "kanbanColumnIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "customerNumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contactId",
+                      "value": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    {
+                      "key": "projectCreatedAt.gt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "projectCreatedAt.lt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "requestCreatedAt.gt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "requestCreatedAt.lt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "offerCreatedAt.gt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "offerCreatedAt.lt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "installationCreatedAt.gt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "installationCreatedAt.lt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "updatedAt.gt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "updatedAt.lt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "itemsPerPage",
+                      "value": "50"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "-projectCreatedAt"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"stage\": \"request\",\n      \"latLng\": {\n        \"lat\": 5605.3959279379005,\n        \"lng\": 1227.5483824789947\n      },\n      \"address\": {\n        \"street\": \"string\",\n        \"houseNumber\": \"string\",\n        \"postcode\": \"string\",\n        \"city\": \"string\",\n        \"country\": \"VaticanCity\"\n      },\n      \"customerContact\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"fullName\": \"string\",\n        \"firstName\": \"string\",\n        \"lastName\": \"string\",\n        \"primaryEmail\": \"string\"\n      },\n      \"customerNumber\": \"string\",\n      \"customerMessage\": \"string\",\n      \"keyAccountManagerId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"kanbanBoardId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"kanbanColumnId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"leadSourceId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"tagIds\": [\n        \"123e4567-e89b-12d3-a456-426614174000\"\n      ],\n      \"deal\": {\n        \"state\": \"Lost\",\n        \"decidedAt\": \"2004-08-31T18:02:55.999Z\",\n        \"lostReason\": \"preferredAnotherVendor\",\n        \"notes\": \"string\"\n      },\n      \"primaryOfferVariant\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"componentsTotalPrice\": 5900.144818531633,\n        \"totalPriceOverride\": 4396.240225910146\n      },\n      \"projectCreatedAt\": \"1982-03-22T07:34:17.204Z\",\n      \"requestCreatedAt\": \"1996-08-16T09:38:33.433Z\",\n      \"offerCreatedAt\": \"1956-07-03T02:58:01.807Z\",\n      \"installationCreatedAt\": \"1973-01-01T02:13:21.857Z\",\n      \"archivedAt\": \"1982-03-17T05:52:29.084Z\",\n      \"updatedAt\": \"1966-04-01T20:59:29.476Z\"\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"stage\": \"installation\",\n      \"latLng\": {\n        \"lat\": 5448.750502211472,\n        \"lng\": 309.55794946666225\n      },\n      \"address\": {\n        \"street\": \"string\",\n        \"houseNumber\": \"string\",\n        \"postcode\": \"string\",\n        \"city\": \"string\",\n        \"country\": \"FalklandIslands\"\n      },\n      \"customerContact\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"fullName\": \"string\",\n        \"firstName\": \"string\",\n        \"lastName\": \"string\",\n        \"primaryEmail\": \"string\"\n      },\n      \"customerNumber\": \"string\",\n      \"customerMessage\": \"string\",\n      \"keyAccountManagerId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"kanbanBoardId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"kanbanColumnId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"leadSourceId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"tagIds\": [\n        \"123e4567-e89b-12d3-a456-426614174000\"\n      ],\n      \"deal\": {\n        \"state\": \"null\",\n        \"decidedAt\": \"1984-07-18T05:39:09.234Z\",\n        \"lostReason\": \"changedDecision\",\n        \"notes\": \"string\"\n      },\n      \"primaryOfferVariant\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"componentsTotalPrice\": 6400.878501985641,\n        \"totalPriceOverride\": 7189.358485726611\n      },\n      \"projectCreatedAt\": \"2013-10-23T21:58:28.261Z\",\n      \"requestCreatedAt\": \"2008-06-29T11:36:58.568Z\",\n      \"offerCreatedAt\": \"1979-03-19T04:02:55.226Z\",\n      \"installationCreatedAt\": \"1950-09-14T06:05:54.244Z\",\n      \"archivedAt\": \"1963-06-02T19:25:25.935Z\",\n      \"updatedAt\": \"2000-11-10T06:50:43.821Z\"\n    }\n  ],\n  \"pagination\": {\n    \"page\": 2092,\n    \"perPage\": 7458,\n    \"total\": 3294,\n    \"totalPages\": 9331,\n    \"next\": \"string\",\n    \"prev\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "aa100787-1264-45e3-a5e5-ebed1e790275",
+          "name": "Get residential project",
+          "request": {
+            "name": "Get residential project",
+            "description": {
+              "content": "Get a single residential project by its ID. Works for any stage (request, offer, or installation).\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "residentialProjects",
+                ":projectId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "projectId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2ec8983a-3bf1-48d0-9056-87472e6e07c7",
+              "name": "The residential project",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "residentialProjects",
+                    ":projectId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"address\": {\n    \"street\": \"string\",\n    \"houseNumber\": \"string\",\n    \"postcode\": \"string\",\n    \"city\": \"string\",\n    \"country\": \"SanMarino\"\n  },\n  \"archivedAt\": \"1990-02-08T15:18:44.595Z\",\n  \"assignedTeamIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\"\n  ],\n  \"assignedUserIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\"\n  ],\n  \"building\": {\n    \"builtYear\": 3765.9335112426484,\n    \"livingArea\": 9417.042889162009,\n    \"numberOfInhabitants\": 268.1919313163683,\n    \"heatDeliveryType\": \"FloorAndRadiators\"\n  },\n  \"closedAt\": \"1967-08-26T11:35:19.257Z\",\n  \"customerContact\": {\n    \"firstName\": \"string\",\n    \"fullName\": \"string\",\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"lastName\": \"string\",\n    \"mobile\": \"string\",\n    \"phone\": \"string\",\n    \"phoneReachability\": \"Fulltime\",\n    \"primaryEmail\": \"string\",\n    \"salutation\": \"Female\",\n    \"secondaryEmail\": \"string\"\n  },\n  \"customerMessage\": \"string\",\n  \"customerNumber\": \"string\",\n  \"customerPortalUrl\": \"https://MxLNwGj.dqqD-.\",\n  \"deal\": {\n    \"state\": \"Won\",\n    \"decidedAt\": \"1978-03-01T21:36:32.232Z\",\n    \"lostReason\": \"notInterested\",\n    \"notes\": \"string\"\n  },\n  \"existingSystems\": {\n    \"solar\": {\n      \"builtYear\": 4783.503898398856,\n      \"capacity\": 1534.268932954479,\n      \"angle\": 7.195945754890909,\n      \"orientation\": 6760.934970116285\n    },\n    \"heating\": {\n      \"type\": \"Infrared\",\n      \"annualCost\": 9326.17763610456,\n      \"annualDemand\": 342.35740712473927,\n      \"oilPricePerLiter\": 3953.4804841826453,\n      \"gasPricePerCubicMeter\": 4245.548564271904\n    },\n    \"batteryStorage\": {\n      \"builtYear\": 3669.6899712070954,\n      \"capacity\": 301.75078429638626\n    },\n    \"evCharger\": {\n      \"chargingPower\": 5339.525383703601\n    },\n    \"ev\": {\n      \"vehicleId\": \"7260128f-cfdb-c5ac-63ee-7b7aa670c2fe\",\n      \"vehicleName\": \"string\",\n      \"annualDistance\": 9380.725329309662\n    }\n  },\n  \"heatLoad\": {\n    \"mode\": \"properties\",\n    \"manualOverride\": 4920.663644730686\n  },\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"installationCreatedAt\": \"2014-11-09T03:50:45.791Z\",\n  \"integrations\": {\n    \"hubspotDealId\": \"string\",\n    \"pipedriveDealId\": 5319,\n    \"weclappOpportunityId\": \"string\",\n    \"bitrixDealId\": \"string\",\n    \"photovateDealId\": \"string\"\n  },\n  \"kanbanBoardId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"kanbanColumnId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"keyAccountManagerId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"latLng\": {\n    \"lat\": 6021.807543761613,\n    \"lng\": 4614.6743949217125\n  },\n  \"leadSourceId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"meterNumber\": \"string\",\n  \"name\": \"string\",\n  \"offerCreatedAt\": \"2024-11-29T20:26:41.071Z\",\n  \"offerNumber\": \"string\",\n  \"primaryOfferVariant\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"componentsTotalPrice\": 1144.9439240131342,\n    \"totalPriceOverride\": 2579.4222001466583\n  },\n  \"projectCreatedAt\": \"1976-04-21T11:02:43.036Z\",\n  \"requestCreatedAt\": \"2016-02-28T01:26:28.698Z\",\n  \"requestedPackages\": {\n    \"solar\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\"\n    },\n    \"heating\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\"\n    },\n    \"batteryStorage\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\"\n    },\n    \"evCharger\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\"\n    }\n  },\n  \"signatureRequests\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"status\": \"RequestedAndAllowed\",\n      \"variantIds\": [\n        \"87d4c84e-1c35-490b-ed81-9aa292a67be0\",\n        \"e753a956-bd94-e757-b3d6-760323add710\"\n      ],\n      \"signatureOptions\": [\n        {\n          \"variantId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"paymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\"\n        },\n        {\n          \"variantId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"paymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\"\n        }\n      ],\n      \"signedVariantId\": \"88668f3a-7b1b-fd0f-0da5-25f112378c39\",\n      \"signedPaymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"createdAt\": \"1972-11-30T07:55:49.108Z\",\n      \"expiresAt\": \"1970-01-03T13:07:43.769Z\",\n      \"withdrawnAt\": \"2002-08-02T12:21:03.028Z\",\n      \"signedAt\": \"2026-03-18T10:21:54.758Z\",\n      \"signedPdfUrl\": \"https://Ysyposa.cpcbMArHReXpuaNcJa.2ZgZvnXDbjJc6iI768YA,4gogDG6s6D-0VizfY-hLXuLy\"\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"status\": \"Signed\",\n      \"variantIds\": [\n        \"9d2bf6e4-d563-b148-2bc8-41d51a6d117e\",\n        \"aaca9f3f-d1f9-3950-d207-571da697058d\"\n      ],\n      \"signatureOptions\": [\n        {\n          \"variantId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"paymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\"\n        },\n        {\n          \"variantId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"paymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\"\n        }\n      ],\n      \"signedVariantId\": \"9b194ef9-35dc-8240-acff-daeeb11eabb0\",\n      \"signedPaymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"createdAt\": \"1946-09-25T17:27:25.924Z\",\n      \"expiresAt\": \"1949-05-25T19:23:06.316Z\",\n      \"withdrawnAt\": \"1969-09-13T14:48:43.787Z\",\n      \"signedAt\": \"1963-07-20T00:14:49.918Z\",\n      \"signedPdfUrl\": \"http://fkJ.xeFB2A7VX+4Bf\"\n    }\n  ],\n  \"stage\": \"offer\",\n  \"subsidies\": {\n    \"de\": {\n      \"bafaApplicationId\": \"string\",\n      \"bafaCompletionId\": \"string\"\n    }\n  },\n  \"tagIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\"\n  ],\n  \"targetSignatureDate\": \"1988-10-18T14:53:05.958Z\",\n  \"updatedAt\": \"1983-12-05T22:48:02.793Z\",\n  \"variantIds\": [\n    \"afbf5d08-9afa-481b-a029-68ea63d6ba02\",\n    \"cb1be045-57a8-5d9a-103a-f4191e131939\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b90e6b1b-0043-4220-bcbc-1a7217e1bf7c",
+          "name": "Create residential project",
+          "request": {
+            "name": "Create residential project",
+            "description": {
+              "content": "Create a residential project at a given lifecycle stage.\n\n**Allowed API keys:** Read and Write, Lead creation only",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "residentialProjects",
+                "create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"stage\": \"<string>\",\n  \"customerContact\": {\n    \"id\": \"<uuid>\"\n  },\n  \"latLng\": {\n    \"lat\": \"<number>\",\n    \"lng\": \"<number>\"\n  },\n  \"address\": {\n    \"street\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"city\": \"<string>\",\n    \"country\": \"<string>\",\n    \"houseNumber\": \"<string>\"\n  },\n  \"name\": \"<string>\",\n  \"customerNumber\": \"<string>\",\n  \"meterNumber\": \"<string>\",\n  \"kanbanBoardId\": \"<string,null-uuid>\",\n  \"kanbanColumnId\": \"<string,null-uuid>\",\n  \"leadSourceId\": \"<string,null-uuid>\",\n  \"tagIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"packages\": {\n    \"solarPackageId\": \"<string,null-uuid>\",\n    \"batteryStoragePackageId\": \"<string,null-uuid>\",\n    \"evChargerPackageId\": \"<string,null-uuid>\",\n    \"heatingPackageId\": \"<string,null-uuid>\"\n  },\n  \"integrations\": {\n    \"hubspotDealId\": \"<string,null>\",\n    \"pipedriveDealId\": \"<integer,null>\",\n    \"weclappOpportunityId\": \"<string,null-uuid>\",\n    \"bitrixDealId\": \"<string,null>\",\n    \"photovateDealId\": \"<string,null-uuid>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "51f5a4c8-5141-45f0-924b-9e6d1b4564aa",
+              "name": "The created residential project",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "residentialProjects",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"stage\": \"<string>\",\n  \"customerContact\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\"\n  },\n  \"latLng\": {\n    \"lat\": 48.363767359,\n    \"lng\": 10.888136991\n  },\n  \"address\": {\n    \"street\": \"Hauptstraße\",\n    \"postcode\": \"86150\",\n    \"city\": \"Augsburg\",\n    \"country\": \"Germany\",\n    \"houseNumber\": \"12\"\n  },\n  \"name\": \"Test Project\",\n  \"customerNumber\": \"C-1042\",\n  \"meterNumber\": \"1APA0123456789\",\n  \"kanbanBoardId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"kanbanColumnId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"leadSourceId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"tagIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\",\n    \"123e4567-e89b-12d3-a456-426614174002\"\n  ],\n  \"packages\": {\n    \"solarPackageId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"batteryStoragePackageId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"evChargerPackageId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"heatingPackageId\": \"123e4567-e89b-12d3-a456-426614174000\"\n  },\n  \"integrations\": {\n    \"hubspotDealId\": \"<string,null>\",\n    \"pipedriveDealId\": \"<integer,null>\",\n    \"weclappOpportunityId\": \"<string,null-uuid>\",\n    \"bitrixDealId\": \"<string,null>\",\n    \"photovateDealId\": \"<string,null-uuid>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"address\": {\n    \"street\": \"string\",\n    \"houseNumber\": \"string\",\n    \"postcode\": \"string\",\n    \"city\": \"string\",\n    \"country\": \"SanMarino\"\n  },\n  \"archivedAt\": \"1990-02-08T15:18:44.595Z\",\n  \"assignedTeamIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\"\n  ],\n  \"assignedUserIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\"\n  ],\n  \"building\": {\n    \"builtYear\": 3765.9335112426484,\n    \"livingArea\": 9417.042889162009,\n    \"numberOfInhabitants\": 268.1919313163683,\n    \"heatDeliveryType\": \"FloorAndRadiators\"\n  },\n  \"closedAt\": \"1967-08-26T11:35:19.257Z\",\n  \"customerContact\": {\n    \"firstName\": \"string\",\n    \"fullName\": \"string\",\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"lastName\": \"string\",\n    \"mobile\": \"string\",\n    \"phone\": \"string\",\n    \"phoneReachability\": \"Fulltime\",\n    \"primaryEmail\": \"string\",\n    \"salutation\": \"Female\",\n    \"secondaryEmail\": \"string\"\n  },\n  \"customerMessage\": \"string\",\n  \"customerNumber\": \"string\",\n  \"customerPortalUrl\": \"https://MxLNwGj.dqqD-.\",\n  \"deal\": {\n    \"state\": \"Won\",\n    \"decidedAt\": \"1978-03-01T21:36:32.232Z\",\n    \"lostReason\": \"notInterested\",\n    \"notes\": \"string\"\n  },\n  \"existingSystems\": {\n    \"solar\": {\n      \"builtYear\": 4783.503898398856,\n      \"capacity\": 1534.268932954479,\n      \"angle\": 7.195945754890909,\n      \"orientation\": 6760.934970116285\n    },\n    \"heating\": {\n      \"type\": \"Infrared\",\n      \"annualCost\": 9326.17763610456,\n      \"annualDemand\": 342.35740712473927,\n      \"oilPricePerLiter\": 3953.4804841826453,\n      \"gasPricePerCubicMeter\": 4245.548564271904\n    },\n    \"batteryStorage\": {\n      \"builtYear\": 3669.6899712070954,\n      \"capacity\": 301.75078429638626\n    },\n    \"evCharger\": {\n      \"chargingPower\": 5339.525383703601\n    },\n    \"ev\": {\n      \"vehicleId\": \"7260128f-cfdb-c5ac-63ee-7b7aa670c2fe\",\n      \"vehicleName\": \"string\",\n      \"annualDistance\": 9380.725329309662\n    }\n  },\n  \"heatLoad\": {\n    \"mode\": \"properties\",\n    \"manualOverride\": 4920.663644730686\n  },\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"installationCreatedAt\": \"2014-11-09T03:50:45.791Z\",\n  \"integrations\": {\n    \"hubspotDealId\": \"string\",\n    \"pipedriveDealId\": 5319,\n    \"weclappOpportunityId\": \"string\",\n    \"bitrixDealId\": \"string\",\n    \"photovateDealId\": \"string\"\n  },\n  \"kanbanBoardId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"kanbanColumnId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"keyAccountManagerId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"latLng\": {\n    \"lat\": 6021.807543761613,\n    \"lng\": 4614.6743949217125\n  },\n  \"leadSourceId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"meterNumber\": \"string\",\n  \"name\": \"string\",\n  \"offerCreatedAt\": \"2024-11-29T20:26:41.071Z\",\n  \"offerNumber\": \"string\",\n  \"primaryOfferVariant\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"componentsTotalPrice\": 1144.9439240131342,\n    \"totalPriceOverride\": 2579.4222001466583\n  },\n  \"projectCreatedAt\": \"1976-04-21T11:02:43.036Z\",\n  \"requestCreatedAt\": \"2016-02-28T01:26:28.698Z\",\n  \"requestedPackages\": {\n    \"solar\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\"\n    },\n    \"heating\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\"\n    },\n    \"batteryStorage\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\"\n    },\n    \"evCharger\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\"\n    }\n  },\n  \"signatureRequests\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"status\": \"RequestedAndAllowed\",\n      \"variantIds\": [\n        \"87d4c84e-1c35-490b-ed81-9aa292a67be0\",\n        \"e753a956-bd94-e757-b3d6-760323add710\"\n      ],\n      \"signatureOptions\": [\n        {\n          \"variantId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"paymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\"\n        },\n        {\n          \"variantId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"paymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\"\n        }\n      ],\n      \"signedVariantId\": \"88668f3a-7b1b-fd0f-0da5-25f112378c39\",\n      \"signedPaymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"createdAt\": \"1972-11-30T07:55:49.108Z\",\n      \"expiresAt\": \"1970-01-03T13:07:43.769Z\",\n      \"withdrawnAt\": \"2002-08-02T12:21:03.028Z\",\n      \"signedAt\": \"2026-03-18T10:21:54.758Z\",\n      \"signedPdfUrl\": \"https://Ysyposa.cpcbMArHReXpuaNcJa.2ZgZvnXDbjJc6iI768YA,4gogDG6s6D-0VizfY-hLXuLy\"\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"status\": \"Signed\",\n      \"variantIds\": [\n        \"9d2bf6e4-d563-b148-2bc8-41d51a6d117e\",\n        \"aaca9f3f-d1f9-3950-d207-571da697058d\"\n      ],\n      \"signatureOptions\": [\n        {\n          \"variantId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"paymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\"\n        },\n        {\n          \"variantId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"paymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\"\n        }\n      ],\n      \"signedVariantId\": \"9b194ef9-35dc-8240-acff-daeeb11eabb0\",\n      \"signedPaymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"createdAt\": \"1946-09-25T17:27:25.924Z\",\n      \"expiresAt\": \"1949-05-25T19:23:06.316Z\",\n      \"withdrawnAt\": \"1969-09-13T14:48:43.787Z\",\n      \"signedAt\": \"1963-07-20T00:14:49.918Z\",\n      \"signedPdfUrl\": \"http://fkJ.xeFB2A7VX+4Bf\"\n    }\n  ],\n  \"stage\": \"offer\",\n  \"subsidies\": {\n    \"de\": {\n      \"bafaApplicationId\": \"string\",\n      \"bafaCompletionId\": \"string\"\n    }\n  },\n  \"tagIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\"\n  ],\n  \"targetSignatureDate\": \"1988-10-18T14:53:05.958Z\",\n  \"updatedAt\": \"1983-12-05T22:48:02.793Z\",\n  \"variantIds\": [\n    \"afbf5d08-9afa-481b-a029-68ea63d6ba02\",\n    \"cb1be045-57a8-5d9a-103a-f4191e131939\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "41009da5-614f-4d3c-b996-257a1bfeb584",
+          "name": "Update residential project",
+          "request": {
+            "name": "Update residential project",
+            "description": {
+              "content": "Update fields of a residential project. Stage-agnostic — the same fields are editable at any lifecycle stage. If you want to update contact details, use the dedicated endpoint — see [**Contacts**](#tag/contacts) for more details on that.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "residentialProjects",
+                ":projectId",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "projectId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"stage\": \"<string>\",\n  \"latLng\": {\n    \"lat\": \"<number>\",\n    \"lng\": \"<number>\"\n  },\n  \"name\": \"<string>\",\n  \"customerNumber\": \"<string,null>\",\n  \"meterNumber\": \"<string,null>\",\n  \"targetSignatureDate\": \"<string,null-date-time>\",\n  \"closedAt\": \"<string,null-date-time>\",\n  \"subsidies\": {\n    \"de\": {\n      \"bafaApplicationId\": \"<string,null>\",\n      \"bafaCompletionId\": \"<string,null>\"\n    }\n  },\n  \"keyAccountManagerId\": \"<string,null-uuid>\",\n  \"assignedUserIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"assignedTeamIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"notifyNewAssignees\": true,\n  \"tagIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"kanbanBoardId\": \"<uuid>\",\n  \"kanbanColumnId\": \"<uuid>\",\n  \"leadSourceId\": \"<string,null-uuid>\",\n  \"primaryOfferVariantId\": \"<uuid>\",\n  \"deal\": {\n    \"state\": \"<string>\"\n  },\n  \"integrations\": {\n    \"hubspotDealId\": \"<string,null>\",\n    \"pipedriveDealId\": \"<integer,null>\",\n    \"weclappOpportunityId\": \"<string,null-uuid>\",\n    \"bitrixDealId\": \"<string,null>\",\n    \"photovateDealId\": \"<string,null-uuid>\"\n  },\n  \"archived\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dd1bc4dc-bd57-4fe2-96f4-96abbfe3812c",
+              "name": "The updated residential project",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "residentialProjects",
+                    ":projectId",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"stage\": \"<string>\",\n  \"latLng\": {\n    \"lat\": 48.363767359,\n    \"lng\": 10.888136991\n  },\n  \"name\": \"<string>\",\n  \"customerNumber\": \"C-1042\",\n  \"meterNumber\": \"1APA0123456789\",\n  \"targetSignatureDate\": \"2026-01-01T15:30:00.000Z\",\n  \"closedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"subsidies\": {\n    \"de\": {\n      \"bafaApplicationId\": \"<string,null>\",\n      \"bafaCompletionId\": \"<string,null>\"\n    }\n  },\n  \"keyAccountManagerId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"assignedUserIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\",\n    \"123e4567-e89b-12d3-a456-426614174002\"\n  ],\n  \"assignedTeamIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\",\n    \"123e4567-e89b-12d3-a456-426614174002\"\n  ],\n  \"notifyNewAssignees\": true,\n  \"tagIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\",\n    \"123e4567-e89b-12d3-a456-426614174002\"\n  ],\n  \"kanbanBoardId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"kanbanColumnId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"leadSourceId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"primaryOfferVariantId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"deal\": {\n    \"state\": \"Open\"\n  },\n  \"integrations\": {\n    \"hubspotDealId\": \"<string,null>\",\n    \"pipedriveDealId\": \"<integer,null>\",\n    \"weclappOpportunityId\": \"<string,null-uuid>\",\n    \"bitrixDealId\": \"<string,null>\",\n    \"photovateDealId\": \"<string,null-uuid>\"\n  },\n  \"archived\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"address\": {\n    \"street\": \"string\",\n    \"houseNumber\": \"string\",\n    \"postcode\": \"string\",\n    \"city\": \"string\",\n    \"country\": \"SanMarino\"\n  },\n  \"archivedAt\": \"1990-02-08T15:18:44.595Z\",\n  \"assignedTeamIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\"\n  ],\n  \"assignedUserIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\"\n  ],\n  \"building\": {\n    \"builtYear\": 3765.9335112426484,\n    \"livingArea\": 9417.042889162009,\n    \"numberOfInhabitants\": 268.1919313163683,\n    \"heatDeliveryType\": \"FloorAndRadiators\"\n  },\n  \"closedAt\": \"1967-08-26T11:35:19.257Z\",\n  \"customerContact\": {\n    \"firstName\": \"string\",\n    \"fullName\": \"string\",\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"lastName\": \"string\",\n    \"mobile\": \"string\",\n    \"phone\": \"string\",\n    \"phoneReachability\": \"Fulltime\",\n    \"primaryEmail\": \"string\",\n    \"salutation\": \"Female\",\n    \"secondaryEmail\": \"string\"\n  },\n  \"customerMessage\": \"string\",\n  \"customerNumber\": \"string\",\n  \"customerPortalUrl\": \"https://MxLNwGj.dqqD-.\",\n  \"deal\": {\n    \"state\": \"Won\",\n    \"decidedAt\": \"1978-03-01T21:36:32.232Z\",\n    \"lostReason\": \"notInterested\",\n    \"notes\": \"string\"\n  },\n  \"existingSystems\": {\n    \"solar\": {\n      \"builtYear\": 4783.503898398856,\n      \"capacity\": 1534.268932954479,\n      \"angle\": 7.195945754890909,\n      \"orientation\": 6760.934970116285\n    },\n    \"heating\": {\n      \"type\": \"Infrared\",\n      \"annualCost\": 9326.17763610456,\n      \"annualDemand\": 342.35740712473927,\n      \"oilPricePerLiter\": 3953.4804841826453,\n      \"gasPricePerCubicMeter\": 4245.548564271904\n    },\n    \"batteryStorage\": {\n      \"builtYear\": 3669.6899712070954,\n      \"capacity\": 301.75078429638626\n    },\n    \"evCharger\": {\n      \"chargingPower\": 5339.525383703601\n    },\n    \"ev\": {\n      \"vehicleId\": \"7260128f-cfdb-c5ac-63ee-7b7aa670c2fe\",\n      \"vehicleName\": \"string\",\n      \"annualDistance\": 9380.725329309662\n    }\n  },\n  \"heatLoad\": {\n    \"mode\": \"properties\",\n    \"manualOverride\": 4920.663644730686\n  },\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"installationCreatedAt\": \"2014-11-09T03:50:45.791Z\",\n  \"integrations\": {\n    \"hubspotDealId\": \"string\",\n    \"pipedriveDealId\": 5319,\n    \"weclappOpportunityId\": \"string\",\n    \"bitrixDealId\": \"string\",\n    \"photovateDealId\": \"string\"\n  },\n  \"kanbanBoardId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"kanbanColumnId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"keyAccountManagerId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"latLng\": {\n    \"lat\": 6021.807543761613,\n    \"lng\": 4614.6743949217125\n  },\n  \"leadSourceId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"meterNumber\": \"string\",\n  \"name\": \"string\",\n  \"offerCreatedAt\": \"2024-11-29T20:26:41.071Z\",\n  \"offerNumber\": \"string\",\n  \"primaryOfferVariant\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"componentsTotalPrice\": 1144.9439240131342,\n    \"totalPriceOverride\": 2579.4222001466583\n  },\n  \"projectCreatedAt\": \"1976-04-21T11:02:43.036Z\",\n  \"requestCreatedAt\": \"2016-02-28T01:26:28.698Z\",\n  \"requestedPackages\": {\n    \"solar\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\"\n    },\n    \"heating\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\"\n    },\n    \"batteryStorage\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\"\n    },\n    \"evCharger\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\"\n    }\n  },\n  \"signatureRequests\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"status\": \"RequestedAndAllowed\",\n      \"variantIds\": [\n        \"87d4c84e-1c35-490b-ed81-9aa292a67be0\",\n        \"e753a956-bd94-e757-b3d6-760323add710\"\n      ],\n      \"signatureOptions\": [\n        {\n          \"variantId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"paymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\"\n        },\n        {\n          \"variantId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"paymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\"\n        }\n      ],\n      \"signedVariantId\": \"88668f3a-7b1b-fd0f-0da5-25f112378c39\",\n      \"signedPaymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"createdAt\": \"1972-11-30T07:55:49.108Z\",\n      \"expiresAt\": \"1970-01-03T13:07:43.769Z\",\n      \"withdrawnAt\": \"2002-08-02T12:21:03.028Z\",\n      \"signedAt\": \"2026-03-18T10:21:54.758Z\",\n      \"signedPdfUrl\": \"https://Ysyposa.cpcbMArHReXpuaNcJa.2ZgZvnXDbjJc6iI768YA,4gogDG6s6D-0VizfY-hLXuLy\"\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"status\": \"Signed\",\n      \"variantIds\": [\n        \"9d2bf6e4-d563-b148-2bc8-41d51a6d117e\",\n        \"aaca9f3f-d1f9-3950-d207-571da697058d\"\n      ],\n      \"signatureOptions\": [\n        {\n          \"variantId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"paymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\"\n        },\n        {\n          \"variantId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"paymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\"\n        }\n      ],\n      \"signedVariantId\": \"9b194ef9-35dc-8240-acff-daeeb11eabb0\",\n      \"signedPaymentOptionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"createdAt\": \"1946-09-25T17:27:25.924Z\",\n      \"expiresAt\": \"1949-05-25T19:23:06.316Z\",\n      \"withdrawnAt\": \"1969-09-13T14:48:43.787Z\",\n      \"signedAt\": \"1963-07-20T00:14:49.918Z\",\n      \"signedPdfUrl\": \"http://fkJ.xeFB2A7VX+4Bf\"\n    }\n  ],\n  \"stage\": \"offer\",\n  \"subsidies\": {\n    \"de\": {\n      \"bafaApplicationId\": \"string\",\n      \"bafaCompletionId\": \"string\"\n    }\n  },\n  \"tagIds\": [\n    \"123e4567-e89b-12d3-a456-426614174000\"\n  ],\n  \"targetSignatureDate\": \"1988-10-18T14:53:05.958Z\",\n  \"updatedAt\": \"1983-12-05T22:48:02.793Z\",\n  \"variantIds\": [\n    \"afbf5d08-9afa-481b-a029-68ea63d6ba02\",\n    \"cb1be045-57a8-5d9a-103a-f4191e131939\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "65d32384-c9e3-41c0-9bed-4f343aa65548",
+          "name": "Get heating load (room-wise)",
+          "request": {
+            "name": "Get heating load (room-wise)",
+            "description": {
+              "content": "Retrieve room-wise heating load simulation results for a residential project.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "residentialProjects",
+                ":projectId",
+                "heatingLoad",
+                "roomWise"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "useReplacementRadiators",
+                  "value": "true",
+                  "description": "Whether to use replacement radiators in the heating load simulation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "projectId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ffc9a794-ef91-4c44-a709-65eb68e6fdba",
+              "name": "Simulation result",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "residentialProjects",
+                    ":projectId",
+                    "heatingLoad",
+                    "roomWise"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "useReplacementRadiators",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": {\n    \"totalHeatLoss\": 6273.569310531948,\n    \"totalTransmissionHeatCoefficient\": 3157.266342922599,\n    \"totalTransmissionHeatLoss\": 6178.413709499992,\n    \"totalVentilationHeatCoefficient\": 4108.803225168114,\n    \"totalVentilationHeatLoss\": 3588.704330916228,\n    \"transmissionHeatLossToGround\": 5928.508633348732,\n    \"transmissionHeatLossToOutside\": 7142.097492400795,\n    \"transmissionHeatLossToUnheated\": 7324.370307489092,\n    \"baseValues\": {\n      \"builtYear\": 5476.892224959376,\n      \"numberOfInhabitants\": 3846.31291099141,\n      \"shielding\": \"Normal\",\n      \"soilDepth\": 4824.041950660757,\n      \"thermalBridgeFactorExternal\": 9522.826139733155,\n      \"thermalBridgeFactorInternal\": 6854.242660089397,\n      \"airTightnessTest\": {\n        \"testType\": \"YesWithVolumeFlow\",\n        \"n50\": 2477.5011192817087,\n        \"volumeFlow\": 7495.593650524941\n      },\n      \"width\": 8566.306635875238,\n      \"length\": 9945.36046467366\n    }\n  },\n  \"warnings\": [\n    {\n      \"fieldName\": \"string\",\n      \"aggregationKey\": \"string\",\n      \"error\": \"DORMER_LENGTH_EXCEEDS_ROOF_LENGTH\",\n      \"errorRange\": {\n        \"min\": 7891.426567255173,\n        \"max\": 1047.8809238984754\n      },\n      \"errorName\": \"string\",\n      \"errorDescription\": \"string\",\n      \"fixDescription\": \"string\",\n      \"componentId\": \"string\",\n      \"storyId\": \"string\",\n      \"roomId\": \"string\"\n    },\n    {\n      \"fieldName\": \"string\",\n      \"aggregationKey\": \"string\",\n      \"error\": \"DORMER_LENGTH_EXCEEDS_ROOF_LENGTH\",\n      \"errorRange\": {\n        \"min\": 5306.6903698535,\n        \"max\": 2306.172672110278\n      },\n      \"errorName\": \"string\",\n      \"errorDescription\": \"string\",\n      \"fixDescription\": \"string\",\n      \"componentId\": \"string\",\n      \"storyId\": \"string\",\n      \"roomId\": \"string\"\n    }\n  ],\n  \"errors\": [\n    {\n      \"fieldName\": \"string\",\n      \"aggregationKey\": \"string\",\n      \"error\": \"NO_OUTSIDE_WALL\",\n      \"errorRange\": {\n        \"min\": 198.8618473780379,\n        \"max\": 2892.863274562404\n      },\n      \"errorName\": \"string\",\n      \"errorDescription\": \"string\",\n      \"fixDescription\": \"string\",\n      \"componentId\": \"string\",\n      \"storyId\": \"string\",\n      \"roomId\": \"string\"\n    },\n    {\n      \"fieldName\": \"string\",\n      \"aggregationKey\": \"string\",\n      \"error\": \"WINDOW_DOOR_AREA_TOO_BIG\",\n      \"errorRange\": {\n        \"min\": 7258.316501203288,\n        \"max\": 4684.306927483544\n      },\n      \"errorName\": \"string\",\n      \"errorDescription\": \"string\",\n      \"fixDescription\": \"string\",\n      \"componentId\": \"string\",\n      \"storyId\": \"string\",\n      \"roomId\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3e61082c-c9de-4d5e-90a8-b4f1a6704252",
+              "name": "Failed to compute heating load",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "residentialProjects",
+                    ":projectId",
+                    "heatingLoad",
+                    "roomWise"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "useReplacementRadiators",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Failed to compute heating load\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "595650d8-afff-43d5-a048-446d8d158ab1",
+          "name": "List variants",
+          "request": {
+            "name": "List variants",
+            "description": {
+              "content": "List all variants (planned offer configurations) of a residential project, each with its full bill of materials grouped by system. Variants are populated once the project reaches the offer stage.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "residentialProjects",
+                ":projectId",
+                "variants"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "projectId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1d0114a2-028c-458e-a25e-1420d27134eb",
+              "name": "The project's variants",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "residentialProjects",
+                    ":projectId",
+                    "variants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"isPrimary\": false,\n      \"totalPrice\": {\n        \"net\": 595.198086295331,\n        \"gross\": 3905.675249842627,\n        \"vat\": 8440.553042374762\n      },\n      \"totalPriceOverride\": 4251.8185683101465,\n      \"systems\": {\n        \"solar\": {\n          \"price\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lineItems\": [\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        \"batteryStorage\": {\n          \"price\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lineItems\": [\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        \"heating\": {\n          \"price\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lineItems\": [\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        \"evCharger\": {\n          \"price\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lineItems\": [\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        \"additional\": {\n          \"price\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lineItems\": [\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      },\n      \"optionalBundles\": [\n        {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"selected\": false,\n          \"price\": {\n            \"net\": 6247.994037910269,\n            \"gross\": 6504.155793782069,\n            \"vat\": 7345.27417959261\n          },\n          \"lineItems\": [\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"selected\": true,\n          \"price\": {\n            \"net\": 9647.030289205291,\n            \"gross\": 8165.229913341391,\n            \"vat\": 665.2003885150137\n          },\n          \"lineItems\": [\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"isPrimary\": true,\n      \"totalPrice\": {\n        \"net\": 8057.0249695510365,\n        \"gross\": 7712.0561621560655,\n        \"vat\": 5436.5911935633485\n      },\n      \"totalPriceOverride\": 3417.7442715104676,\n      \"systems\": {\n        \"solar\": {\n          \"price\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lineItems\": [\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        \"batteryStorage\": {\n          \"price\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lineItems\": [\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        \"heating\": {\n          \"price\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lineItems\": [\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        \"evCharger\": {\n          \"price\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lineItems\": [\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        \"additional\": {\n          \"price\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"lineItems\": [\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      },\n      \"optionalBundles\": [\n        {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"selected\": true,\n          \"price\": {\n            \"net\": 4381.954043296984,\n            \"gross\": 9807.511845677265,\n            \"vat\": 7054.5844444037575\n          },\n          \"lineItems\": [\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"selected\": true,\n          \"price\": {\n            \"net\": 629.7921484859348,\n            \"gross\": 1201.826319191369,\n            \"vat\": 471.63829872790444\n          },\n          \"lineItems\": [\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"componentId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentVersionId\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"componentType\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"brand\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"articleNumber\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"gtin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"quantity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"visibleToCustomer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalSalesPrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"unitPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"totalPurchasePrice\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"purchasePriceOverridden\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"margin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "22f073f0-e8c1-427d-815a-f08191406872",
+          "name": "Get variant",
+          "request": {
+            "name": "Get variant",
+            "description": {
+              "content": "Get a single variant (planned offer configuration) of a residential project, with its full bill of materials grouped by system. Returns the same shape as an entry in the list-variants response.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "residentialProjects",
+                ":projectId",
+                "variants",
+                ":variantId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "projectId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "variantId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ea2ce9a7-96f1-4f8c-9a1f-9dae8948789b",
+              "name": "The variant",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "residentialProjects",
+                    ":projectId",
+                    "variants",
+                    ":variantId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "variantId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"name\": \"string\",\n  \"isPrimary\": false,\n  \"totalPrice\": {\n    \"net\": 8472.25581378386,\n    \"gross\": 9234.584964855812,\n    \"vat\": 1209.1730875382145\n  },\n  \"totalPriceOverride\": 7935.8219793499065,\n  \"systems\": {\n    \"solar\": {\n      \"price\": {\n        \"net\": 162.4725934395932,\n        \"gross\": 4009.8849629668507,\n        \"vat\": 2066.9279478000035\n      },\n      \"lineItems\": [\n        {\n          \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentVersionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentType\": \"microinverter\",\n          \"name\": \"string\",\n          \"brand\": \"string\",\n          \"articleNumber\": \"string\",\n          \"gtin\": \"string\",\n          \"quantity\": 453.8064721177271,\n          \"visibleToCustomer\": false,\n          \"unitSalesPrice\": {\n            \"vatRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"totalSalesPrice\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"unitPurchasePrice\": 9329.532083507362,\n          \"totalPurchasePrice\": 9125.87426980894,\n          \"purchasePriceOverridden\": false,\n          \"margin\": {\n            \"total\": 7835.287524761201,\n            \"rate\": 3751.984623578146\n          }\n        },\n        {\n          \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentVersionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentType\": \"hotWaterHeatPump\",\n          \"name\": \"string\",\n          \"brand\": \"string\",\n          \"articleNumber\": \"string\",\n          \"gtin\": \"string\",\n          \"quantity\": 11.759752245260602,\n          \"visibleToCustomer\": false,\n          \"unitSalesPrice\": {\n            \"vatRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"totalSalesPrice\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"unitPurchasePrice\": 7258.218585925983,\n          \"totalPurchasePrice\": 6409.763961820666,\n          \"purchasePriceOverridden\": false,\n          \"margin\": {\n            \"total\": 9399.482290827633,\n            \"rate\": 1385.8782264744084\n          }\n        }\n      ]\n    },\n    \"batteryStorage\": {\n      \"price\": {\n        \"net\": 6009.436789180607,\n        \"gross\": 1222.7969245655702,\n        \"vat\": 8560.468508987078\n      },\n      \"lineItems\": [\n        {\n          \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentVersionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentType\": \"optimizer\",\n          \"name\": \"string\",\n          \"brand\": \"string\",\n          \"articleNumber\": \"string\",\n          \"gtin\": \"string\",\n          \"quantity\": 8388.552763618858,\n          \"visibleToCustomer\": true,\n          \"unitSalesPrice\": {\n            \"vatRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"totalSalesPrice\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"unitPurchasePrice\": 8196.149249433702,\n          \"totalPurchasePrice\": 6239.520016526913,\n          \"purchasePriceOverridden\": true,\n          \"margin\": {\n            \"total\": 3703.2764745602462,\n            \"rate\": 5095.277658497544\n          }\n        },\n        {\n          \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentVersionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentType\": \"airHeatPump\",\n          \"name\": \"string\",\n          \"brand\": \"string\",\n          \"articleNumber\": \"string\",\n          \"gtin\": \"string\",\n          \"quantity\": 1515.9720028654556,\n          \"visibleToCustomer\": false,\n          \"unitSalesPrice\": {\n            \"vatRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"totalSalesPrice\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"unitPurchasePrice\": 9414.965008481066,\n          \"totalPurchasePrice\": 2590.822019740312,\n          \"purchasePriceOverridden\": false,\n          \"margin\": {\n            \"total\": 2297.5128906346476,\n            \"rate\": 4855.97499200865\n          }\n        }\n      ]\n    },\n    \"heating\": {\n      \"price\": {\n        \"net\": 951.5993291154989,\n        \"gross\": 1159.6719259143606,\n        \"vat\": 9860.25240950804\n      },\n      \"lineItems\": [\n        {\n          \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentVersionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentType\": \"heatPump\",\n          \"name\": \"string\",\n          \"brand\": \"string\",\n          \"articleNumber\": \"string\",\n          \"gtin\": \"string\",\n          \"quantity\": 3330.138205722398,\n          \"visibleToCustomer\": true,\n          \"unitSalesPrice\": {\n            \"vatRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"totalSalesPrice\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"unitPurchasePrice\": 3498.354370754525,\n          \"totalPurchasePrice\": 6460.915239549932,\n          \"purchasePriceOverridden\": false,\n          \"margin\": {\n            \"total\": 2115.2862241977987,\n            \"rate\": 7772.189626733713\n          }\n        },\n        {\n          \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentVersionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentType\": \"other\",\n          \"name\": \"string\",\n          \"brand\": \"string\",\n          \"articleNumber\": \"string\",\n          \"gtin\": \"string\",\n          \"quantity\": 2793.377858100181,\n          \"visibleToCustomer\": true,\n          \"unitSalesPrice\": {\n            \"vatRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"totalSalesPrice\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"unitPurchasePrice\": 5835.284358808599,\n          \"totalPurchasePrice\": 2851.9666380295685,\n          \"purchasePriceOverridden\": false,\n          \"margin\": {\n            \"total\": 7968.891493595208,\n            \"rate\": 1022.6882790955738\n          }\n        }\n      ]\n    },\n    \"evCharger\": {\n      \"price\": {\n        \"net\": 1682.2309280385894,\n        \"gross\": 4132.2393557628,\n        \"vat\": 8482.140748170386\n      },\n      \"lineItems\": [\n        {\n          \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentVersionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentType\": \"heatPump\",\n          \"name\": \"string\",\n          \"brand\": \"string\",\n          \"articleNumber\": \"string\",\n          \"gtin\": \"string\",\n          \"quantity\": 2969.4756493305395,\n          \"visibleToCustomer\": true,\n          \"unitSalesPrice\": {\n            \"vatRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"totalSalesPrice\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"unitPurchasePrice\": 3010.3054497275393,\n          \"totalPurchasePrice\": 5506.166788770146,\n          \"purchasePriceOverridden\": true,\n          \"margin\": {\n            \"total\": 8488.125605074647,\n            \"rate\": 7008.261705095257\n          }\n        },\n        {\n          \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentVersionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentType\": \"accessoryToModule\",\n          \"name\": \"string\",\n          \"brand\": \"string\",\n          \"articleNumber\": \"string\",\n          \"gtin\": \"string\",\n          \"quantity\": 2968.445516361975,\n          \"visibleToCustomer\": true,\n          \"unitSalesPrice\": {\n            \"vatRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"totalSalesPrice\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"unitPurchasePrice\": 74.41290648260602,\n          \"totalPurchasePrice\": 7239.532729746997,\n          \"purchasePriceOverridden\": false,\n          \"margin\": {\n            \"total\": 9852.265603048707,\n            \"rate\": 1290.6331317418285\n          }\n        }\n      ]\n    },\n    \"additional\": {\n      \"price\": {\n        \"net\": 2577.2943363688914,\n        \"gross\": 8185.284375206241,\n        \"vat\": 5878.092740134878\n      },\n      \"lineItems\": [\n        {\n          \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentVersionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentType\": \"heatPump\",\n          \"name\": \"string\",\n          \"brand\": \"string\",\n          \"articleNumber\": \"string\",\n          \"gtin\": \"string\",\n          \"quantity\": 3540.3847060111993,\n          \"visibleToCustomer\": true,\n          \"unitSalesPrice\": {\n            \"vatRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"totalSalesPrice\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"unitPurchasePrice\": 7418.127637437251,\n          \"totalPurchasePrice\": 970.0102863632698,\n          \"purchasePriceOverridden\": false,\n          \"margin\": {\n            \"total\": 8309.6084036912,\n            \"rate\": 422.9164244648243\n          }\n        },\n        {\n          \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentVersionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentType\": \"batteryStorage\",\n          \"name\": \"string\",\n          \"brand\": \"string\",\n          \"articleNumber\": \"string\",\n          \"gtin\": \"string\",\n          \"quantity\": 813.1927520892912,\n          \"visibleToCustomer\": false,\n          \"unitSalesPrice\": {\n            \"vatRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"totalSalesPrice\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"unitPurchasePrice\": 8815.136421390318,\n          \"totalPurchasePrice\": 7223.115220502482,\n          \"purchasePriceOverridden\": true,\n          \"margin\": {\n            \"total\": 4541.799533235764,\n            \"rate\": 5967.563862882184\n          }\n        }\n      ]\n    }\n  },\n  \"optionalBundles\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"selected\": false,\n      \"price\": {\n        \"net\": 7031.15202034492,\n        \"gross\": 4907.344648135555,\n        \"vat\": 8544.89590649926\n      },\n      \"lineItems\": [\n        {\n          \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentVersionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentType\": \"batteryStorage\",\n          \"name\": \"string\",\n          \"brand\": \"string\",\n          \"articleNumber\": \"string\",\n          \"gtin\": \"string\",\n          \"quantity\": 1018.4322131329637,\n          \"visibleToCustomer\": false,\n          \"unitSalesPrice\": {\n            \"vatRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"totalSalesPrice\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"unitPurchasePrice\": 5574.883955594124,\n          \"totalPurchasePrice\": 6468.188179380805,\n          \"purchasePriceOverridden\": false,\n          \"margin\": {\n            \"total\": 2739.210273671774,\n            \"rate\": 5290.255416888538\n          }\n        },\n        {\n          \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentVersionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentType\": \"accessoryToEvCharger\",\n          \"name\": \"string\",\n          \"brand\": \"string\",\n          \"articleNumber\": \"string\",\n          \"gtin\": \"string\",\n          \"quantity\": 4984.927582508977,\n          \"visibleToCustomer\": true,\n          \"unitSalesPrice\": {\n            \"vatRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"totalSalesPrice\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"unitPurchasePrice\": 5185.1671912825595,\n          \"totalPurchasePrice\": 2043.5293704393875,\n          \"purchasePriceOverridden\": false,\n          \"margin\": {\n            \"total\": 8644.845973564798,\n            \"rate\": 2480.5065002958436\n          }\n        }\n      ]\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"selected\": false,\n      \"price\": {\n        \"net\": 9047.971313813867,\n        \"gross\": 8889.541934671159,\n        \"vat\": 2415.009299555031\n      },\n      \"lineItems\": [\n        {\n          \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentVersionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentType\": \"inverter\",\n          \"name\": \"string\",\n          \"brand\": \"string\",\n          \"articleNumber\": \"string\",\n          \"gtin\": \"string\",\n          \"quantity\": 4909.732814962009,\n          \"visibleToCustomer\": false,\n          \"unitSalesPrice\": {\n            \"vatRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"totalSalesPrice\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"unitPurchasePrice\": 8067.65592239368,\n          \"totalPurchasePrice\": 7403.542533096721,\n          \"purchasePriceOverridden\": false,\n          \"margin\": {\n            \"total\": 9187.265626048704,\n            \"rate\": 4018.1256363352704\n          }\n        },\n        {\n          \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentVersionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"componentType\": \"heatPump\",\n          \"name\": \"string\",\n          \"brand\": \"string\",\n          \"articleNumber\": \"string\",\n          \"gtin\": \"string\",\n          \"quantity\": 5894.070983151115,\n          \"visibleToCustomer\": false,\n          \"unitSalesPrice\": {\n            \"vatRate\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"totalSalesPrice\": {\n            \"net\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"gross\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vat\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"unitPurchasePrice\": 8060.652611554094,\n          \"totalPurchasePrice\": 643.3852204673574,\n          \"purchasePriceOverridden\": false,\n          \"margin\": {\n            \"total\": 372.2349496013622,\n            \"rate\": 2190.556204427949\n          }\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8dd98aab-a0d0-4590-bb6d-cf63f8aec3c0",
+              "name": "The variant does not belong to this project",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "residentialProjects",
+                    ":projectId",
+                    "variants",
+                    ":variantId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "projectId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "variantId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "{{apiBaseUrl}}/rest/v3/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7024e2e3-edd0-4c38-bd60-7dce406c51fe",
+    "name": "Reonic REST Api v3 Activities Residential Projects API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.\n\n## Errors\n\nAll endpoints return errors with the same JSON shape:\n\n```json\n{ \"message\": \"human-readable description\" }\n```\n\n`400` responses additionally include an `errors` field with per-field validation details.\n\nThe HTTP status code identifies the cause:\n\n| Status  | Meaning | When |\n|--------|---------|------|\n| `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |\n| `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |\n| `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |\n| `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |\n| `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |\n| `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |\n| `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |\n\n## Rate limiting\n\nLimits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:\n\n| Bucket | Limit | Applies to |\n|--------|-------|------------|\n| `cached` | 500 / min | `GET` requests served from the response cache |\n| `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |\n\nEvery response includes:\n\n- `X-RateLimit-Bucket` — `cached` or `uncached`\n- `X-RateLimit-Limit` — the bucket's ceiling (`500` or `30`)\n- `X-RateLimit-Remaining` — calls left in the current window\n- `X-RateLimit-Reset` — Unix epoch seconds at which the window resets\n- `X-RateLimit-Policy` — `<limit>;w=60`\n\n`429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.\n\n## Caching and Reonic-Cache-Control\n\n`GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.\n\nThe standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.\n\n## Authentication\n\nEvery request must include your API key in the `X-Authorization` header:\n\n```\nX-Authorization: <your-api-key>\n```\n\nAPI keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.\n\n\nContact Support:\n Name: Reonic GmbH\n Email: kontakt@reonic.de",
+      "type": "text/plain"
+    }
+  }
+}

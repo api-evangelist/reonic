@@ -1,0 +1,37 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Upload API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Upload",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create upload URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/uploads/create"
+          },
+          "docs": "Returns an `uploadUrl` plus an `uploadId` you can later pass to a registration endpoint.\n\nUpload your file with a single `PUT` request to `uploadUrl`, sending the raw file bytes as the request body and a `Content-Type` header that matches the file. Do not use `multipart/form-data`. The URL stops accepting uploads after `expiresAt` (1 hour after creation).\n\nOnce the upload completes, reference `uploadId` from a registration endpoint — for example `POST /files/create`.\n\n**Allowed API keys:** Read "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

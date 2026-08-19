@@ -1,0 +1,421 @@
+{
+  "item": [
+    {
+      "id": "cc7fc03d-686b-40b4-bc8b-16571acd06ac",
+      "name": "Notes",
+      "description": {
+        "content": "Free-text notes attached to a project or contact.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "319e1f1b-fdc8-4006-a5e3-a947b96e2b6a",
+          "name": "List notes",
+          "request": {
+            "name": "List notes",
+            "description": {
+              "content": "List notes for an entity in a paginated format.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "notes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "parentType",
+                  "value": "<string>",
+                  "description": "The type of the parent entity."
+                },
+                {
+                  "disabled": false,
+                  "key": "parentId",
+                  "value": "<uuid>",
+                  "description": "Filter by the ID of the parent the notes are attached to."
+                },
+                {
+                  "disabled": false,
+                  "key": "createdById",
+                  "value": "<uuid>",
+                  "description": "Filter by the ID of the user who created the notes. References [**Users**](#tag/users)"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "-createdAt",
+                  "description": "Sort order. Use field names for ascending (e.g. \"createdAt\"), minus sign for descending (e.g. \"-createdAt\"). Chain with commas (e.g. \"createdAt,editedAt\"). Sortable fields: createdAt, createdById, editedAt. Defaults to -createdAt."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number, starting from 1. Default: 1."
+                },
+                {
+                  "disabled": false,
+                  "key": "itemsPerPage",
+                  "value": "50",
+                  "description": "Number of items per page. Default: 50. Max: 200."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "615261a4-5c10-4c6e-830b-2a02c6ebdff4",
+              "name": "Paginated list of notes",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "parentType",
+                      "value": "contact"
+                    },
+                    {
+                      "key": "parentId",
+                      "value": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    {
+                      "key": "createdById",
+                      "value": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "createdAt"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "itemsPerPage",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"parent\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"type\": \"contact\"\n      },\n      \"text\": {\n        \"plain\": \"Lorem Ipsum\",\n        \"markdown\": \"<!-- MDCV_2 -->\\n**Lorem ipsum**\"\n      },\n      \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n      \"createdById\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"editedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"editedById\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"pinnedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"pinnedById\": \"123e4567-e89b-12d3-a456-426614174000\"\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"parent\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"type\": \"contact\"\n      },\n      \"text\": {\n        \"plain\": \"Lorem Ipsum\",\n        \"markdown\": \"<!-- MDCV_2 -->\\n**Lorem ipsum**\"\n      },\n      \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n      \"createdById\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"editedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"editedById\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"pinnedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"pinnedById\": \"123e4567-e89b-12d3-a456-426614174000\"\n    }\n  ],\n  \"pagination\": {\n    \"page\": 6797,\n    \"perPage\": 9800,\n    \"total\": 8372,\n    \"totalPages\": 1343,\n    \"next\": \"string\",\n    \"prev\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9d2cb9c3-53ca-4dcd-ae2f-614e60780f9f",
+          "name": "Create note",
+          "request": {
+            "name": "Create note",
+            "description": {
+              "content": "Create a note and attach it to an entity (i.e. contact, task or residentialProject).\n\n**Allowed API keys:** Read and Write, Lead creation only",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "notes",
+                "create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"parent\": {\n    \"id\": \"<uuid>\",\n    \"type\": \"<string>\"\n  },\n  \"text\": \"<string>\",\n  \"pinned\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "eab56dfa-db10-4cb9-9604-d9750179abb8",
+              "name": "The created note",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notes",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parent\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"type\": \"<string>\"\n  },\n  \"text\": \"**Lorem Ipsum**\",\n  \"pinned\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"parent\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"type\": \"contact\"\n  },\n  \"text\": {\n    \"plain\": \"Lorem Ipsum\",\n    \"markdown\": \"<!-- MDCV_2 -->\\n**Lorem ipsum**\"\n  },\n  \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n  \"createdById\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"editedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"editedById\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"pinnedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"pinnedById\": \"123e4567-e89b-12d3-a456-426614174000\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "18e1cbdf-aa1c-4406-9ec1-b5b675500940",
+          "name": "Update note",
+          "request": {
+            "name": "Update note",
+            "description": {
+              "content": "Pin or unpin a note.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "notes",
+                ":noteId",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "noteId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pinned\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8dce1a44-a9fd-4f42-a9b7-7e857def4939",
+              "name": "The updated note",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "notes",
+                    ":noteId",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "noteId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pinned\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"parent\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"type\": \"contact\"\n    },\n    \"text\": {\n      \"plain\": \"Lorem Ipsum\",\n      \"markdown\": \"<!-- MDCV_2 -->\\n**Lorem ipsum**\"\n    },\n    \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n    \"createdById\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"editedAt\": \"2026-01-01T15:30:00.000Z\",\n    \"editedById\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"pinnedAt\": \"2026-01-01T15:30:00.000Z\",\n    \"pinnedById\": \"123e4567-e89b-12d3-a456-426614174000\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "{{apiBaseUrl}}/rest/v3/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "97a399cd-0a9e-4166-8223-9c28b9917d98",
+    "name": "Reonic REST Api v3 Activities Notes API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.\n\n## Errors\n\nAll endpoints return errors with the same JSON shape:\n\n```json\n{ \"message\": \"human-readable description\" }\n```\n\n`400` responses additionally include an `errors` field with per-field validation details.\n\nThe HTTP status code identifies the cause:\n\n| Status  | Meaning | When |\n|--------|---------|------|\n| `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |\n| `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |\n| `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |\n| `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |\n| `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |\n| `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |\n| `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |\n\n## Rate limiting\n\nLimits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:\n\n| Bucket | Limit | Applies to |\n|--------|-------|------------|\n| `cached` | 500 / min | `GET` requests served from the response cache |\n| `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |\n\nEvery response includes:\n\n- `X-RateLimit-Bucket` — `cached` or `uncached`\n- `X-RateLimit-Limit` — the bucket's ceiling (`500` or `30`)\n- `X-RateLimit-Remaining` — calls left in the current window\n- `X-RateLimit-Reset` — Unix epoch seconds at which the window resets\n- `X-RateLimit-Policy` — `<limit>;w=60`\n\n`429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.\n\n## Caching and Reonic-Cache-Control\n\n`GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.\n\nThe standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.\n\n## Authentication\n\nEvery request must include your API key in the `X-Authorization` header:\n\n```\nX-Authorization: <your-api-key>\n```\n\nAPI keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.\n\n\nContact Support:\n Name: Reonic GmbH\n Email: kontakt@reonic.de",
+      "type": "text/plain"
+    }
+  }
+}

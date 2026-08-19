@@ -1,0 +1,1122 @@
+{
+  "item": [
+    {
+      "id": "384e155d-d6e0-4338-a400-81756945c5fb",
+      "name": "Wiki",
+      "description": {
+        "content": "Your company's shared knowledge base — pages and folders.\n\n> [!warning] \n> **Beta:** These endpoints are in beta and may change as the service evolves. Please report issues or unexpected behavior to our team.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "62f7c5a0-a981-4173-89ef-2a06be2f86c6",
+          "name": "Get wiki tree",
+          "request": {
+            "name": "Get wiki tree",
+            "description": {
+              "content": "Returns the company wiki tree (folders and pages). Personal user wikis are not exposed via the API.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wiki"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8f6a8d9e-1e86-46aa-a676-10b687890273",
+              "name": "Company wiki tree",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wiki"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"pages\": [\n        {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"title\": \"string\",\n          \"icon\": \"string\",\n          \"isPublished\": false,\n          \"position\": 2172.9484884715157,\n          \"folderName\": \"string\",\n          \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n          \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n          \"createdBy\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"firstName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"lastName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"updatedBy\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"firstName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"lastName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"title\": \"string\",\n          \"icon\": \"string\",\n          \"isPublished\": false,\n          \"position\": 7910.595934274579,\n          \"folderName\": \"string\",\n          \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n          \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n          \"createdBy\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"firstName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"lastName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"updatedBy\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"firstName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"lastName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      ],\n      \"position\": 7271.162359243195,\n      \"type\": \"folder\"\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"pages\": [\n        {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"title\": \"string\",\n          \"icon\": \"string\",\n          \"isPublished\": false,\n          \"position\": 550.9705710305923,\n          \"folderName\": \"string\",\n          \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n          \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n          \"createdBy\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"firstName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"lastName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"updatedBy\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"firstName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"lastName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"title\": \"string\",\n          \"icon\": \"string\",\n          \"isPublished\": false,\n          \"position\": 1148.0613864069544,\n          \"folderName\": \"string\",\n          \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n          \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n          \"createdBy\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"firstName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"lastName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"updatedBy\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"firstName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"lastName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      ],\n      \"position\": 8324.996346967766,\n      \"type\": \"folder\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "75808c65-f861-4b6f-a7f3-bdf694885f12",
+          "name": "Get wiki page",
+          "request": {
+            "name": "Get wiki page",
+            "description": {
+              "content": "Returns a single company wiki page including its current content. Personal user wikis are not exposed via the API.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wiki",
+                "pages",
+                ":pageId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "pageId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "48fad7f5-8c95-4c8d-a5e6-3f7a59b4369e",
+              "name": "The wiki page with content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wiki",
+                    "pages",
+                    ":pageId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "pageId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"content\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"content\": \"string\",\n    \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n    \"updatedBy\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\"\n    }\n  },\n  \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n  \"createdBy\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\"\n  },\n  \"folderName\": \"string\",\n  \"icon\": \"string\",\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"isPublished\": false,\n  \"position\": 6781.703046851383,\n  \"title\": \"string\",\n  \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"updatedBy\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "64ecadb0-9d2f-4ace-9616-2f240a820bce",
+          "name": "Create wiki page",
+          "request": {
+            "name": "Create wiki page",
+            "description": {
+              "content": "Creates a new wiki page in the company wiki. Personal user wikis are not exposed via the API.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wiki",
+                "pages",
+                "create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"folderId\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "eb5d8275-b538-44c2-b24e-87c6fe9a7ce5",
+              "name": "The created wiki page",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wiki",
+                    "pages",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"folderId\": \"123e4567-e89b-12d3-a456-426614174000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"title\": \"string\",\n  \"icon\": \"string\",\n  \"isPublished\": false,\n  \"position\": 8811.490692698384,\n  \"folderName\": \"string\",\n  \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n  \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"createdBy\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\"\n  },\n  \"updatedBy\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "30c14f46-ec25-43d8-88e6-c5aadae9da23",
+          "name": "Update wiki page content",
+          "request": {
+            "name": "Update wiki page content",
+            "description": {
+              "content": "Replaces the content body of a company wiki page, creating a new version. Use `/update-details` to change title, icon, or publish state. Personal user wikis are not exposed via the API.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wiki",
+                "pages",
+                ":pageId",
+                "update-content"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "pageId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0cca8a25-45fa-4c38-9b70-cf025ed2f3f7",
+              "name": "The updated wiki page content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wiki",
+                    "pages",
+                    ":pageId",
+                    "update-content"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "pageId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"content\": \"string\",\n    \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n    \"updatedBy\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "76b1a031-d5c8-4302-a8d5-93dcc6c59b79",
+          "name": "Update wiki page details (title, icon, publish state)",
+          "request": {
+            "name": "Update wiki page details (title, icon, publish state)",
+            "description": {
+              "content": "Updates the title, icon, and/or publish state of a company wiki page. Use `/update-content` to change the page body. At least one field must be provided. Personal user wikis are not exposed via the API.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wiki",
+                "pages",
+                ":pageId",
+                "update-details"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "pageId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"<string>\",\n  \"icon\": \"<string>\",\n  \"isPublished\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d99c3008-7a05-48d9-8d9c-53daa53a1d79",
+              "name": "The updated wiki page",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wiki",
+                    "pages",
+                    ":pageId",
+                    "update-details"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "pageId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"icon\": \"<string>\",\n  \"isPublished\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"title\": \"string\",\n    \"icon\": \"string\",\n    \"isPublished\": true,\n    \"position\": 6303.154026069005,\n    \"folderName\": \"string\",\n    \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n    \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n    \"createdBy\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\"\n    },\n    \"updatedBy\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "82b194e7-dd76-4bfc-8f26-63c5a5e57b91",
+          "name": "Delete wiki page",
+          "request": {
+            "name": "Delete wiki page",
+            "description": {
+              "content": "Deletes a company wiki page. Personal user wikis are not exposed via the API.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wiki",
+                "pages",
+                ":pageId",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "pageId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f1b54f69-2e94-4816-ac96-a25a3ecb3023",
+              "name": "The deleted wiki page id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wiki",
+                    "pages",
+                    ":pageId",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "pageId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4b5849cd-3963-4458-8321-6eda5e18a3e6",
+          "name": "Create wiki folder",
+          "request": {
+            "name": "Create wiki folder",
+            "description": {
+              "content": "Creates a new wiki folder in the company wiki. Personal user wikis are not exposed via the API.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wiki",
+                "folders",
+                "create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "68f33bec-0576-4ab5-afde-54610bb48b8b",
+              "name": "The created wiki folder",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wiki",
+                    "folders",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"name\": \"string\",\n  \"position\": 3703.5490722626064,\n  \"pages\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"title\": \"string\",\n      \"icon\": \"string\",\n      \"isPublished\": false,\n      \"position\": 887.9830033979707,\n      \"folderName\": \"string\",\n      \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n      \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"createdBy\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"firstName\": \"string\",\n        \"lastName\": \"string\"\n      },\n      \"updatedBy\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"firstName\": \"string\",\n        \"lastName\": \"string\"\n      }\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"title\": \"string\",\n      \"icon\": \"string\",\n      \"isPublished\": true,\n      \"position\": 6943.6347121729605,\n      \"folderName\": \"string\",\n      \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n      \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"createdBy\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"firstName\": \"string\",\n        \"lastName\": \"string\"\n      },\n      \"updatedBy\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"firstName\": \"string\",\n        \"lastName\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c60da4ec-cb6c-4d13-a626-c2ce8b0775fc",
+          "name": "Update wiki folder",
+          "request": {
+            "name": "Update wiki folder",
+            "description": {
+              "content": "Updates the name of a company wiki folder. Personal user wikis are not exposed via the API.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wiki",
+                "folders",
+                ":folderId",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "folderId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e0345505-c8b3-4d7a-9b0d-20923af3e4f5",
+              "name": "The updated wiki folder",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wiki",
+                    "folders",
+                    ":folderId",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "folderId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"name\": \"string\",\n    \"position\": 3766.9605100807157,\n    \"pages\": [\n      {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"title\": \"string\",\n        \"icon\": \"string\",\n        \"isPublished\": false,\n        \"position\": 1848.8382846932905,\n        \"folderName\": \"string\",\n        \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n        \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n        \"createdBy\": {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"firstName\": \"string\",\n          \"lastName\": \"string\"\n        },\n        \"updatedBy\": {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"firstName\": \"string\",\n          \"lastName\": \"string\"\n        }\n      },\n      {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"title\": \"string\",\n        \"icon\": \"string\",\n        \"isPublished\": false,\n        \"position\": 2884.213572537281,\n        \"folderName\": \"string\",\n        \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n        \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n        \"createdBy\": {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"firstName\": \"string\",\n          \"lastName\": \"string\"\n        },\n        \"updatedBy\": {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"firstName\": \"string\",\n          \"lastName\": \"string\"\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0b0cd724-489e-4628-8901-601e46e9f7df",
+          "name": "Delete wiki folder",
+          "request": {
+            "name": "Delete wiki folder",
+            "description": {
+              "content": "Deletes a company wiki folder and all its pages. Personal user wikis are not exposed via the API.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wiki",
+                "folders",
+                ":folderId",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "folderId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8d88f092-4f9b-44fb-8656-d2c525158fdc",
+              "name": "The deleted wiki folder id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wiki",
+                    "folders",
+                    ":folderId",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "folderId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1a4b2b4e-f1ad-4758-87d9-053eeb564ecb",
+          "name": "Search wiki",
+          "request": {
+            "name": "Search wiki",
+            "description": {
+              "content": "Searches company wiki pages by title and content. Personal user wikis are not exposed via the API.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wiki",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "(Required) Search query"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0a06f652-7422-487b-aefd-43fff515d3d4",
+              "name": "Search results",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wiki",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"title\": \"string\",\n      \"icon\": \"string\",\n      \"folderName\": \"string\",\n      \"matchCount\": 85.60579635683906,\n      \"matchedInTitle\": true,\n      \"matchedInContent\": true,\n      \"contentSnippet\": \"string\"\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"title\": \"string\",\n      \"icon\": \"string\",\n      \"folderName\": \"string\",\n      \"matchCount\": 309.6425626689348,\n      \"matchedInTitle\": false,\n      \"matchedInContent\": false,\n      \"contentSnippet\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "{{apiBaseUrl}}/rest/v3/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ff8ea7ab-d87e-4878-b570-653ace63d4ff",
+    "name": "Reonic REST Api v3 Activities Wiki API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.\n\n## Errors\n\nAll endpoints return errors with the same JSON shape:\n\n```json\n{ \"message\": \"human-readable description\" }\n```\n\n`400` responses additionally include an `errors` field with per-field validation details.\n\nThe HTTP status code identifies the cause:\n\n| Status  | Meaning | When |\n|--------|---------|------|\n| `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |\n| `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |\n| `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |\n| `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |\n| `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |\n| `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |\n| `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |\n\n## Rate limiting\n\nLimits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:\n\n| Bucket | Limit | Applies to |\n|--------|-------|------------|\n| `cached` | 500 / min | `GET` requests served from the response cache |\n| `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |\n\nEvery response includes:\n\n- `X-RateLimit-Bucket` — `cached` or `uncached`\n- `X-RateLimit-Limit` — the bucket's ceiling (`500` or `30`)\n- `X-RateLimit-Remaining` — calls left in the current window\n- `X-RateLimit-Reset` — Unix epoch seconds at which the window resets\n- `X-RateLimit-Policy` — `<limit>;w=60`\n\n`429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.\n\n## Caching and Reonic-Cache-Control\n\n`GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.\n\nThe standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.\n\n## Authentication\n\nEvery request must include your API key in the `X-Authorization` header:\n\n```\nX-Authorization: <your-api-key>\n```\n\nAPI keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.\n\n\nContact Support:\n Name: Reonic GmbH\n Email: kontakt@reonic.de",
+      "type": "text/plain"
+    }
+  }
+}

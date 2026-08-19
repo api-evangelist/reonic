@@ -1,0 +1,140 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Checklist Templates API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Checklist Templates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List checklist templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/checklistTemplates",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "target",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list or repeated query param. Allowed values: all, residential, residentialSolar, residentialEvCharger, residentialBatteryStorage, residentialHotWaterStorage, residentialHeatingStorage, residentialHeating, residentialHeatPump, residentialAccessoryToHeatPump, residentialOptionalComponents, residentialAdditionalComponents, commercial, commercialSolar, commercialBatteryStorage, commercialLandlordToTenant, commercialPowerPurchaseAgreement, commercialAdditionalComponents."
+              },
+              {
+                "name": "active",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "includeAny",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List checklist templates (planning templates). A checklist template is a reusable bundle of line items that can be applied to a residential or commercial offer at a given stage. Distinct from `/checklists/{projectId}`, which returns the per-project checklist state.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Get checklist template",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/checklistTemplates/:checklistId",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "checklistId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single checklist template by its ID.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Create checklist template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/checklistTemplates/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new checklist template. The template is created with a default name, no items, and no targets; use `POST /checklistTemplates/{id}/update` to populate it.\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Update checklist template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/checklistTemplates/:checklistId/update",
+            "params": [
+              {
+                "name": "checklistId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing checklist template's metadata. The `targets` array must always be supplied — passing an empty array clears the targeting. Item editing is not currently exposed on V3.\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Delete checklist template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/checklistTemplates/:checklistId/delete",
+            "params": [
+              {
+                "name": "checklistId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a checklist template by its ID.\n\n**Allowed API keys:** Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

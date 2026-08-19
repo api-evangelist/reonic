@@ -1,0 +1,173 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Time Tracking API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Time Tracking",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get time tracking event types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/timetracking/eventTypes",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "showArchived",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get all time tracking event types, optionally including archived ones.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "List time tracking entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/timetracking",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number, starting from 1. Default: 1."
+              },
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "userIds",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list or repeated query param."
+              },
+              {
+                "name": "eventTypeIds",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list or repeated query param."
+              },
+              {
+                "name": "parentId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parentType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "startAt.gt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where startAt is after this datetime (exclusive)"
+              },
+              {
+                "name": "startAt.lt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where startAt is before this datetime (exclusive)"
+              }
+            ]
+          },
+          "docs": "List time tracking entries with filters and pagination. Page size is fixed at 50.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Create time tracking entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/timetracking/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Bulk create one or more time tracking entries.\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Update time tracking entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/timetracking/:entryId/update",
+            "params": [
+              {
+                "name": "entryId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing time tracking entry. Omit fields to leave them unchanged.\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Archive or restore time tracking entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/timetracking/:entryId/archive",
+            "params": [
+              {
+                "name": "entryId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Archive or restore a time tracking entry.\n\n**Allowed API keys:** Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

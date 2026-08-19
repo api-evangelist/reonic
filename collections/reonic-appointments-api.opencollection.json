@@ -1,0 +1,160 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Appointments API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Appointments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List appointments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/appointments",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "calendarIds",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list or repeated query param of calendar IDs to fetch appointments for."
+              },
+              {
+                "name": "residentialProjectId",
+                "value": "",
+                "type": "query",
+                "description": "Return only appointments linked to the given residential project. Mutually exclusive with `commercialProjectId`. Reference to [**Residential Projects**](#tag/residential-projects)"
+              },
+              {
+                "name": "commercialProjectId",
+                "value": "",
+                "type": "query",
+                "description": "Return only appointments linked to the given commercial project. Mutually exclusive with `residentialProjectId`. Reference to [**Commercial Projects**](#tag/commercial-projects)"
+              },
+              {
+                "name": "start.gt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where start is after this datetime (exclusive)"
+              },
+              {
+                "name": "start.lt",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to the day one year from now."
+              },
+              {
+                "name": "end.gt",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to now, so that by default only upcoming appointments are returned."
+              },
+              {
+                "name": "end.lt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where end is before this datetime (exclusive)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number, starting from 1. Default: 1."
+              },
+              {
+                "name": "itemsPerPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page. Default: 50. Max: 200."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. Use field names for ascending (e.g. \"createdAt\"), minus sign for descending (e.g. \"-createdAt\"). Chain with commas (e.g. \"createdAt,editedAt\"). Sortable fields: start, end. Defaults to start."
+              }
+            ]
+          },
+          "docs": "Lists appointments on Reonic calendars in a paginated format.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Create appointment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/appointments/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an appointment on a Reonic calendar.\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Update appointment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/appointments/:appointmentId/update",
+            "params": [
+              {
+                "name": "appointmentId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update fields of an appointment on a Reonic calendar. Omit fields to leave them untouched, send `null` to clear them (where possible) or send a value to replace it.\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Delete appointment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/appointments/:appointmentId/delete",
+            "params": [
+              {
+                "name": "appointmentId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete an appointment on a Reonic calendar.\n\n**Allowed API keys:** Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

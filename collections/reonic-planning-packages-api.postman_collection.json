@@ -1,0 +1,617 @@
+{
+  "item": [
+    {
+      "id": "906e1389-1451-4250-b483-2adca6b32c1c",
+      "name": "Planning Packages",
+      "description": {
+        "content": "Standard offer packages for PV, storage, heat pumps, and EV chargers, built from common [**Components**](#tag/components) and service combinations.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7e74bbce-0497-4633-b1a4-c1b3087a2ac5",
+          "name": "List planning packages",
+          "request": {
+            "name": "List planning packages",
+            "description": {
+              "content": "List planning packages. Planning packages are standard offer packages for PV, storage, heat pumps, and EV chargers, built from common component and service combinations.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "planningPackages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "projectDomain",
+                  "value": "<string>",
+                  "description": "Filter by the project domain a planning packages can be used in."
+                },
+                {
+                  "disabled": false,
+                  "key": "target",
+                  "value": "<string>,<string>",
+                  "description": "Filter by target sections"
+                },
+                {
+                  "disabled": false,
+                  "key": "inactive",
+                  "value": "exclude",
+                  "description": "Controls whether inactive planning packages appear in results. Default: exclude."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number, starting from 1. Default: 1."
+                },
+                {
+                  "disabled": false,
+                  "key": "itemsPerPage",
+                  "value": "50",
+                  "description": "Number of items per page. Default: 50. Max: 200."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "da9ca81e-1f5f-4bb8-8859-95ccff43b9b7",
+              "name": "Paginated list of planning packages",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planningPackages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectDomain",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "target",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "inactive",
+                      "value": "exclude"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "itemsPerPage",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"active\": false,\n      \"projectDomains\": [\n        \"residential\",\n        \"residential\"\n      ],\n      \"target\": \"batteryStorage\",\n      \"items\": [\n        {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"component\": {\n            \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n            \"versionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n            \"source\": \"catalog\"\n          },\n          \"quantity\": 437.00838690696963,\n          \"purchasePrice\": 4402.689359570938,\n          \"salesPrice\": 5793.270456211662,\n          \"vatRate\": 0.07862809277834937,\n          \"salesPriceSource\": \"planningPackage\",\n          \"position\": 3396.2916696957036,\n          \"visibleToCustomer\": false\n        },\n        {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"component\": {\n            \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n            \"versionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n            \"source\": \"custom\"\n          },\n          \"quantity\": 1567.5198025201464,\n          \"purchasePrice\": 2156.2457604772867,\n          \"salesPrice\": 1119.8266948040991,\n          \"vatRate\": 0.9243338428291676,\n          \"salesPriceSource\": \"component\",\n          \"position\": 5219.156106152509,\n          \"visibleToCustomer\": true\n        }\n      ]\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"active\": true,\n      \"projectDomains\": [\n        \"commercial\",\n        \"residential\"\n      ],\n      \"target\": \"batteryStorage\",\n      \"items\": [\n        {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"component\": {\n            \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n            \"versionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n            \"source\": \"catalog\"\n          },\n          \"quantity\": 3727.115865013225,\n          \"purchasePrice\": 5893.551741856439,\n          \"salesPrice\": 7291.530891175331,\n          \"vatRate\": 0.609449854023088,\n          \"salesPriceSource\": \"component\",\n          \"position\": 3910.097262320067,\n          \"visibleToCustomer\": false\n        },\n        {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"component\": {\n            \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n            \"versionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n            \"source\": \"custom\"\n          },\n          \"quantity\": 9756.281090842069,\n          \"purchasePrice\": 449.08673780191697,\n          \"salesPrice\": 7293.181986333728,\n          \"vatRate\": 0.6259693187615495,\n          \"salesPriceSource\": \"component\",\n          \"position\": 9864.294840757668,\n          \"visibleToCustomer\": false\n        }\n      ]\n    }\n  ],\n  \"pagination\": {\n    \"page\": 7625,\n    \"perPage\": 1661,\n    \"total\": 317,\n    \"totalPages\": 4147,\n    \"next\": \"string\",\n    \"prev\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0cd2c65c-5897-495e-af6c-bcb5ccd3c5d6",
+          "name": "Get planning package",
+          "request": {
+            "name": "Get planning package",
+            "description": {
+              "content": "Get a single planning package by its ID.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "planningPackages",
+                ":packageId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "packageId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "61cfe462-ce0b-423c-84a7-156e4d59c4ea",
+              "name": "The planning package",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planningPackages",
+                    ":packageId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "packageId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"active\": false,\n  \"projectDomains\": [\n    \"residential\",\n    \"residential\"\n  ],\n  \"target\": \"additionalComponents\",\n  \"items\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"component\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"versionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"source\": \"custom\"\n      },\n      \"quantity\": 1159.5796467342866,\n      \"purchasePrice\": 3639.428530170057,\n      \"salesPrice\": 522.3158054991917,\n      \"vatRate\": 0.0458336103858773,\n      \"salesPriceSource\": \"planningPackage\",\n      \"position\": 4844.738395409944,\n      \"visibleToCustomer\": true\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"component\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"versionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"source\": \"catalog\"\n      },\n      \"quantity\": 6759.711814409687,\n      \"purchasePrice\": 2975.6940126893574,\n      \"salesPrice\": 5439.667412119147,\n      \"vatRate\": 0.9532664658344856,\n      \"salesPriceSource\": \"planningPackage\",\n      \"position\": 8364.933893419211,\n      \"visibleToCustomer\": false\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d55f2045-1bae-40be-92e3-8bffaac2a30f",
+          "name": "Create planning package",
+          "request": {
+            "name": "Create planning package",
+            "description": {
+              "content": "Create a new planning package.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "planningPackages",
+                "create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"target\": \"<string>\",\n  \"description\": \"<string>\",\n  \"active\": false,\n  \"projectDomains\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"items\": [\n    {\n      \"componentSource\": \"<string>\",\n      \"componentId\": \"<uuid>\",\n      \"quantity\": \"<number>\",\n      \"visibleToCustomer\": true,\n      \"salesPrice\": \"<number>\",\n      \"vatRate\": \"<number>\"\n    },\n    {\n      \"componentSource\": \"<string>\",\n      \"componentId\": \"<uuid>\",\n      \"quantity\": \"<number>\",\n      \"visibleToCustomer\": true,\n      \"salesPrice\": \"<number>\",\n      \"vatRate\": \"<number>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "373a6f39-1be2-4dd5-96ea-f99db96f4bc2",
+              "name": "The newly created planning package",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planningPackages",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"target\": \"<string>\",\n  \"description\": \"<string>\",\n  \"active\": false,\n  \"projectDomains\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"items\": [\n    {\n      \"componentSource\": \"catalog\",\n      \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"quantity\": 2959.3951962669958,\n      \"visibleToCustomer\": true,\n      \"salesPrice\": 3911.1373590641474,\n      \"vatRate\": 0.06945619934317526\n    },\n    {\n      \"componentSource\": \"catalog\",\n      \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"quantity\": 2185.8085133953878,\n      \"visibleToCustomer\": true,\n      \"salesPrice\": 2038.012063127953,\n      \"vatRate\": 0.37771546608589746\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"active\": false,\n  \"projectDomains\": [\n    \"residential\",\n    \"residential\"\n  ],\n  \"target\": \"additionalComponents\",\n  \"items\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"component\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"versionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"source\": \"custom\"\n      },\n      \"quantity\": 1159.5796467342866,\n      \"purchasePrice\": 3639.428530170057,\n      \"salesPrice\": 522.3158054991917,\n      \"vatRate\": 0.0458336103858773,\n      \"salesPriceSource\": \"planningPackage\",\n      \"position\": 4844.738395409944,\n      \"visibleToCustomer\": true\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"component\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"versionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"source\": \"catalog\"\n      },\n      \"quantity\": 6759.711814409687,\n      \"purchasePrice\": 2975.6940126893574,\n      \"salesPrice\": 5439.667412119147,\n      \"vatRate\": 0.9532664658344856,\n      \"salesPriceSource\": \"planningPackage\",\n      \"position\": 8364.933893419211,\n      \"visibleToCustomer\": false\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "19329b06-db9f-497c-8e02-dcdf68916d69",
+          "name": "Update planning package",
+          "request": {
+            "name": "Update planning package",
+            "description": {
+              "content": "Update an existing planning package. Omit a field to leave it unchanged.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "planningPackages",
+                ":packageId",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "packageId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"projectDomains\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"items\": [\n    {\n      \"componentSource\": \"<string>\",\n      \"componentId\": \"<uuid>\",\n      \"quantity\": \"<number>\",\n      \"visibleToCustomer\": true,\n      \"salesPrice\": \"<number>\",\n      \"vatRate\": \"<number>\"\n    },\n    {\n      \"componentSource\": \"<string>\",\n      \"componentId\": \"<uuid>\",\n      \"quantity\": \"<number>\",\n      \"visibleToCustomer\": true,\n      \"salesPrice\": \"<number>\",\n      \"vatRate\": \"<number>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "06d66ccc-c631-4224-8d83-ed9da35f2ff8",
+              "name": "The updated planning package",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planningPackages",
+                    ":packageId",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "packageId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"projectDomains\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"items\": [\n    {\n      \"componentSource\": \"catalog\",\n      \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"quantity\": 9751.09827899632,\n      \"visibleToCustomer\": true,\n      \"salesPrice\": 8524.997343785482,\n      \"vatRate\": 0.374814201011641\n    },\n    {\n      \"componentSource\": \"catalog\",\n      \"componentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"quantity\": 1900.9068497091723,\n      \"visibleToCustomer\": true,\n      \"salesPrice\": 6991.45994019217,\n      \"vatRate\": 0.7033392489315791\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"active\": false,\n  \"projectDomains\": [\n    \"residential\",\n    \"residential\"\n  ],\n  \"target\": \"additionalComponents\",\n  \"items\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"component\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"versionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"source\": \"custom\"\n      },\n      \"quantity\": 1159.5796467342866,\n      \"purchasePrice\": 3639.428530170057,\n      \"salesPrice\": 522.3158054991917,\n      \"vatRate\": 0.0458336103858773,\n      \"salesPriceSource\": \"planningPackage\",\n      \"position\": 4844.738395409944,\n      \"visibleToCustomer\": true\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"component\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"versionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"source\": \"catalog\"\n      },\n      \"quantity\": 6759.711814409687,\n      \"purchasePrice\": 2975.6940126893574,\n      \"salesPrice\": 5439.667412119147,\n      \"vatRate\": 0.9532664658344856,\n      \"salesPriceSource\": \"planningPackage\",\n      \"position\": 8364.933893419211,\n      \"visibleToCustomer\": false\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a3f06114-87b5-40b6-b97a-606dee27b3f9",
+          "name": "Delete planning package",
+          "request": {
+            "name": "Delete planning package",
+            "description": {
+              "content": "Delete a planning package by its ID.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "planningPackages",
+                ":packageId",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "packageId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9cc76dbf-2835-4dea-b6e5-91f840c88cc4",
+              "name": "The deleted planning package ID",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planningPackages",
+                    ":packageId",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "packageId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "{{apiBaseUrl}}/rest/v3/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "88b7e613-a56f-466b-acde-4123e40eeb33",
+    "name": "Reonic REST Api v3 Activities Planning Packages API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.\n\n## Errors\n\nAll endpoints return errors with the same JSON shape:\n\n```json\n{ \"message\": \"human-readable description\" }\n```\n\n`400` responses additionally include an `errors` field with per-field validation details.\n\nThe HTTP status code identifies the cause:\n\n| Status  | Meaning | When |\n|--------|---------|------|\n| `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |\n| `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |\n| `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |\n| `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |\n| `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |\n| `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |\n| `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |\n\n## Rate limiting\n\nLimits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:\n\n| Bucket | Limit | Applies to |\n|--------|-------|------------|\n| `cached` | 500 / min | `GET` requests served from the response cache |\n| `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |\n\nEvery response includes:\n\n- `X-RateLimit-Bucket` — `cached` or `uncached`\n- `X-RateLimit-Limit` — the bucket's ceiling (`500` or `30`)\n- `X-RateLimit-Remaining` — calls left in the current window\n- `X-RateLimit-Reset` — Unix epoch seconds at which the window resets\n- `X-RateLimit-Policy` — `<limit>;w=60`\n\n`429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.\n\n## Caching and Reonic-Cache-Control\n\n`GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.\n\nThe standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.\n\n## Authentication\n\nEvery request must include your API key in the `X-Authorization` header:\n\n```\nX-Authorization: <your-api-key>\n```\n\nAPI keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.\n\n\nContact Support:\n Name: Reonic GmbH\n Email: kontakt@reonic.de",
+      "type": "text/plain"
+    }
+  }
+}

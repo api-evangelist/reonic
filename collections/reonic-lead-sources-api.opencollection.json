@@ -1,0 +1,75 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Lead Sources API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Lead Sources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List lead sources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/leadSources",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query",
+                "description": "Controls whether archived lead sources appear in results. Default: exclude."
+              }
+            ]
+          },
+          "docs": "List all lead sources.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Get lead source",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/leadSources/:leadSourceId",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "leadSourceId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single lead source by its ID.\n\n**Allowed API keys:** Read-only, Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

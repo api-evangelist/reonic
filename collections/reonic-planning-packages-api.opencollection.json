@@ -1,0 +1,154 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Planning Packages API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Planning Packages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List planning packages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/planningPackages",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "projectDomain",
+                "value": "",
+                "type": "query",
+                "description": "Filter by the project domain a planning packages can be used in."
+              },
+              {
+                "name": "target",
+                "value": "",
+                "type": "query",
+                "description": "Filter by target sections"
+              },
+              {
+                "name": "inactive",
+                "value": "",
+                "type": "query",
+                "description": "Controls whether inactive planning packages appear in results. Default: exclude."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number, starting from 1. Default: 1."
+              },
+              {
+                "name": "itemsPerPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page. Default: 50. Max: 200."
+              }
+            ]
+          },
+          "docs": "List planning packages. Planning packages are standard offer packages for PV, storage, heat pumps, and EV chargers, built from common component and service combinations.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Get planning package",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/planningPackages/:packageId",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "packageId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single planning package by its ID.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Create planning package",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/planningPackages/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new planning package.\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Update planning package",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/planningPackages/:packageId/update",
+            "params": [
+              {
+                "name": "packageId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing planning package. Omit a field to leave it unchanged.\n\n**Allowed API keys:** Read and Write"
+        },
+        {
+          "info": {
+            "name": "Delete planning package",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiBaseUrl}/rest/v3/planningPackages/:packageId/delete",
+            "params": [
+              {
+                "name": "packageId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a planning package by its ID.\n\n**Allowed API keys:** Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

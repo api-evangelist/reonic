@@ -1,0 +1,189 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Commercial Projects API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Commercial Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List commercial projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/commercialProjects",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "stage",
+                "value": "",
+                "type": "query",
+                "description": "Filter by lifecycle stages: request, offer, installation. Omit to include all stages."
+              },
+              {
+                "name": "dealState",
+                "value": "",
+                "type": "query",
+                "description": "Filter by deal state. Omit to include all."
+              },
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query",
+                "description": "Controls whether archived projects appear in results. Default: exclude."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Free-text search across project name, customer name, and address fields."
+              },
+              {
+                "name": "tagIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter projects that are tagged with any of the specified tag IDs. Pass `null` to return only projects that have no tags."
+              },
+              {
+                "name": "userIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter projects that have a user with any of the specified IDs assigned. Pass `null` to return only projects with no assigned user."
+              },
+              {
+                "name": "teamIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter projects that have a team with any of the specified IDs assigned. Pass `null` to return only projects with no assigned team."
+              },
+              {
+                "name": "kanbanBoardIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter projects that are in any of the specified Kanban boards. Pass `null` to return only projects that are not assigned to any Kanban board."
+              },
+              {
+                "name": "kanbanColumnIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter projects that are in any of the specified Kanban columns. Pass `null` to return only projects that have no status assigned (the \"no status\" column)."
+              },
+              {
+                "name": "requestCreatedAt.gt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where requestCreatedAt is after this datetime (exclusive)"
+              },
+              {
+                "name": "requestCreatedAt.lt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where requestCreatedAt is before this datetime (exclusive)"
+              },
+              {
+                "name": "offerCreatedAt.gt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where offerCreatedAt is after this datetime (exclusive)"
+              },
+              {
+                "name": "offerCreatedAt.lt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where offerCreatedAt is before this datetime (exclusive)"
+              },
+              {
+                "name": "installationCreatedAt.gt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where installationCreatedAt is after this datetime (exclusive)"
+              },
+              {
+                "name": "installationCreatedAt.lt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where installationCreatedAt is before this datetime (exclusive)"
+              },
+              {
+                "name": "lastEditedAt.gt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where lastEditedAt is after this datetime (exclusive)"
+              },
+              {
+                "name": "lastEditedAt.lt",
+                "value": "",
+                "type": "query",
+                "description": "Filter records where lastEditedAt is before this datetime (exclusive)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number, starting from 1. Default: 1."
+              },
+              {
+                "name": "itemsPerPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page. Default: 50. Max: 200."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. Use field names for ascending (e.g. \"createdAt\"), minus sign for descending (e.g. \"-createdAt\"). Chain with commas (e.g. \"createdAt,editedAt\"). Sortable fields: projectCreatedAt, requestCreatedAt, offerCreatedAt, installationCreatedAt, lastEditedAt. Defaults to -projectCreatedAt."
+              }
+            ]
+          },
+          "docs": "List commercial projects across all lifecycle stages (request, offer, installation) in a paginated format. Use the `stage` query param to restrict to one or more stages; omit to span all three.\n\n**Examples:**\n- Most recent offers: `GET /commercialProjects?stage=offer&sort=-offerCreatedAt&page=1`\n- Open offers: `GET /commercialProjects?stage=offer&dealState=open`\n- Projects assigned to specific Kanban columns: `GET /commercialProjects?kanbanColumnIds=<uuid>&kanbanColumnIds=<uuid>`\n\n**Allowed API "
+        },
+        {
+          "info": {
+            "name": "Get commercial project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/commercialProjects/:projectId",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single commercial project by its ID. Works for any stage (request, offer, or installation).\n\n**Allowed API keys:** Read-only, Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

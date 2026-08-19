@@ -1,0 +1,81 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Kanban Columns API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Kanban Columns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Kanban columns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/kanbanColumns",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "boardId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by the board a column belongs to. Reference to [**Kanban Boards**](#tag/kanban-boards)"
+              },
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query",
+                "description": "Controls whether archived columns appear in results. Default: exclude."
+              }
+            ]
+          },
+          "docs": "List all Kanban columns.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Get Kanban column",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/kanbanColumns/:columnId",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "columnId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single Kanban column by its ID.\n\n**Allowed API keys:** Read-only, Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

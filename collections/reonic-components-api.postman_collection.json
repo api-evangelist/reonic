@@ -1,0 +1,499 @@
+{
+  "item": [
+    {
+      "id": "6d0c31b0-d1a5-41d2-9123-a949184a0274",
+      "name": "Components",
+      "description": {
+        "content": "Catalog of solar, storage, EV charger, and heat-pump products available to your workspace.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a82446d8-a537-46b4-ad4e-d29c512ac12d",
+          "name": "List components",
+          "request": {
+            "name": "List components",
+            "description": {
+              "content": "List all solar components.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "components"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "componentType",
+                  "value": "<string>",
+                  "description": "Filter by component type(s). Omit to include all types."
+                },
+                {
+                  "disabled": false,
+                  "key": "componentType",
+                  "value": "<string>",
+                  "description": "Filter by component type(s). Omit to include all types."
+                },
+                {
+                  "disabled": false,
+                  "key": "archived",
+                  "value": "exclude",
+                  "description": "Controls whether archived components appear in results. Default: exclude."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ecbfda17-7533-4e0c-8a77-008b49254138",
+              "name": "List of all components",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "componentType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "componentType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "archived",
+                      "value": "exclude"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"versionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"brand\": \"string\",\n      \"articleNumber\": \"string\",\n      \"gtin\": \"string\",\n      \"salesPrice\": 4982.0539923053975,\n      \"vatRate\": 0.380907651835229,\n      \"purchasePrice\": 4823.8571089804545,\n      \"quantityUnit\": \"kilometer\",\n      \"imageUrl\": \"https://LjWjbATNUrRp.quviLGRFMii,cDT4TTRtiRN\",\n      \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n      \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"archivedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"componentType\": \"module\",\n      \"attributes\": {\n        \"moduleType\": \"HIT\",\n        \"wattPeak\": 9500.310754213786,\n        \"bypassDiodeCount\": 2270,\n        \"width\": 5180.557209406537,\n        \"height\": 7707.905764384649,\n        \"depth\": 5978.691875968933,\n        \"weight\": 5059.684065068446,\n        \"maximumPowerPointVoltage\": 5006.628019868854,\n        \"maximumPowerPointCurrent\": 8742.682430839153,\n        \"openCircuitVoltage\": 5724.68421510904,\n        \"shortCircuitCurrent\": 8845.28216251213,\n        \"degradationRate\": 4260.289266652708,\n        \"temperatureCoefficient\": 3237.0613588911224\n      }\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"versionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"brand\": \"string\",\n      \"articleNumber\": \"string\",\n      \"gtin\": \"string\",\n      \"salesPrice\": 1381.8486868737646,\n      \"vatRate\": 0.6555899704916042,\n      \"purchasePrice\": 4094.5141916306384,\n      \"quantityUnit\": \"day\",\n      \"imageUrl\": \"https://cZAtxRzpHsOVEABfhvQCv.aptV7ADvbfNtAE9MqF\",\n      \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n      \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"archivedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"componentType\": \"module\",\n      \"attributes\": {\n        \"moduleType\": \"CdTe\",\n        \"wattPeak\": 6059.266823350077,\n        \"bypassDiodeCount\": 3885,\n        \"width\": 6786.34476741582,\n        \"height\": 1234.2951237429877,\n        \"depth\": 1521.5577587312634,\n        \"weight\": 4409.768567081239,\n        \"maximumPowerPointVoltage\": 1274.2384269641493,\n        \"maximumPowerPointCurrent\": 7459.700881168325,\n        \"openCircuitVoltage\": 9431.350647380641,\n        \"shortCircuitCurrent\": 3148.1529288644037,\n        \"degradationRate\": 3420.6147861844693,\n        \"temperatureCoefficient\": 3623.40847701933\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dd59cda1-e288-4486-84a6-b58159879b78",
+          "name": "Get component",
+          "request": {
+            "name": "Get component",
+            "description": {
+              "content": "Get a single solar component by its ID.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "components",
+                ":componentId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "componentId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8199d122-00cf-4434-a783-a8316372874c",
+              "name": "The component",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":componentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "componentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"versionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"brand\": \"string\",\n  \"articleNumber\": \"string\",\n  \"gtin\": \"string\",\n  \"salesPrice\": 3476.4852182009454,\n  \"vatRate\": 0.328571583097115,\n  \"purchasePrice\": 9691.720571703516,\n  \"quantityUnit\": \"null\",\n  \"imageUrl\": \"https://QLMFJbajAxVJDIKCbxgv.fprcWJqWGAsWFK.IOJlaLwtuowh1.yY2gfqUFcsLfh+1Y02dpD0253CQja\",\n  \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n  \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"archivedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"componentType\": \"module\",\n  \"attributes\": {\n    \"moduleType\": \"SiPoly\",\n    \"wattPeak\": 9998.804607193184,\n    \"bypassDiodeCount\": 4085,\n    \"width\": 2977.2683080945094,\n    \"height\": 7417.595641031244,\n    \"depth\": 9572.558020178712,\n    \"weight\": 4347.212866144823,\n    \"maximumPowerPointVoltage\": 8297.202125779168,\n    \"maximumPowerPointCurrent\": 4350.235878913402,\n    \"openCircuitVoltage\": 2516.011567850912,\n    \"shortCircuitCurrent\": 2590.0660411038457,\n    \"degradationRate\": 1469.7187002545875,\n    \"temperatureCoefficient\": 2249.230820524424\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "da434925-03ec-403c-8ab8-f868a146bd65",
+          "name": "Create component",
+          "request": {
+            "name": "Create component",
+            "description": {
+              "content": "Create a new component.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "components",
+                "create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"componentType\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"brand\": \"<string>\",\n  \"articleNumber\": \"<string>\",\n  \"gtin\": \"<string>\",\n  \"salesPrice\": \"<number>\",\n  \"vatRate\": \"<number>\",\n  \"purchasePrice\": \"<number>\",\n  \"quantityUnit\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f6ba080e-9d4f-4387-b37b-96b202acf4bc",
+              "name": "The created component",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"componentType\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"brand\": \"<string>\",\n  \"articleNumber\": \"<string>\",\n  \"gtin\": \"<string>\",\n  \"salesPrice\": \"<number>\",\n  \"vatRate\": \"<number>\",\n  \"purchasePrice\": \"<number>\",\n  \"quantityUnit\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"versionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"brand\": \"string\",\n  \"articleNumber\": \"string\",\n  \"gtin\": \"string\",\n  \"salesPrice\": 3476.4852182009454,\n  \"vatRate\": 0.328571583097115,\n  \"purchasePrice\": 9691.720571703516,\n  \"quantityUnit\": \"null\",\n  \"imageUrl\": \"https://QLMFJbajAxVJDIKCbxgv.fprcWJqWGAsWFK.IOJlaLwtuowh1.yY2gfqUFcsLfh+1Y02dpD0253CQja\",\n  \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n  \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"archivedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"componentType\": \"module\",\n  \"attributes\": {\n    \"moduleType\": \"SiPoly\",\n    \"wattPeak\": 9998.804607193184,\n    \"bypassDiodeCount\": 4085,\n    \"width\": 2977.2683080945094,\n    \"height\": 7417.595641031244,\n    \"depth\": 9572.558020178712,\n    \"weight\": 4347.212866144823,\n    \"maximumPowerPointVoltage\": 8297.202125779168,\n    \"maximumPowerPointCurrent\": 4350.235878913402,\n    \"openCircuitVoltage\": 2516.011567850912,\n    \"shortCircuitCurrent\": 2590.0660411038457,\n    \"degradationRate\": 1469.7187002545875,\n    \"temperatureCoefficient\": 2249.230820524424\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bc0d82d7-76c4-43da-bf1c-670c5f5580f3",
+          "name": "Update component",
+          "request": {
+            "name": "Update component",
+            "description": {
+              "content": "Update the basic fields of a solar component. Partial update: omitted fields are left unchanged.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "components",
+                ":componentId",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "componentId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string,null>\",\n  \"brand\": \"<string>\",\n  \"articleNumber\": \"<string,null>\",\n  \"gtin\": \"<string,null>\",\n  \"salesPrice\": \"<number>\",\n  \"vatRate\": \"<number>\",\n  \"purchasePrice\": \"<number,null>\",\n  \"quantityUnit\": \"<string,null>\",\n  \"archived\": \"<boolean>\",\n  \"propagateToPackagesAndTemplates\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b645c982-3636-4397-88a8-327530ba8c28",
+              "name": "The updated component",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":componentId",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "componentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string,null>\",\n  \"brand\": \"<string>\",\n  \"articleNumber\": \"<string,null>\",\n  \"gtin\": \"<string,null>\",\n  \"salesPrice\": \"<number>\",\n  \"vatRate\": \"<number>\",\n  \"purchasePrice\": \"<number,null>\",\n  \"quantityUnit\": \"<string,null>\",\n  \"archived\": \"<boolean>\",\n  \"propagateToPackagesAndTemplates\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"versionId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"brand\": \"string\",\n  \"articleNumber\": \"string\",\n  \"gtin\": \"string\",\n  \"salesPrice\": 3476.4852182009454,\n  \"vatRate\": 0.328571583097115,\n  \"purchasePrice\": 9691.720571703516,\n  \"quantityUnit\": \"null\",\n  \"imageUrl\": \"https://QLMFJbajAxVJDIKCbxgv.fprcWJqWGAsWFK.IOJlaLwtuowh1.yY2gfqUFcsLfh+1Y02dpD0253CQja\",\n  \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n  \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"archivedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"componentType\": \"module\",\n  \"attributes\": {\n    \"moduleType\": \"SiPoly\",\n    \"wattPeak\": 9998.804607193184,\n    \"bypassDiodeCount\": 4085,\n    \"width\": 2977.2683080945094,\n    \"height\": 7417.595641031244,\n    \"depth\": 9572.558020178712,\n    \"weight\": 4347.212866144823,\n    \"maximumPowerPointVoltage\": 8297.202125779168,\n    \"maximumPowerPointCurrent\": 4350.235878913402,\n    \"openCircuitVoltage\": 2516.011567850912,\n    \"shortCircuitCurrent\": 2590.0660411038457,\n    \"degradationRate\": 1469.7187002545875,\n    \"temperatureCoefficient\": 2249.230820524424\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "{{apiBaseUrl}}/rest/v3/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9aee2329-b50a-43fb-a907-0b89e07a4b9b",
+    "name": "Reonic REST Api v3 Activities Components API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.\n\n## Errors\n\nAll endpoints return errors with the same JSON shape:\n\n```json\n{ \"message\": \"human-readable description\" }\n```\n\n`400` responses additionally include an `errors` field with per-field validation details.\n\nThe HTTP status code identifies the cause:\n\n| Status  | Meaning | When |\n|--------|---------|------|\n| `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |\n| `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |\n| `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |\n| `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |\n| `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |\n| `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |\n| `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |\n\n## Rate limiting\n\nLimits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:\n\n| Bucket | Limit | Applies to |\n|--------|-------|------------|\n| `cached` | 500 / min | `GET` requests served from the response cache |\n| `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |\n\nEvery response includes:\n\n- `X-RateLimit-Bucket` — `cached` or `uncached`\n- `X-RateLimit-Limit` — the bucket's ceiling (`500` or `30`)\n- `X-RateLimit-Remaining` — calls left in the current window\n- `X-RateLimit-Reset` — Unix epoch seconds at which the window resets\n- `X-RateLimit-Policy` — `<limit>;w=60`\n\n`429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.\n\n## Caching and Reonic-Cache-Control\n\n`GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.\n\nThe standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.\n\n## Authentication\n\nEvery request must include your API key in the `X-Authorization` header:\n\n```\nX-Authorization: <your-api-key>\n```\n\nAPI keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.\n\n\nContact Support:\n Name: Reonic GmbH\n Email: kontakt@reonic.de",
+      "type": "text/plain"
+    }
+  }
+}

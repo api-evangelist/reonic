@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reonic REST Api v3 Activities Kanban Boards API",
+    "version": "3.2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Authorization",
+      "value": "{{X-Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Kanban Boards",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Kanban boards",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/kanbanBoards",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "projectDomain",
+                "value": "",
+                "type": "query",
+                "description": "Restrict to boards organizing this project domain (residential or commercial). Returns both domains when omitted."
+              },
+              {
+                "name": "projectStage",
+                "value": "",
+                "type": "query",
+                "description": "Restrict to boards organizing this lifecycle stage (request, offer, or installation). Returns all stages when omitted."
+              },
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query",
+                "description": "Controls whether archived boards appear in results. Default: exclude."
+              }
+            ]
+          },
+          "docs": "List all Kanban boards for residential and/or commercial projects, with their nested columns.\n\n**Allowed API keys:** Read-only, Read and Write"
+        },
+        {
+          "info": {
+            "name": "Get Kanban board",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiBaseUrl}/rest/v3/kanbanBoards/:boardId",
+            "headers": [
+              {
+                "name": "Reonic-Cache-Control",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "boardId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single Kanban board by its ID, including its nested columns.\n\n**Allowed API keys:** Read-only, Read and Write"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

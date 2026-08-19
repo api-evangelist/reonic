@@ -1,0 +1,1141 @@
+{
+  "item": [
+    {
+      "id": "cdf02b87-4371-4a7f-bfce-23e583b9504b",
+      "name": "Tasks",
+      "description": {
+        "content": "To-do items attached to a project or contact, with due dates, assignees, and completion state.\n\n> [!warning] \n> **Beta:** These endpoints are in beta and may change as the service evolves. Please report issues or unexpected behavior to our team.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "94cc3457-608a-46b9-9ea4-5e7428058237",
+          "name": "Get task tags",
+          "request": {
+            "name": "Get task tags",
+            "description": {
+              "content": "Get task tags\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tasks",
+                "tags"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f0d8bfe4-3bd3-48d3-af57-9bae2c57cbb8",
+              "name": "Task tags",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    "tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"position\": 7368.791828915711,\n      \"textColor\": \"string\",\n      \"backgroundColor\": \"string\"\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"position\": 5143.59241926954,\n      \"textColor\": \"string\",\n      \"backgroundColor\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a3956f8a-078f-4aa2-a624-55e677a93345",
+          "name": "Get task counts",
+          "request": {
+            "name": "Get task counts",
+            "description": {
+              "content": "Get task counts and stats for a parent entity\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tasks",
+                "count"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "parentId",
+                  "value": "<uuid>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "parentType",
+                  "value": "<string>",
+                  "description": "(Required) The type of the parent entity."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8c9d502f-470b-48cf-a7be-dbc851cbb7bb",
+              "name": "Task counts for the parent entity",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    "count"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "parentId",
+                      "value": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    {
+                      "key": "parentType",
+                      "value": "residentialProject"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"outstandingTasks\": 5936.763607920071,\n  \"completedTasks\": 1450.432412029401,\n  \"totalTasks\": 7184.58976931797,\n  \"overdueTasks\": 6214.410284279296,\n  \"nextDueDate\": \"2026-01-01T15:30:00.000Z\",\n  \"nextDueDateIsToday\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "49cf9fed-a0b2-4f6a-8dba-0b86380d48ea",
+          "name": "List tasks",
+          "request": {
+            "name": "List tasks",
+            "description": {
+              "content": "List tasks with filters and pagination. `parentId` and `parentType` must be provided together (or omitted together).\n\n**Examples:**\n- Open tasks for a residential project: `GET /tasks?parentId=<uuid>&parentType=residentialProject&completed=false&orderBy=dueAt&sort=asc`\n- All tasks due this week: `GET /tasks?dueFrom=2026-04-27T00:00:00Z&dueTo=2026-05-04T00:00:00Z&completed=false`\n- Tasks assigned to specific users: `GET /tasks?userIds=<uuid>&userIds=<uuid>&completed=false`\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tasks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "parentId",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "parentType",
+                  "value": "<string>",
+                  "description": "The type of the parent entity."
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "dueFrom",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "dueTo",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "completedFrom",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "completedTo",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "userIds",
+                  "value": "<uuid>",
+                  "description": "Comma-separated list or repeated query param."
+                },
+                {
+                  "disabled": false,
+                  "key": "userIds",
+                  "value": "<uuid>",
+                  "description": "Comma-separated list or repeated query param."
+                },
+                {
+                  "disabled": false,
+                  "key": "teamIds",
+                  "value": "<uuid>",
+                  "description": "Comma-separated list or repeated query param."
+                },
+                {
+                  "disabled": false,
+                  "key": "teamIds",
+                  "value": "<uuid>",
+                  "description": "Comma-separated list or repeated query param."
+                },
+                {
+                  "disabled": false,
+                  "key": "completed",
+                  "value": "<boolean,null>"
+                },
+                {
+                  "disabled": false,
+                  "key": "orderBy",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number, starting from 1. Default: 1."
+                },
+                {
+                  "disabled": false,
+                  "key": "itemsPerPage",
+                  "value": "50",
+                  "description": "Number of items per page. Default: 50. Max: 200."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e1c65699-34da-493d-a48e-ccf2948aee69",
+              "name": "Paginated tasks",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "parentId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "parentType",
+                      "value": "residentialProject"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "dueFrom",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "dueTo",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "completedFrom",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "completedTo",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "userIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "userIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "teamIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "teamIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "completed",
+                      "value": "<boolean,null>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "itemsPerPage",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"completed\": false,\n      \"assignedUserIds\": [\n        \"84d42a91-81bf-ac2e-46de-e80004972ece\",\n        \"54010990-ce74-9808-b0de-c6ab8545de6e\"\n      ],\n      \"assignedTeamIds\": [\n        \"4b35464a-c612-0d98-fe93-a7668368915b\",\n        \"1214f9b8-de7a-85d8-7a67-d24206d71340\"\n      ],\n      \"tagIds\": [\n        \"7ceee117-f7b2-da3c-7c93-4701aceaa805\",\n        \"6801f1f4-1ab0-01e7-cff3-060e38858ef8\"\n      ],\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"dueAt\": \"2026-01-01T15:30:00.000Z\",\n      \"sendReminderAt\": \"2026-01-01T15:30:00.000Z\",\n      \"checklist\": {\n        \"started\": true,\n        \"completed\": false,\n        \"nrOfCompletedItems\": 6296.454598514052,\n        \"nrOfItems\": 5836.818290895402,\n        \"items\": [\n          {\n            \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n            \"checkedAt\": \"2026-01-01T15:30:00.000Z\",\n            \"checked\": true,\n            \"position\": 6378.450724228195,\n            \"text\": \"string\"\n          },\n          {\n            \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n            \"checkedAt\": \"2026-01-01T15:30:00.000Z\",\n            \"checked\": false,\n            \"position\": 4487.164354264408,\n            \"text\": \"string\"\n          }\n        ]\n      },\n      \"completedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"completedNote\": \"string\",\n      \"completedById\": \"011aad87-cbe9-f565-3f32-60eaf91740ee\",\n      \"parent\": {\n        \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"parentType\": \"residentialProject\",\n        \"parentName\": \"string\",\n        \"parentObjectLink\": \"string\"\n      },\n      \"stageAndLane\": {\n        \"laneId\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"lanePosition\": 4996.534098538772,\n        \"lane\": {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"name\": \"string\",\n          \"position\": 9132.11279454696,\n          \"archivedAt\": \"2026-01-01T15:30:00.000Z\"\n        }\n      }\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"completed\": true,\n      \"assignedUserIds\": [\n        \"1f0c95ab-741f-182e-9c5e-53a3ec7742fc\",\n        \"0557df8c-a7ee-3a3f-3956-cb41f4edcf49\"\n      ],\n      \"assignedTeamIds\": [\n        \"eba713f7-1ae8-a41b-8c82-ef3fb20a2ef9\",\n        \"9356a565-a572-b690-79da-3a667ed24b90\"\n      ],\n      \"tagIds\": [\n        \"63fd539d-9e17-c17b-33f1-734730644ef1\",\n        \"a009197d-0443-0a34-f47e-cf451c864c51\"\n      ],\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"dueAt\": \"2026-01-01T15:30:00.000Z\",\n      \"sendReminderAt\": \"2026-01-01T15:30:00.000Z\",\n      \"checklist\": {\n        \"started\": true,\n        \"completed\": false,\n        \"nrOfCompletedItems\": 5474.454128274625,\n        \"nrOfItems\": 7332.630602802431,\n        \"items\": [\n          {\n            \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n            \"checkedAt\": \"2026-01-01T15:30:00.000Z\",\n            \"checked\": true,\n            \"position\": 191.23650194639353,\n            \"text\": \"string\"\n          },\n          {\n            \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n            \"checkedAt\": \"2026-01-01T15:30:00.000Z\",\n            \"checked\": true,\n            \"position\": 9735.123646811006,\n            \"text\": \"string\"\n          }\n        ]\n      },\n      \"completedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"completedNote\": \"string\",\n      \"completedById\": \"2d7ade96-115a-5370-8572-dd1e18990f52\",\n      \"parent\": {\n        \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"parentType\": \"residentialProject\",\n        \"parentName\": \"string\",\n        \"parentObjectLink\": \"string\"\n      },\n      \"stageAndLane\": {\n        \"laneId\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"lanePosition\": 7779.47881130088,\n        \"lane\": {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"name\": \"string\",\n          \"position\": 726.7250115908719,\n          \"archivedAt\": \"2026-01-01T15:30:00.000Z\"\n        }\n      }\n    }\n  ],\n  \"pagination\": {\n    \"page\": 4270,\n    \"perPage\": 4072,\n    \"total\": 7188,\n    \"totalPages\": 9920,\n    \"next\": \"string\",\n    \"prev\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5e8defd9-26b9-4748-937d-d3e10918f46c",
+          "name": "Create task",
+          "request": {
+            "name": "Create task",
+            "description": {
+              "content": "Create a task\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tasks",
+                "create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"parentId\": \"<uuid>\",\n  \"parentType\": \"<string>\",\n  \"id\": \"<uuid>\",\n  \"commercialProjectInput\": {\n    \"laneId\": \"<uuid>\"\n  },\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"assignedUserIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"assignedTeamIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"tagIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"dueAt\": \"<string,null-date-time>\",\n  \"checklistItems\": [\n    {\n      \"id\": \"<uuid>\",\n      \"position\": \"<integer>\",\n      \"text\": \"<string>\",\n      \"checked\": false\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"position\": \"<integer>\",\n      \"text\": \"<string>\",\n      \"checked\": false\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cba8115f-25c4-4684-a67b-badd7a2b9c82",
+              "name": "The created task",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"parentType\": \"residentialProject\",\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"commercialProjectInput\": {\n    \"laneId\": \"123e4567-e89b-12d3-a456-426614174000\"\n  },\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"assignedUserIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"assignedTeamIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"tagIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"dueAt\": \"2026-01-01T15:30:00.000Z\",\n  \"checklistItems\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"position\": \"<integer>\",\n      \"text\": \"<string>\",\n      \"checked\": false\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"position\": \"<integer>\",\n      \"text\": \"<string>\",\n      \"checked\": false\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"completed\": false,\n  \"assignedUserIds\": [\n    \"d152c784-4a17-cc9d-b783-491a3c753d97\",\n    \"d00eed53-15d0-62cd-fa7e-c54ddd7b4220\"\n  ],\n  \"assignedTeamIds\": [\n    \"de445c81-8d3a-41a5-4e9f-c11a7bddf0a1\",\n    \"fb54d2cf-dd52-8cb9-0a00-7ad335de1a65\"\n  ],\n  \"tagIds\": [\n    \"a94e88ed-646f-18f5-61f5-6546f2f1e751\",\n    \"67171a71-1999-3bb2-d774-21259d0f1f52\"\n  ],\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"dueAt\": \"2026-01-01T15:30:00.000Z\",\n  \"sendReminderAt\": \"2026-01-01T15:30:00.000Z\",\n  \"checklist\": {\n    \"started\": true,\n    \"completed\": true,\n    \"nrOfCompletedItems\": 1664.659526938268,\n    \"nrOfItems\": 9163.478209043991,\n    \"items\": [\n      {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"checkedAt\": \"2026-01-01T15:30:00.000Z\",\n        \"checked\": false,\n        \"position\": 7491.0159271211305,\n        \"text\": \"string\"\n      },\n      {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"checkedAt\": \"2026-01-01T15:30:00.000Z\",\n        \"checked\": true,\n        \"position\": 4670.5951472841125,\n        \"text\": \"string\"\n      }\n    ]\n  },\n  \"completedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"completedNote\": \"string\",\n  \"completedById\": \"25573285-8b71-1ee0-4d73-0f96d1ef6de9\",\n  \"parent\": {\n    \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"parentType\": \"residentialProject\",\n    \"parentName\": \"string\",\n    \"parentObjectLink\": \"string\"\n  },\n  \"stageAndLane\": {\n    \"laneId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"lanePosition\": 1280.6289498675994,\n    \"lane\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"position\": 299.545570050489,\n      \"archivedAt\": \"2026-01-01T15:30:00.000Z\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6ec1bbb4-b1c3-4811-9397-f13ebc9537f1",
+          "name": "Get task",
+          "request": {
+            "name": "Get task",
+            "description": {
+              "content": "Get a single task by its ID\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tasks",
+                ":taskId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ffcc4e00-9d14-49f9-8de5-1119d0753dd1",
+              "name": "The task",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    ":taskId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"completed\": false,\n  \"assignedUserIds\": [\n    \"d152c784-4a17-cc9d-b783-491a3c753d97\",\n    \"d00eed53-15d0-62cd-fa7e-c54ddd7b4220\"\n  ],\n  \"assignedTeamIds\": [\n    \"de445c81-8d3a-41a5-4e9f-c11a7bddf0a1\",\n    \"fb54d2cf-dd52-8cb9-0a00-7ad335de1a65\"\n  ],\n  \"tagIds\": [\n    \"a94e88ed-646f-18f5-61f5-6546f2f1e751\",\n    \"67171a71-1999-3bb2-d774-21259d0f1f52\"\n  ],\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"dueAt\": \"2026-01-01T15:30:00.000Z\",\n  \"sendReminderAt\": \"2026-01-01T15:30:00.000Z\",\n  \"checklist\": {\n    \"started\": true,\n    \"completed\": true,\n    \"nrOfCompletedItems\": 1664.659526938268,\n    \"nrOfItems\": 9163.478209043991,\n    \"items\": [\n      {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"checkedAt\": \"2026-01-01T15:30:00.000Z\",\n        \"checked\": false,\n        \"position\": 7491.0159271211305,\n        \"text\": \"string\"\n      },\n      {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"checkedAt\": \"2026-01-01T15:30:00.000Z\",\n        \"checked\": true,\n        \"position\": 4670.5951472841125,\n        \"text\": \"string\"\n      }\n    ]\n  },\n  \"completedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"completedNote\": \"string\",\n  \"completedById\": \"25573285-8b71-1ee0-4d73-0f96d1ef6de9\",\n  \"parent\": {\n    \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"parentType\": \"residentialProject\",\n    \"parentName\": \"string\",\n    \"parentObjectLink\": \"string\"\n  },\n  \"stageAndLane\": {\n    \"laneId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"lanePosition\": 1280.6289498675994,\n    \"lane\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"position\": 299.545570050489,\n      \"archivedAt\": \"2026-01-01T15:30:00.000Z\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2109332d-f34b-422b-95bf-25769a66feec",
+          "name": "Update task",
+          "request": {
+            "name": "Update task",
+            "description": {
+              "content": "Update a task\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tasks",
+                ":taskId",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"assignedUserIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"assignedTeamIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"tagIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"dueAt\": \"<string,null-date-time>\",\n  \"sendReminderAt\": \"<string,null-date-time>\",\n  \"checklistItems\": [\n    {\n      \"id\": \"<uuid>\",\n      \"position\": \"<integer>\",\n      \"text\": \"<string>\",\n      \"checked\": false\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"position\": \"<integer>\",\n      \"text\": \"<string>\",\n      \"checked\": false\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bd4dd71c-bfb0-4962-a5e6-1cc6c640a2f6",
+              "name": "The updated task",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    ":taskId",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"assignedUserIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"assignedTeamIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"tagIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"dueAt\": \"2026-01-01T15:30:00.000Z\",\n  \"sendReminderAt\": \"2026-01-01T15:30:00.000Z\",\n  \"checklistItems\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"position\": \"<integer>\",\n      \"text\": \"<string>\",\n      \"checked\": false\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"position\": \"<integer>\",\n      \"text\": \"<string>\",\n      \"checked\": false\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"completed\": true,\n    \"assignedUserIds\": [\n      \"3f4196b3-4e17-bfb9-9385-b7801ae560a0\",\n      \"dd594887-aec7-f29a-d869-106a4bd942ef\"\n    ],\n    \"assignedTeamIds\": [\n      \"2254d757-8a77-62fd-7352-59e23987dd62\",\n      \"7371aacb-da50-212b-5618-598ed43a00e1\"\n    ],\n    \"tagIds\": [\n      \"03f8939b-10d0-1890-29e4-db3fc211d9ac\",\n      \"fdb9dac3-02ed-4594-02e6-28307162f206\"\n    ],\n    \"title\": \"string\",\n    \"description\": \"string\",\n    \"dueAt\": \"2026-01-01T15:30:00.000Z\",\n    \"sendReminderAt\": \"2026-01-01T15:30:00.000Z\",\n    \"checklist\": {\n      \"started\": true,\n      \"completed\": true,\n      \"nrOfCompletedItems\": 6492.8732050607005,\n      \"nrOfItems\": 7898.0528847573105,\n      \"items\": [\n        {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"checkedAt\": \"2026-01-01T15:30:00.000Z\",\n          \"checked\": false,\n          \"position\": 4320.40274019925,\n          \"text\": \"string\"\n        },\n        {\n          \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n          \"checkedAt\": \"2026-01-01T15:30:00.000Z\",\n          \"checked\": true,\n          \"position\": 9263.454260150327,\n          \"text\": \"string\"\n        }\n      ]\n    },\n    \"completedAt\": \"2026-01-01T15:30:00.000Z\",\n    \"completedNote\": \"string\",\n    \"completedById\": \"08632c06-ce3d-dfdc-9853-697b270e3ef3\",\n    \"parent\": {\n      \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"parentType\": \"residentialProject\",\n      \"parentName\": \"string\",\n      \"parentObjectLink\": \"string\"\n    },\n    \"stageAndLane\": {\n      \"laneId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"lanePosition\": 2539.3528980966485,\n      \"lane\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"name\": \"string\",\n        \"position\": 484.9961716174911,\n        \"archivedAt\": \"2026-01-01T15:30:00.000Z\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8dcd9323-e9e6-4743-93a6-4200342ac50b",
+          "name": "Complete task",
+          "request": {
+            "name": "Complete task",
+            "description": {
+              "content": "Complete a task\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tasks",
+                ":taskId",
+                "complete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"note\": \"<string,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1cc46aa9-580f-44af-8bdb-d2aaef8fdf11",
+              "name": "The completed task",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    ":taskId",
+                    "complete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"note\": \"<string,null>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"completed\": false,\n  \"assignedUserIds\": [\n    \"d152c784-4a17-cc9d-b783-491a3c753d97\",\n    \"d00eed53-15d0-62cd-fa7e-c54ddd7b4220\"\n  ],\n  \"assignedTeamIds\": [\n    \"de445c81-8d3a-41a5-4e9f-c11a7bddf0a1\",\n    \"fb54d2cf-dd52-8cb9-0a00-7ad335de1a65\"\n  ],\n  \"tagIds\": [\n    \"a94e88ed-646f-18f5-61f5-6546f2f1e751\",\n    \"67171a71-1999-3bb2-d774-21259d0f1f52\"\n  ],\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"dueAt\": \"2026-01-01T15:30:00.000Z\",\n  \"sendReminderAt\": \"2026-01-01T15:30:00.000Z\",\n  \"checklist\": {\n    \"started\": true,\n    \"completed\": true,\n    \"nrOfCompletedItems\": 1664.659526938268,\n    \"nrOfItems\": 9163.478209043991,\n    \"items\": [\n      {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"checkedAt\": \"2026-01-01T15:30:00.000Z\",\n        \"checked\": false,\n        \"position\": 7491.0159271211305,\n        \"text\": \"string\"\n      },\n      {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"checkedAt\": \"2026-01-01T15:30:00.000Z\",\n        \"checked\": true,\n        \"position\": 4670.5951472841125,\n        \"text\": \"string\"\n      }\n    ]\n  },\n  \"completedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"completedNote\": \"string\",\n  \"completedById\": \"25573285-8b71-1ee0-4d73-0f96d1ef6de9\",\n  \"parent\": {\n    \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"parentType\": \"residentialProject\",\n    \"parentName\": \"string\",\n    \"parentObjectLink\": \"string\"\n  },\n  \"stageAndLane\": {\n    \"laneId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"lanePosition\": 1280.6289498675994,\n    \"lane\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"position\": 299.545570050489,\n      \"archivedAt\": \"2026-01-01T15:30:00.000Z\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "347ae103-ef60-4a26-8680-e7de4b9f6afa",
+          "name": "Uncomplete task",
+          "request": {
+            "name": "Uncomplete task",
+            "description": {
+              "content": "Uncomplete a task\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tasks",
+                ":taskId",
+                "uncomplete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "df14671c-2330-4973-9ef8-e72f8e0da84b",
+              "name": "The uncompleted task",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    ":taskId",
+                    "uncomplete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"completed\": false,\n  \"assignedUserIds\": [\n    \"d152c784-4a17-cc9d-b783-491a3c753d97\",\n    \"d00eed53-15d0-62cd-fa7e-c54ddd7b4220\"\n  ],\n  \"assignedTeamIds\": [\n    \"de445c81-8d3a-41a5-4e9f-c11a7bddf0a1\",\n    \"fb54d2cf-dd52-8cb9-0a00-7ad335de1a65\"\n  ],\n  \"tagIds\": [\n    \"a94e88ed-646f-18f5-61f5-6546f2f1e751\",\n    \"67171a71-1999-3bb2-d774-21259d0f1f52\"\n  ],\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"dueAt\": \"2026-01-01T15:30:00.000Z\",\n  \"sendReminderAt\": \"2026-01-01T15:30:00.000Z\",\n  \"checklist\": {\n    \"started\": true,\n    \"completed\": true,\n    \"nrOfCompletedItems\": 1664.659526938268,\n    \"nrOfItems\": 9163.478209043991,\n    \"items\": [\n      {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"checkedAt\": \"2026-01-01T15:30:00.000Z\",\n        \"checked\": false,\n        \"position\": 7491.0159271211305,\n        \"text\": \"string\"\n      },\n      {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"checkedAt\": \"2026-01-01T15:30:00.000Z\",\n        \"checked\": true,\n        \"position\": 4670.5951472841125,\n        \"text\": \"string\"\n      }\n    ]\n  },\n  \"completedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"completedNote\": \"string\",\n  \"completedById\": \"25573285-8b71-1ee0-4d73-0f96d1ef6de9\",\n  \"parent\": {\n    \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"parentType\": \"residentialProject\",\n    \"parentName\": \"string\",\n    \"parentObjectLink\": \"string\"\n  },\n  \"stageAndLane\": {\n    \"laneId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"lanePosition\": 1280.6289498675994,\n    \"lane\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"position\": 299.545570050489,\n      \"archivedAt\": \"2026-01-01T15:30:00.000Z\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5bcc99bf-d80e-4ee0-bd68-67d16e451caa",
+          "name": "Delete task",
+          "request": {
+            "name": "Delete task",
+            "description": {
+              "content": "Delete a task\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tasks",
+                ":taskId",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d47e3cb8-dccc-443a-8636-1f78e828d2c0",
+              "name": "Delete result",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tasks",
+                    ":taskId",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "{{apiBaseUrl}}/rest/v3/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9234ad3a-c9ae-408d-815f-6f110396667c",
+    "name": "Reonic REST Api v3 Activities Tasks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.\n\n## Errors\n\nAll endpoints return errors with the same JSON shape:\n\n```json\n{ \"message\": \"human-readable description\" }\n```\n\n`400` responses additionally include an `errors` field with per-field validation details.\n\nThe HTTP status code identifies the cause:\n\n| Status  | Meaning | When |\n|--------|---------|------|\n| `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |\n| `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |\n| `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |\n| `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |\n| `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |\n| `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |\n| `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |\n\n## Rate limiting\n\nLimits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:\n\n| Bucket | Limit | Applies to |\n|--------|-------|------------|\n| `cached` | 500 / min | `GET` requests served from the response cache |\n| `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |\n\nEvery response includes:\n\n- `X-RateLimit-Bucket` — `cached` or `uncached`\n- `X-RateLimit-Limit` — the bucket's ceiling (`500` or `30`)\n- `X-RateLimit-Remaining` — calls left in the current window\n- `X-RateLimit-Reset` — Unix epoch seconds at which the window resets\n- `X-RateLimit-Policy` — `<limit>;w=60`\n\n`429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.\n\n## Caching and Reonic-Cache-Control\n\n`GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.\n\nThe standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.\n\n## Authentication\n\nEvery request must include your API key in the `X-Authorization` header:\n\n```\nX-Authorization: <your-api-key>\n```\n\nAPI keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.\n\n\nContact Support:\n Name: Reonic GmbH\n Email: kontakt@reonic.de",
+      "type": "text/plain"
+    }
+  }
+}

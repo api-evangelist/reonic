@@ -341,3 +341,9 @@ tools:
 - name: create_photogrammetry_jobs_jobid_assets_delete
   description: Delete assets from photogrammetry job
   source_operation: openapi/reonic-openapi-original.json#POST /photogrammetry/jobs/{jobId}/assets/delete
+deployment:
+  mode: none
+  verified: derived
+  tools: 111
+  checked: '2026-08-12'
+  source: catalog MCP census

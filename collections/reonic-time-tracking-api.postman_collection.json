@@ -1,0 +1,680 @@
+{
+  "item": [
+    {
+      "id": "27371be5-da86-4c60-8b80-44e3a104958b",
+      "name": "Time Tracking",
+      "description": {
+        "content": "Time entries logged against projects.\n\n> [!warning] \n> **Beta:** These endpoints are in beta and may change as the service evolves. Please report issues or unexpected behavior to our team.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4e80796c-bb16-4f28-b683-ecffc4b93118",
+          "name": "Get time tracking event types",
+          "request": {
+            "name": "Get time tracking event types",
+            "description": {
+              "content": "Get all time tracking event types, optionally including archived ones.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "timetracking",
+                "eventTypes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "showArchived",
+                  "value": "false"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0249f169-6749-4501-aea2-4cf1b0695c1c",
+              "name": "Array of event types",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "timetracking",
+                    "eventTypes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "showArchived",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"position\": 3966.4626256578094,\n      \"textColor\": \"string\",\n      \"backgroundColor\": \"string\",\n      \"archivedAt\": \"2026-01-01T15:30:00.000Z\"\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"position\": 171.55500052937757,\n      \"textColor\": \"string\",\n      \"backgroundColor\": \"string\",\n      \"archivedAt\": \"2026-01-01T15:30:00.000Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "677b4bc1-6c2f-404b-8c11-dbe4ea3de917",
+          "name": "List time tracking entries",
+          "request": {
+            "name": "List time tracking entries",
+            "description": {
+              "content": "List time tracking entries with filters and pagination. Page size is fixed at 50.\n\n**Allowed API keys:** Read-only, Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "timetracking"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number, starting from 1. Default: 1."
+                },
+                {
+                  "disabled": false,
+                  "key": "archived",
+                  "value": "false"
+                },
+                {
+                  "disabled": false,
+                  "key": "userIds",
+                  "value": "<uuid>",
+                  "description": "Comma-separated list or repeated query param."
+                },
+                {
+                  "disabled": false,
+                  "key": "userIds",
+                  "value": "<uuid>",
+                  "description": "Comma-separated list or repeated query param."
+                },
+                {
+                  "disabled": false,
+                  "key": "eventTypeIds",
+                  "value": "<uuid>",
+                  "description": "Comma-separated list or repeated query param."
+                },
+                {
+                  "disabled": false,
+                  "key": "eventTypeIds",
+                  "value": "<uuid>",
+                  "description": "Comma-separated list or repeated query param."
+                },
+                {
+                  "disabled": false,
+                  "key": "parentId",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "parentType",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "startAt.gt",
+                  "value": "<string,null-date-time>",
+                  "description": "Filter records where startAt is after this datetime (exclusive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "startAt.lt",
+                  "value": "<string,null-date-time>",
+                  "description": "Filter records where startAt is before this datetime (exclusive)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                "key": "Reonic-Cache-Control",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e5847231-3a22-473e-9187-736cab8cb9ac",
+              "name": "Paginated time tracking entries",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "timetracking"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "archived",
+                      "value": "false"
+                    },
+                    {
+                      "key": "userIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "userIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "eventTypeIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "eventTypeIds",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "parentId",
+                      "value": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    {
+                      "key": "parentType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "startAt.gt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    },
+                    {
+                      "key": "startAt.lt",
+                      "value": "2026-01-01T15:30:00.000Z"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Set to 'no-cache' to bypass the 1-hour response cache and force a fresh read. The fresh response is then written back to the cache for subsequent callers. Forced refreshes count against the uncached rate-limit bucket (30/min); only cache hits count against the cached bucket (500/min).",
+                    "key": "Reonic-Cache-Control",
+                    "value": "no-cache"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"trackingId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n      \"createdById\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"updatedById\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"archivedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"startAt\": \"2026-01-01T15:30:00.000Z\",\n      \"endAt\": \"2026-01-01T15:30:00.000Z\",\n      \"workingTimeMinutes\": 460.5966629829572,\n      \"breakDurationMinutes\": 9612.197305931059,\n      \"breaks\": [\n        {\n          \"start\": \"2026-01-01T15:30:00.000Z\",\n          \"end\": \"2026-01-01T15:30:00.000Z\"\n        },\n        {\n          \"start\": \"2026-01-01T15:30:00.000Z\",\n          \"end\": \"2026-01-01T15:30:00.000Z\"\n        }\n      ],\n      \"comment\": \"string\",\n      \"typeId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"type\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"name\": \"string\",\n        \"position\": 697.3555723936154,\n        \"textColor\": \"string\",\n        \"backgroundColor\": \"string\",\n        \"archivedAt\": \"2026-01-01T15:30:00.000Z\"\n      },\n      \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"parentType\": \"residentialProject\",\n      \"parentName\": \"string\"\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"trackingId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n      \"createdById\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"updatedById\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"archivedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"startAt\": \"2026-01-01T15:30:00.000Z\",\n      \"endAt\": \"2026-01-01T15:30:00.000Z\",\n      \"workingTimeMinutes\": 3591.7034596365347,\n      \"breakDurationMinutes\": 3895.103783808349,\n      \"breaks\": [\n        {\n          \"start\": \"2026-01-01T15:30:00.000Z\",\n          \"end\": \"2026-01-01T15:30:00.000Z\"\n        },\n        {\n          \"start\": \"2026-01-01T15:30:00.000Z\",\n          \"end\": \"2026-01-01T15:30:00.000Z\"\n        }\n      ],\n      \"comment\": \"string\",\n      \"typeId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"type\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"name\": \"string\",\n        \"position\": 6153.762760642054,\n        \"textColor\": \"string\",\n        \"backgroundColor\": \"string\",\n        \"archivedAt\": \"2026-01-01T15:30:00.000Z\"\n      },\n      \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"parentType\": \"commercialProject\",\n      \"parentName\": \"string\"\n    }\n  ],\n  \"pagination\": {\n    \"page\": 6920,\n    \"perPage\": 4220,\n    \"total\": 2689,\n    \"totalPages\": 1204,\n    \"next\": \"string\",\n    \"prev\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "df37ecb3-cff3-4c01-b01d-c4b3ec2c8405",
+          "name": "Create time tracking entries",
+          "request": {
+            "name": "Create time tracking entries",
+            "description": {
+              "content": "Bulk create one or more time tracking entries.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "timetracking",
+                "create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"entries\": [\n    {\n      \"startAt\": \"<dateTime>\",\n      \"endAt\": \"<dateTime>\",\n      \"timestamp\": \"<dateTime>\",\n      \"userId\": \"<uuid>\",\n      \"comment\": \"<string>\",\n      \"typeId\": \"<uuid>\",\n      \"parentId\": \"<uuid>\",\n      \"parentType\": \"<string>\",\n      \"breaks\": [\n        {\n          \"start\": \"<dateTime>\",\n          \"end\": \"<dateTime>\"\n        },\n        {\n          \"start\": \"<dateTime>\",\n          \"end\": \"<dateTime>\"\n        }\n      ],\n      \"latLng\": {\n        \"lat\": \"<number>\",\n        \"lng\": \"<number>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ca515749-1a38-4035-b886-45a199508491",
+              "name": "The created entries",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "timetracking",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entries\": [\n    {\n      \"startAt\": \"2026-01-01T15:30:00.000Z\",\n      \"endAt\": \"2026-01-01T15:30:00.000Z\",\n      \"timestamp\": \"2026-01-01T15:30:00.000Z\",\n      \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"comment\": \"<string>\",\n      \"typeId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"parentType\": \"<string>\",\n      \"breaks\": [\n        {\n          \"start\": \"2026-01-01T15:30:00.000Z\",\n          \"end\": \"2026-01-01T15:30:00.000Z\"\n        },\n        {\n          \"start\": \"2026-01-01T15:30:00.000Z\",\n          \"end\": \"2026-01-01T15:30:00.000Z\"\n        }\n      ],\n      \"latLng\": {\n        \"lat\": \"<number>\",\n        \"lng\": \"<number>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"trackingId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n      \"createdById\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"updatedById\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"archivedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"startAt\": \"2026-01-01T15:30:00.000Z\",\n      \"endAt\": \"2026-01-01T15:30:00.000Z\",\n      \"workingTimeMinutes\": 5366.641432307745,\n      \"breakDurationMinutes\": 9256.068346663442,\n      \"breaks\": [\n        {\n          \"start\": \"2026-01-01T15:30:00.000Z\",\n          \"end\": \"2026-01-01T15:30:00.000Z\"\n        },\n        {\n          \"start\": \"2026-01-01T15:30:00.000Z\",\n          \"end\": \"2026-01-01T15:30:00.000Z\"\n        }\n      ],\n      \"comment\": \"string\",\n      \"typeId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"type\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"name\": \"string\",\n        \"position\": 8998.207458313478,\n        \"textColor\": \"string\",\n        \"backgroundColor\": \"string\",\n        \"archivedAt\": \"2026-01-01T15:30:00.000Z\"\n      },\n      \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"parentType\": \"residentialProject\",\n      \"parentName\": \"string\"\n    },\n    {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"trackingId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n      \"createdById\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"updatedById\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"archivedAt\": \"2026-01-01T15:30:00.000Z\",\n      \"startAt\": \"2026-01-01T15:30:00.000Z\",\n      \"endAt\": \"2026-01-01T15:30:00.000Z\",\n      \"workingTimeMinutes\": 4600.147618843691,\n      \"breakDurationMinutes\": 3539.517276844515,\n      \"breaks\": [\n        {\n          \"start\": \"2026-01-01T15:30:00.000Z\",\n          \"end\": \"2026-01-01T15:30:00.000Z\"\n        },\n        {\n          \"start\": \"2026-01-01T15:30:00.000Z\",\n          \"end\": \"2026-01-01T15:30:00.000Z\"\n        }\n      ],\n      \"comment\": \"string\",\n      \"typeId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"type\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"name\": \"string\",\n        \"position\": 7649.18112131954,\n        \"textColor\": \"string\",\n        \"backgroundColor\": \"string\",\n        \"archivedAt\": \"2026-01-01T15:30:00.000Z\"\n      },\n      \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"parentType\": \"null\",\n      \"parentName\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "787d9bb8-cf2a-46b9-8d73-e6d184387361",
+          "name": "Update time tracking entry",
+          "request": {
+            "name": "Update time tracking entry",
+            "description": {
+              "content": "Update an existing time tracking entry. Omit fields to leave them unchanged.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "timetracking",
+                ":entryId",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "entryId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startAt\": \"<dateTime>\",\n  \"endAt\": \"<dateTime>\",\n  \"timestamp\": \"<dateTime>\",\n  \"userId\": \"<uuid>\",\n  \"comment\": \"<string,null>\",\n  \"typeId\": \"<uuid>\",\n  \"parentId\": \"<uuid>\",\n  \"parentType\": \"<string>\",\n  \"breaks\": [\n    {\n      \"start\": \"<dateTime>\",\n      \"end\": \"<dateTime>\"\n    },\n    {\n      \"start\": \"<dateTime>\",\n      \"end\": \"<dateTime>\"\n    }\n  ],\n  \"latLng\": {\n    \"lat\": \"<number>\",\n    \"lng\": \"<number>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5da78cab-58a9-4f49-b238-a6a491048277",
+              "name": "The updated entry",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "timetracking",
+                    ":entryId",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "entryId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"startAt\": \"2026-01-01T15:30:00.000Z\",\n  \"endAt\": \"2026-01-01T15:30:00.000Z\",\n  \"timestamp\": \"2026-01-01T15:30:00.000Z\",\n  \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"comment\": \"<string,null>\",\n  \"typeId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"parentType\": \"<string>\",\n  \"breaks\": [\n    {\n      \"start\": \"2026-01-01T15:30:00.000Z\",\n      \"end\": \"2026-01-01T15:30:00.000Z\"\n    },\n    {\n      \"start\": \"2026-01-01T15:30:00.000Z\",\n      \"end\": \"2026-01-01T15:30:00.000Z\"\n    }\n  ],\n  \"latLng\": {\n    \"lat\": \"<number>\",\n    \"lng\": \"<number>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"trackingId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n    \"createdById\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n    \"updatedById\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"archivedAt\": \"2026-01-01T15:30:00.000Z\",\n    \"startAt\": \"2026-01-01T15:30:00.000Z\",\n    \"endAt\": \"2026-01-01T15:30:00.000Z\",\n    \"workingTimeMinutes\": 2875.085610611292,\n    \"breakDurationMinutes\": 6883.691230319329,\n    \"breaks\": [\n      {\n        \"start\": \"2026-01-01T15:30:00.000Z\",\n        \"end\": \"2026-01-01T15:30:00.000Z\"\n      },\n      {\n        \"start\": \"2026-01-01T15:30:00.000Z\",\n        \"end\": \"2026-01-01T15:30:00.000Z\"\n      }\n    ],\n    \"comment\": \"string\",\n    \"typeId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"type\": {\n      \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"name\": \"string\",\n      \"position\": 5625.4108832190295,\n      \"textColor\": \"string\",\n      \"backgroundColor\": \"string\",\n      \"archivedAt\": \"2026-01-01T15:30:00.000Z\"\n    },\n    \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"parentType\": \"null\",\n    \"parentName\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d91d8e20-0789-405d-9167-17ff2ff9cb45",
+          "name": "Archive or restore time tracking entry",
+          "request": {
+            "name": "Archive or restore time tracking entry",
+            "description": {
+              "content": "Archive or restore a time tracking entry.\n\n**Allowed API keys:** Read and Write",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "timetracking",
+                ":entryId",
+                "archive"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "entryId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"archive\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b19128e3-5c09-426e-b46f-1b78eade5878",
+              "name": "The updated entry",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "timetracking",
+                    ":entryId",
+                    "archive"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "entryId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"archive\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"trackingId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"createdAt\": \"2026-01-01T15:30:00.000Z\",\n  \"createdById\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"updatedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"updatedById\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"archivedAt\": \"2026-01-01T15:30:00.000Z\",\n  \"startAt\": \"2026-01-01T15:30:00.000Z\",\n  \"endAt\": \"2026-01-01T15:30:00.000Z\",\n  \"workingTimeMinutes\": 5391.04176556648,\n  \"breakDurationMinutes\": 2592.6486399620408,\n  \"breaks\": [\n    {\n      \"start\": \"2026-01-01T15:30:00.000Z\",\n      \"end\": \"2026-01-01T15:30:00.000Z\"\n    },\n    {\n      \"start\": \"2026-01-01T15:30:00.000Z\",\n      \"end\": \"2026-01-01T15:30:00.000Z\"\n    }\n  ],\n  \"comment\": \"string\",\n  \"typeId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"type\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"name\": \"string\",\n    \"position\": 6534.203448082654,\n    \"textColor\": \"string\",\n    \"backgroundColor\": \"string\",\n    \"archivedAt\": \"2026-01-01T15:30:00.000Z\"\n  },\n  \"parentId\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"parentType\": \"commercialProject\",\n  \"parentName\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "{{apiBaseUrl}}/rest/v3/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2a9ea8fe-375f-42fe-a031-7344f2dd2e16",
+    "name": "Reonic REST Api v3 Activities Time Tracking API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.\n\n## Errors\n\nAll endpoints return errors with the same JSON shape:\n\n```json\n{ \"message\": \"human-readable description\" }\n```\n\n`400` responses additionally include an `errors` field with per-field validation details.\n\nThe HTTP status code identifies the cause:\n\n| Status  | Meaning | When |\n|--------|---------|------|\n| `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |\n| `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |\n| `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |\n| `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |\n| `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |\n| `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |\n| `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |\n\n## Rate limiting\n\nLimits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:\n\n| Bucket | Limit | Applies to |\n|--------|-------|------------|\n| `cached` | 500 / min | `GET` requests served from the response cache |\n| `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |\n\nEvery response includes:\n\n- `X-RateLimit-Bucket` — `cached` or `uncached`\n- `X-RateLimit-Limit` — the bucket's ceiling (`500` or `30`)\n- `X-RateLimit-Remaining` — calls left in the current window\n- `X-RateLimit-Reset` — Unix epoch seconds at which the window resets\n- `X-RateLimit-Policy` — `<limit>;w=60`\n\n`429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.\n\n## Caching and Reonic-Cache-Control\n\n`GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.\n\nThe standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.\n\n## Authentication\n\nEvery request must include your API key in the `X-Authorization` header:\n\n```\nX-Authorization: <your-api-key>\n```\n\nAPI keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.\n\n\nContact Support:\n Name: Reonic GmbH\n Email: kontakt@reonic.de",
+      "type": "text/plain"
+    }
+  }
+}
