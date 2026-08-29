@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Reonic REST Api v3 Activities Teams API
+  title: Reonic REST Api v3 Teams API
   description: 'The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.
 
 
@@ -273,6 +273,77 @@ paths:
                 - data
 components:
   schemas:
+    TeamCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 500
+        description:
+          type:
+          - string
+          - 'null'
+          maxLength: 5000
+        parentId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the parent team. If provided, the new team will be created as a child of this team.
+        leaderIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          maxItems: 100
+          description: IDs of users who should be leaders of this team. Reference to [**Users**](#tag/users)
+        memberIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          maxItems: 100
+          description: IDs of users who should be members of this team. Reference to [**Users**](#tag/users)
+      required:
+      - name
+      additionalProperties: false
+    TeamUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 500
+        description:
+          type:
+          - string
+          - 'null'
+          maxLength: 5000
+        parentId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the parent team. Pass `null` to move the team to the root level.
+        leaderIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          maxItems: 100
+          description: Replaces the full set of leaders assigned to the team. Pass `[]` to clear. Reference to [**Users**](#tag/users)
+        memberIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          maxItems: 100
+          description: Replaces the full set of members assigned to the team. Pass `[]` to clear. Reference to [**Users**](#tag/users)
+        archived:
+          type: boolean
+          description: '`true` to archive the team, `false` to unarchive.'
+      additionalProperties: false
     Team:
       type: object
       properties:
@@ -334,77 +405,6 @@ components:
       - createdAt
       - updatedAt
       - archivedAt
-    TeamUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 500
-        description:
-          type:
-          - string
-          - 'null'
-          maxLength: 5000
-        parentId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: ID of the parent team. Pass `null` to move the team to the root level.
-        leaderIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          maxItems: 100
-          description: Replaces the full set of leaders assigned to the team. Pass `[]` to clear. Reference to [**Users**](#tag/users)
-        memberIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          maxItems: 100
-          description: Replaces the full set of members assigned to the team. Pass `[]` to clear. Reference to [**Users**](#tag/users)
-        archived:
-          type: boolean
-          description: '`true` to archive the team, `false` to unarchive.'
-      additionalProperties: false
-    TeamCreate:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 500
-        description:
-          type:
-          - string
-          - 'null'
-          maxLength: 5000
-        parentId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: ID of the parent team. If provided, the new team will be created as a child of this team.
-        leaderIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          maxItems: 100
-          description: IDs of users who should be leaders of this team. Reference to [**Users**](#tag/users)
-        memberIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          maxItems: 100
-          description: IDs of users who should be members of this team. Reference to [**Users**](#tag/users)
-      required:
-      - name
-      additionalProperties: false
   securitySchemes:
     X-Authorization:
       type: apiKey

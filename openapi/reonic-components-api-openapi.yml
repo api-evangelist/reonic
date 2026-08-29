@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Reonic REST Api v3 Activities Components API
+  title: Reonic REST Api v3 Components API
   description: 'The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.
 
 
@@ -432,7 +432,7 @@ paths:
                 $ref: '#/components/schemas/Component'
 components:
   schemas:
-    ComponentModuleFrameConstruction:
+    ComponentRadiator:
       type: object
       properties:
         id:
@@ -520,241 +520,71 @@ components:
         componentType:
           type: string
           enum:
-          - moduleFrameConstruction
-        attributes:
-          type: object
-          properties: {}
-          additionalProperties: false
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentAccessoryToInverter:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - accessoryToInverter
-        attributes:
-          type: object
-          properties: {}
-          additionalProperties: false
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentHotWaterStorage:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - hotWaterStorage
+          - radiator
         attributes:
           type: object
           properties:
-            volume:
-              type: number
-              description: Storage volume in litres.
-            standingHeatLoss:
-              type: number
-              description: Standing heat loss in W.
+            radiatorType:
+              type: string
+              enum:
+              - PanelRadiator
+              - ColumnRadiator
+              - TowelRadiator
+              - CustomRadiator
+              - PlaceholderRadiator
+              description: Radiator construction type.
+            width:
+              type:
+              - number
+              - 'null'
+              description: Width in mm.
+            height:
+              type:
+              - number
+              - 'null'
+              description: Height in mm.
+            depth:
+              type:
+              - number
+              - 'null'
+              description: Depth in mm.
+            panelType:
+              type:
+              - string
+              - 'null'
+              enum:
+              - Type10
+              - Type11
+              - Type20
+              - Type21
+              - Type22
+              - Type33
+              - null
+              description: Panel radiator type (only set when `type` is a panel radiator).
+            columnCount:
+              type:
+              - integer
+              - 'null'
+              description: Number of columns (only set for column radiators).
+            nominalHeatOutput:
+              type:
+              - number
+              - 'null'
+              description: Nominal heat output per DIN EN 442, in W.
+            heatEmissionExponent:
+              type:
+              - number
+              - 'null'
+              description: Heat-emission exponent (n) per DIN EN 442, used to scale output to actual flow temperatures.
           required:
-          - volume
-          - standingHeatLoss
+          - radiatorType
+          - width
+          - height
+          - depth
+          - panelType
+          - columnCount
+          - nominalHeatOutput
+          - heatEmissionExponent
       required:
       - id
       - versionId
@@ -773,7 +603,7 @@ components:
       - archivedAt
       - componentType
       - attributes
-    ComponentOther:
+    ComponentHotWaterHeatPump:
       type: object
       properties:
         id:
@@ -861,11 +691,214 @@ components:
         componentType:
           type: string
           enum:
-          - other
+          - hotWaterHeatPump
         attributes:
           type: object
-          properties: {}
-          additionalProperties: false
+          properties:
+            heatingPower:
+              type:
+              - number
+              - 'null'
+              description: Heating power in W.
+            scop:
+              type:
+              - number
+              - 'null'
+              description: Seasonal coefficient of performance.
+            powerConsumption:
+              type:
+              - number
+              - 'null'
+              description: Electrical power consumption in W.
+          required:
+          - heatingPower
+          - scop
+          - powerConsumption
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentMicroinverter:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - microinverter
+        attributes:
+          type: object
+          properties:
+            nominalOutputPower:
+              type: number
+              description: Nominal AC output power in W.
+            outputVoltage:
+              type: integer
+              description: Nominal AC output voltage in V.
+            nominalInputPower:
+              type: number
+              description: Nominal DC input power in W.
+            efficiency:
+              type: number
+              description: Conversion efficiency as a fraction (e.g. 0.97 for 97%).
+            numberOfPhases:
+              type:
+              - integer
+              - 'null'
+              description: Number of AC phases (1 or 3).
+            width:
+              type: number
+              description: Width in cm.
+            height:
+              type: number
+              description: Height in cm.
+            depth:
+              type: number
+              description: Depth in cm.
+            weight:
+              type: number
+              description: Weight in kg.
+            minimumMPPVoltage:
+              type:
+              - number
+              - 'null'
+              description: Minimum MPP-tracker input voltage in V.
+            maximumMPPVoltage:
+              type:
+              - number
+              - 'null'
+              description: Maximum MPP-tracker input voltage in V.
+            maximumVoltage:
+              type:
+              - number
+              - 'null'
+              description: Absolute maximum DC input voltage in V.
+            maximumCurrent:
+              type:
+              - number
+              - 'null'
+              description: Maximum DC input current per string in A.
+            numberOfStringInputs:
+              type:
+              - integer
+              - 'null'
+              description: Number of DC string inputs.
+            numberOfMPPTrackers:
+              type:
+              - integer
+              - 'null'
+              description: Number of independent MPP trackers.
+          required:
+          - nominalOutputPower
+          - outputVoltage
+          - nominalInputPower
+          - efficiency
+          - numberOfPhases
+          - width
+          - height
+          - depth
+          - weight
+          - minimumMPPVoltage
+          - maximumMPPVoltage
+          - maximumVoltage
+          - maximumCurrent
+          - numberOfStringInputs
+          - numberOfMPPTrackers
       required:
       - id
       - versionId
@@ -1069,6 +1102,347 @@ components:
       - archivedAt
       - componentType
       - attributes
+    ComponentAccessoryToInverter:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - accessoryToInverter
+        attributes:
+          type: object
+          properties: {}
+          additionalProperties: false
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentAccessoryToHeatPump:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - accessoryToHeatPump
+        attributes:
+          type: object
+          properties: {}
+          additionalProperties: false
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentHotWaterStorage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - hotWaterStorage
+        attributes:
+          type: object
+          properties:
+            volume:
+              type: number
+              description: Storage volume in litres.
+            standingHeatLoss:
+              type: number
+              description: Standing heat loss in W.
+          required:
+          - volume
+          - standingHeatLoss
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
     ComponentOptimizer:
       type: object
       properties:
@@ -1180,60 +1554,490 @@ components:
       - archivedAt
       - componentType
       - attributes
-    Component:
-      oneOf:
-      - $ref: '#/components/schemas/ComponentModule'
-      - $ref: '#/components/schemas/ComponentInverter'
-      - $ref: '#/components/schemas/ComponentMicroinverter'
-      - $ref: '#/components/schemas/ComponentOptimizer'
-      - $ref: '#/components/schemas/ComponentVirtualBattery'
-      - $ref: '#/components/schemas/ComponentBatteryStorage'
-      - $ref: '#/components/schemas/ComponentEvCharger'
-      - $ref: '#/components/schemas/ComponentHeatPump'
-      - $ref: '#/components/schemas/ComponentAirHeatPump'
-      - $ref: '#/components/schemas/ComponentHotWaterHeatPump'
-      - $ref: '#/components/schemas/ComponentHeatingStorage'
-      - $ref: '#/components/schemas/ComponentHotWaterStorage'
-      - $ref: '#/components/schemas/ComponentHeatingRod'
-      - $ref: '#/components/schemas/ComponentRadiator'
-      - $ref: '#/components/schemas/ComponentIndoorUnitAirHeatPump'
-      - $ref: '#/components/schemas/ComponentAccessoryToEvCharger'
-      - $ref: '#/components/schemas/ComponentAccessoryToHeatPump'
-      - $ref: '#/components/schemas/ComponentAccessoryToModule'
-      - $ref: '#/components/schemas/ComponentAccessoryToInverter'
-      - $ref: '#/components/schemas/ComponentAccessoryToBatteryStorage'
-      - $ref: '#/components/schemas/ComponentOther'
-      - $ref: '#/components/schemas/ComponentModuleFrameConstruction'
-      - $ref: '#/components/schemas/ComponentServiceFee'
-      - $ref: '#/components/schemas/ComponentInstallationFee'
-      discriminator:
-        propertyName: componentType
-        mapping:
-          module: '#/components/schemas/ComponentModule'
-          inverter: '#/components/schemas/ComponentInverter'
-          microinverter: '#/components/schemas/ComponentMicroinverter'
-          optimizer: '#/components/schemas/ComponentOptimizer'
-          virtualBattery: '#/components/schemas/ComponentVirtualBattery'
-          batteryStorage: '#/components/schemas/ComponentBatteryStorage'
-          evCharger: '#/components/schemas/ComponentEvCharger'
-          heatPump: '#/components/schemas/ComponentHeatPump'
-          airHeatPump: '#/components/schemas/ComponentAirHeatPump'
-          hotWaterHeatPump: '#/components/schemas/ComponentHotWaterHeatPump'
-          heatingStorage: '#/components/schemas/ComponentHeatingStorage'
-          hotWaterStorage: '#/components/schemas/ComponentHotWaterStorage'
-          heatingRod: '#/components/schemas/ComponentHeatingRod'
-          radiator: '#/components/schemas/ComponentRadiator'
-          indoorUnitAirHeatPump: '#/components/schemas/ComponentIndoorUnitAirHeatPump'
-          accessoryToEvCharger: '#/components/schemas/ComponentAccessoryToEvCharger'
-          accessoryToHeatPump: '#/components/schemas/ComponentAccessoryToHeatPump'
-          accessoryToModule: '#/components/schemas/ComponentAccessoryToModule'
-          accessoryToInverter: '#/components/schemas/ComponentAccessoryToInverter'
-          accessoryToBatteryStorage: '#/components/schemas/ComponentAccessoryToBatteryStorage'
-          other: '#/components/schemas/ComponentOther'
-          moduleFrameConstruction: '#/components/schemas/ComponentModuleFrameConstruction'
-          serviceFee: '#/components/schemas/ComponentServiceFee'
-          installationFee: '#/components/schemas/ComponentInstallationFee'
-      description: Every component variant shares a common set of base fields, distinguished by a `componentType` discriminator and a variant-specific `attributes` object whose shape is defined by the individual `ComponentX` schemas.
+    ComponentHeatingStorage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - heatingStorage
+        attributes:
+          type: object
+          properties:
+            volume:
+              type: number
+              description: Storage volume in litres.
+            standingHeatLoss:
+              type: number
+              description: Standing heat loss in W.
+          required:
+          - volume
+          - standingHeatLoss
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentModuleFrameConstruction:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - moduleFrameConstruction
+        attributes:
+          type: object
+          properties: {}
+          additionalProperties: false
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentHeatingRod:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - heatingRod
+        attributes:
+          type: object
+          properties:
+            power:
+              type: number
+              description: Heating power in W.
+          required:
+          - power
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentVirtualBattery:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - virtualBattery
+        attributes:
+          type: object
+          properties:
+            virtualCapacity:
+              type:
+              - number
+              - 'null'
+              description: Virtual storage capacity in kWh.
+            maxDischargingPower:
+              type:
+              - number
+              - 'null'
+              description: Maximum discharging power in kW.
+            pricePerKWhWithdrawn:
+              type: number
+              description: Price the customer pays per kWh withdrawn from the virtual battery, net (excluding VAT).
+            downPayment:
+              type:
+              - number
+              - 'null'
+              description: One-off setup fee paid up front, net (excluding VAT).
+            pricePerMonth:
+              type:
+              - number
+              - 'null'
+              description: Recurring monthly subscription fee, net (excluding VAT).
+          required:
+          - virtualCapacity
+          - maxDischargingPower
+          - pricePerKWhWithdrawn
+          - downPayment
+          - pricePerMonth
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
     ComponentInstallationFee:
       type: object
       properties:
@@ -1327,6 +2131,1325 @@ components:
           type: object
           properties: {}
           additionalProperties: false
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentAirHeatPump:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - airHeatPump
+        attributes:
+          type: object
+          properties:
+            nominalPower:
+              type: number
+              description: Nominal heating power in W.
+            isGridConnected:
+              type: boolean
+              description: Can be controlled by smart-grid signals (SG Ready).
+            soundPowerLevel:
+              type:
+              - number
+              - 'null'
+              description: Sound power level in dB(A).
+            refrigerant:
+              type:
+              - string
+              - 'null'
+              description: Refrigerant designation (e.g. R32, R290).
+            scopMode:
+              type: string
+              enum:
+              - FullSimulation
+              - UseScop
+              - UseUkScop
+              description: Which set of performance data to use for simulation (e.g. detailed values, single SCOP, UK SCOP table).
+            scopInside20:
+              type:
+              - number
+              - 'null'
+              description: Seasonal coefficient of performance at 20°C indoor setpoint.
+            scopInside24:
+              type:
+              - number
+              - 'null'
+              description: Seasonal coefficient of performance at 24°C indoor setpoint.
+          required:
+          - nominalPower
+          - isGridConnected
+          - soundPowerLevel
+          - refrigerant
+          - scopMode
+          - scopInside20
+          - scopInside24
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentServiceFee:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - serviceFee
+        attributes:
+          type: object
+          properties: {}
+          additionalProperties: false
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentAccessoryToEvCharger:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - accessoryToEvCharger
+        attributes:
+          type: object
+          properties: {}
+          additionalProperties: false
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentEvCharger:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - evCharger
+        attributes:
+          type: object
+          properties:
+            maxChargingPower:
+              type: number
+              description: Maximum charging power in W.
+            cableLength:
+              type:
+              - number
+              - 'null'
+              description: Attached cable length in m. Null if no fixed cable.
+            hasAuthorization:
+              type:
+              - boolean
+              - 'null'
+              description: Supports user authorization (e.g. RFID card).
+            hasApp:
+              type:
+              - boolean
+              - 'null'
+              description: Has a companion mobile app.
+            hasLAN:
+              type:
+              - boolean
+              - 'null'
+              description: Has a wired LAN port.
+            hasWiFi:
+              type:
+              - boolean
+              - 'null'
+              description: Supports Wi-Fi connectivity.
+            hasLTE:
+              type:
+              - boolean
+              - 'null'
+              description: Has a built-in LTE cellular modem.
+            hasBluetooth:
+              type:
+              - boolean
+              - 'null'
+              description: Supports Bluetooth connectivity.
+            hasEnergyMeter:
+              type:
+              - boolean
+              - 'null'
+              description: Includes a built-in energy meter.
+            hasCalibratedEnergyMeter:
+              type:
+              - boolean
+              - 'null'
+              description: Energy meter is calibrated for billing-grade measurements (MID-compliant).
+            hasIntelligentCharging:
+              type:
+              - boolean
+              - 'null'
+              description: Supports load-managed / dynamic charging (e.g. PV surplus, time-of-use).
+            hasBilling:
+              type:
+              - boolean
+              - 'null'
+              description: Supports billing of charging sessions to end users.
+          required:
+          - maxChargingPower
+          - cableLength
+          - hasAuthorization
+          - hasApp
+          - hasLAN
+          - hasWiFi
+          - hasLTE
+          - hasBluetooth
+          - hasEnergyMeter
+          - hasCalibratedEnergyMeter
+          - hasIntelligentCharging
+          - hasBilling
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentAccessoryToBatteryStorage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - accessoryToBatteryStorage
+        attributes:
+          type: object
+          properties: {}
+          additionalProperties: false
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentBatteryStorage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - batteryStorage
+        attributes:
+          type: object
+          properties:
+            capacity:
+              type: number
+              description: Usable energy capacity in Wh.
+            maxChargingPower:
+              type:
+              - number
+              - 'null'
+              description: Maximum charging power in W.
+            maxDischargingPower:
+              type:
+              - number
+              - 'null'
+              description: Maximum discharging power in W.
+            chargingEfficiency:
+              type:
+              - number
+              - 'null'
+              description: Charging efficiency as a fraction (e.g. 0.95 for 95%).
+            dischargingEfficiency:
+              type:
+              - number
+              - 'null'
+              description: Discharging efficiency as a fraction (e.g. 0.95 for 95%).
+            numberOfPhases:
+              type:
+              - integer
+              - 'null'
+              description: Number of AC phases (1 or 3).
+          required:
+          - capacity
+          - maxChargingPower
+          - maxDischargingPower
+          - chargingEfficiency
+          - dischargingEfficiency
+          - numberOfPhases
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentIndoorUnitAirHeatPump:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - indoorUnitAirHeatPump
+        attributes:
+          type: object
+          properties:
+            heatingPower:
+              type:
+              - number
+              - 'null'
+              description: Heating power in W.
+          required:
+          - heatingPower
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentOther:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - other
+        attributes:
+          type: object
+          properties: {}
+          additionalProperties: false
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentAccessoryToModule:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - accessoryToModule
+        attributes:
+          type: object
+          properties: {}
+          additionalProperties: false
+      required:
+      - id
+      - versionId
+      - name
+      - description
+      - brand
+      - articleNumber
+      - gtin
+      - salesPrice
+      - vatRate
+      - purchasePrice
+      - quantityUnit
+      - imageUrl
+      - createdAt
+      - updatedAt
+      - archivedAt
+      - componentType
+      - attributes
+    ComponentHeatPump:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable identifier, across versions
+          example: 123e4567-e89b-12d3-a456-426614174000
+        versionId:
+          type: string
+          format: uuid
+          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        brand:
+          type: string
+          description: User-typed brand string
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        salesPrice:
+          type: number
+          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%).
+        purchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
+        quantityUnit:
+          type:
+          - string
+          - 'null'
+          enum:
+          - item
+          - squareMeter
+          - meter
+          - flatRate
+          - linearMeter
+          - kilometer
+          - hours
+          - day
+          - month
+          - kWp
+          - null
+          description: Unit the component is billed in (e.g. per item, per m², flat rate).
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Short-lived URL to the component image. Expires after 24 hours.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last edited date.
+          example: '2026-01-01T15:30:00.000Z'
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        componentType:
+          type: string
+          enum:
+          - heatPump
+        attributes:
+          type: object
+          properties:
+            heatPumpType:
+              type: string
+              enum:
+              - AirWater
+              - WaterWater
+              - SoilWater
+              description: Heat-source type (e.g. brine, water, air).
+            nominalPower:
+              type: number
+              description: Nominal heating power in W.
+            powerRegulation:
+              type:
+              - string
+              - 'null'
+              enum:
+              - Modulating
+              - SingleStage
+              - MultiStage
+              - null
+              description: Power regulation mode (e.g. on-off, modulating).
+            isGridConnected:
+              type: boolean
+              description: Can be controlled by smart-grid signals (SG Ready).
+            soundPowerLevel:
+              type:
+              - number
+              - 'null'
+              description: Sound power level in dB(A).
+            refrigerant:
+              type:
+              - string
+              - 'null'
+              description: Refrigerant designation (e.g. R32, R290).
+            scopMode:
+              type: string
+              enum:
+              - FullSimulation
+              - UseScop
+              - UseUkScop
+              description: Which set of performance data to use for simulation (e.g. detailed values, single SCOP, UK SCOP table).
+            scopW35:
+              type:
+              - number
+              - 'null'
+              description: Seasonal coefficient of performance at 35°C flow temperature.
+            scopW55:
+              type:
+              - number
+              - 'null'
+              description: Seasonal coefficient of performance at 55°C flow temperature.
+          required:
+          - heatPumpType
+          - nominalPower
+          - powerRegulation
+          - isGridConnected
+          - soundPowerLevel
+          - refrigerant
+          - scopMode
+          - scopW35
+          - scopW55
       required:
       - id
       - versionId
@@ -1532,2183 +3655,60 @@ components:
       - archivedAt
       - componentType
       - attributes
-    ComponentHeatingStorage:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - heatingStorage
-        attributes:
-          type: object
-          properties:
-            volume:
-              type: number
-              description: Storage volume in litres.
-            standingHeatLoss:
-              type: number
-              description: Standing heat loss in W.
-          required:
-          - volume
-          - standingHeatLoss
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentHeatingRod:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - heatingRod
-        attributes:
-          type: object
-          properties:
-            power:
-              type: number
-              description: Heating power in W.
-          required:
-          - power
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentHeatPump:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - heatPump
-        attributes:
-          type: object
-          properties:
-            heatPumpType:
-              type: string
-              enum:
-              - AirWater
-              - WaterWater
-              - SoilWater
-              description: Heat-source type (e.g. brine, water, air).
-            nominalPower:
-              type: number
-              description: Nominal heating power in W.
-            powerRegulation:
-              type:
-              - string
-              - 'null'
-              enum:
-              - Modulating
-              - SingleStage
-              - MultiStage
-              - null
-              description: Power regulation mode (e.g. on-off, modulating).
-            isGridConnected:
-              type: boolean
-              description: Can be controlled by smart-grid signals (SG Ready).
-            soundPowerLevel:
-              type:
-              - number
-              - 'null'
-              description: Sound power level in dB(A).
-            refrigerant:
-              type:
-              - string
-              - 'null'
-              description: Refrigerant designation (e.g. R32, R290).
-            scopMode:
-              type: string
-              enum:
-              - FullSimulation
-              - UseScop
-              - UseUkScop
-              description: Which set of performance data to use for simulation (e.g. detailed values, single SCOP, UK SCOP table).
-            scopW35:
-              type:
-              - number
-              - 'null'
-              description: Seasonal coefficient of performance at 35°C flow temperature.
-            scopW55:
-              type:
-              - number
-              - 'null'
-              description: Seasonal coefficient of performance at 55°C flow temperature.
-          required:
-          - heatPumpType
-          - nominalPower
-          - powerRegulation
-          - isGridConnected
-          - soundPowerLevel
-          - refrigerant
-          - scopMode
-          - scopW35
-          - scopW55
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentMicroinverter:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - microinverter
-        attributes:
-          type: object
-          properties:
-            nominalOutputPower:
-              type: number
-              description: Nominal AC output power in W.
-            outputVoltage:
-              type: integer
-              description: Nominal AC output voltage in V.
-            nominalInputPower:
-              type: number
-              description: Nominal DC input power in W.
-            efficiency:
-              type: number
-              description: Conversion efficiency as a fraction (e.g. 0.97 for 97%).
-            numberOfPhases:
-              type:
-              - integer
-              - 'null'
-              description: Number of AC phases (1 or 3).
-            width:
-              type: number
-              description: Width in cm.
-            height:
-              type: number
-              description: Height in cm.
-            depth:
-              type: number
-              description: Depth in cm.
-            weight:
-              type: number
-              description: Weight in kg.
-            minimumMPPVoltage:
-              type:
-              - number
-              - 'null'
-              description: Minimum MPP-tracker input voltage in V.
-            maximumMPPVoltage:
-              type:
-              - number
-              - 'null'
-              description: Maximum MPP-tracker input voltage in V.
-            maximumVoltage:
-              type:
-              - number
-              - 'null'
-              description: Absolute maximum DC input voltage in V.
-            maximumCurrent:
-              type:
-              - number
-              - 'null'
-              description: Maximum DC input current per string in A.
-            numberOfStringInputs:
-              type:
-              - integer
-              - 'null'
-              description: Number of DC string inputs.
-            numberOfMPPTrackers:
-              type:
-              - integer
-              - 'null'
-              description: Number of independent MPP trackers.
-          required:
-          - nominalOutputPower
-          - outputVoltage
-          - nominalInputPower
-          - efficiency
-          - numberOfPhases
-          - width
-          - height
-          - depth
-          - weight
-          - minimumMPPVoltage
-          - maximumMPPVoltage
-          - maximumVoltage
-          - maximumCurrent
-          - numberOfStringInputs
-          - numberOfMPPTrackers
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentIndoorUnitAirHeatPump:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - indoorUnitAirHeatPump
-        attributes:
-          type: object
-          properties:
-            heatingPower:
-              type:
-              - number
-              - 'null'
-              description: Heating power in W.
-          required:
-          - heatingPower
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentEvCharger:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - evCharger
-        attributes:
-          type: object
-          properties:
-            maxChargingPower:
-              type: number
-              description: Maximum charging power in W.
-            cableLength:
-              type:
-              - number
-              - 'null'
-              description: Attached cable length in m. Null if no fixed cable.
-            hasAuthorization:
-              type:
-              - boolean
-              - 'null'
-              description: Supports user authorization (e.g. RFID card).
-            hasApp:
-              type:
-              - boolean
-              - 'null'
-              description: Has a companion mobile app.
-            hasLAN:
-              type:
-              - boolean
-              - 'null'
-              description: Has a wired LAN port.
-            hasWiFi:
-              type:
-              - boolean
-              - 'null'
-              description: Supports Wi-Fi connectivity.
-            hasLTE:
-              type:
-              - boolean
-              - 'null'
-              description: Has a built-in LTE cellular modem.
-            hasBluetooth:
-              type:
-              - boolean
-              - 'null'
-              description: Supports Bluetooth connectivity.
-            hasEnergyMeter:
-              type:
-              - boolean
-              - 'null'
-              description: Includes a built-in energy meter.
-            hasCalibratedEnergyMeter:
-              type:
-              - boolean
-              - 'null'
-              description: Energy meter is calibrated for billing-grade measurements (MID-compliant).
-            hasIntelligentCharging:
-              type:
-              - boolean
-              - 'null'
-              description: Supports load-managed / dynamic charging (e.g. PV surplus, time-of-use).
-            hasBilling:
-              type:
-              - boolean
-              - 'null'
-              description: Supports billing of charging sessions to end users.
-          required:
-          - maxChargingPower
-          - cableLength
-          - hasAuthorization
-          - hasApp
-          - hasLAN
-          - hasWiFi
-          - hasLTE
-          - hasBluetooth
-          - hasEnergyMeter
-          - hasCalibratedEnergyMeter
-          - hasIntelligentCharging
-          - hasBilling
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentRadiator:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - radiator
-        attributes:
-          type: object
-          properties:
-            radiatorType:
-              type: string
-              enum:
-              - PanelRadiator
-              - ColumnRadiator
-              - TowelRadiator
-              - CustomRadiator
-              - PlaceholderRadiator
-              description: Radiator construction type.
-            width:
-              type:
-              - number
-              - 'null'
-              description: Width in mm.
-            height:
-              type:
-              - number
-              - 'null'
-              description: Height in mm.
-            depth:
-              type:
-              - number
-              - 'null'
-              description: Depth in mm.
-            panelType:
-              type:
-              - string
-              - 'null'
-              enum:
-              - Type10
-              - Type11
-              - Type20
-              - Type21
-              - Type22
-              - Type33
-              - null
-              description: Panel radiator type (only set when `type` is a panel radiator).
-            columnCount:
-              type:
-              - integer
-              - 'null'
-              description: Number of columns (only set for column radiators).
-            nominalHeatOutput:
-              type:
-              - number
-              - 'null'
-              description: Nominal heat output per DIN EN 442, in W.
-            heatEmissionExponent:
-              type:
-              - number
-              - 'null'
-              description: Heat-emission exponent (n) per DIN EN 442, used to scale output to actual flow temperatures.
-          required:
-          - radiatorType
-          - width
-          - height
-          - depth
-          - panelType
-          - columnCount
-          - nominalHeatOutput
-          - heatEmissionExponent
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentAccessoryToBatteryStorage:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - accessoryToBatteryStorage
-        attributes:
-          type: object
-          properties: {}
-          additionalProperties: false
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentHotWaterHeatPump:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - hotWaterHeatPump
-        attributes:
-          type: object
-          properties:
-            heatingPower:
-              type:
-              - number
-              - 'null'
-              description: Heating power in W.
-            scop:
-              type:
-              - number
-              - 'null'
-              description: Seasonal coefficient of performance.
-            powerConsumption:
-              type:
-              - number
-              - 'null'
-              description: Electrical power consumption in W.
-          required:
-          - heatingPower
-          - scop
-          - powerConsumption
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentAirHeatPump:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - airHeatPump
-        attributes:
-          type: object
-          properties:
-            nominalPower:
-              type: number
-              description: Nominal heating power in W.
-            isGridConnected:
-              type: boolean
-              description: Can be controlled by smart-grid signals (SG Ready).
-            soundPowerLevel:
-              type:
-              - number
-              - 'null'
-              description: Sound power level in dB(A).
-            refrigerant:
-              type:
-              - string
-              - 'null'
-              description: Refrigerant designation (e.g. R32, R290).
-            scopMode:
-              type: string
-              enum:
-              - FullSimulation
-              - UseScop
-              - UseUkScop
-              description: Which set of performance data to use for simulation (e.g. detailed values, single SCOP, UK SCOP table).
-            scopInside20:
-              type:
-              - number
-              - 'null'
-              description: Seasonal coefficient of performance at 20°C indoor setpoint.
-            scopInside24:
-              type:
-              - number
-              - 'null'
-              description: Seasonal coefficient of performance at 24°C indoor setpoint.
-          required:
-          - nominalPower
-          - isGridConnected
-          - soundPowerLevel
-          - refrigerant
-          - scopMode
-          - scopInside20
-          - scopInside24
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentVirtualBattery:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - virtualBattery
-        attributes:
-          type: object
-          properties:
-            virtualCapacity:
-              type:
-              - number
-              - 'null'
-              description: Virtual storage capacity in kWh.
-            maxDischargingPower:
-              type:
-              - number
-              - 'null'
-              description: Maximum discharging power in kW.
-            pricePerKWhWithdrawn:
-              type: number
-              description: Price the customer pays per kWh withdrawn from the virtual battery, net (excluding VAT).
-            downPayment:
-              type:
-              - number
-              - 'null'
-              description: One-off setup fee paid up front, net (excluding VAT).
-            pricePerMonth:
-              type:
-              - number
-              - 'null'
-              description: Recurring monthly subscription fee, net (excluding VAT).
-          required:
-          - virtualCapacity
-          - maxDischargingPower
-          - pricePerKWhWithdrawn
-          - downPayment
-          - pricePerMonth
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentAccessoryToModule:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - accessoryToModule
-        attributes:
-          type: object
-          properties: {}
-          additionalProperties: false
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentServiceFee:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - serviceFee
-        attributes:
-          type: object
-          properties: {}
-          additionalProperties: false
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentBatteryStorage:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - batteryStorage
-        attributes:
-          type: object
-          properties:
-            capacity:
-              type: number
-              description: Usable energy capacity in Wh.
-            maxChargingPower:
-              type:
-              - number
-              - 'null'
-              description: Maximum charging power in W.
-            maxDischargingPower:
-              type:
-              - number
-              - 'null'
-              description: Maximum discharging power in W.
-            chargingEfficiency:
-              type:
-              - number
-              - 'null'
-              description: Charging efficiency as a fraction (e.g. 0.95 for 95%).
-            dischargingEfficiency:
-              type:
-              - number
-              - 'null'
-              description: Discharging efficiency as a fraction (e.g. 0.95 for 95%).
-            numberOfPhases:
-              type:
-              - integer
-              - 'null'
-              description: Number of AC phases (1 or 3).
-          required:
-          - capacity
-          - maxChargingPower
-          - maxDischargingPower
-          - chargingEfficiency
-          - dischargingEfficiency
-          - numberOfPhases
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentAccessoryToHeatPump:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - accessoryToHeatPump
-        attributes:
-          type: object
-          properties: {}
-          additionalProperties: false
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
-    ComponentAccessoryToEvCharger:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Stable identifier, across versions
-          example: 123e4567-e89b-12d3-a456-426614174000
-        versionId:
-          type: string
-          format: uuid
-          description: Identifies this specific version of a component. Since only the latest version is returned, a change in versionId for the same id signals that the component has been updated.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        brand:
-          type: string
-          description: User-typed brand string
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        salesPrice:
-          type: number
-          description: Price charged to the end customer, net (excluding VAT). Apply the `vatRate` on top to get the gross price.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%).
-        purchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Cost paid to acquire the component, net (excluding VAT). Used internally for margin calculations; null when not tracked.
-        quantityUnit:
-          type:
-          - string
-          - 'null'
-          enum:
-          - item
-          - squareMeter
-          - meter
-          - flatRate
-          - linearMeter
-          - kilometer
-          - hours
-          - day
-          - month
-          - kWp
-          - null
-          description: Unit the component is billed in (e.g. per item, per m², flat rate).
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Short-lived URL to the component image. Expires after 24 hours.
-        createdAt:
-          type: string
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last edited date.
-          example: '2026-01-01T15:30:00.000Z'
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        componentType:
-          type: string
-          enum:
-          - accessoryToEvCharger
-        attributes:
-          type: object
-          properties: {}
-          additionalProperties: false
-      required:
-      - id
-      - versionId
-      - name
-      - description
-      - brand
-      - articleNumber
-      - gtin
-      - salesPrice
-      - vatRate
-      - purchasePrice
-      - quantityUnit
-      - imageUrl
-      - createdAt
-      - updatedAt
-      - archivedAt
-      - componentType
-      - attributes
+    Component:
+      oneOf:
+      - $ref: '#/components/schemas/ComponentModule'
+      - $ref: '#/components/schemas/ComponentInverter'
+      - $ref: '#/components/schemas/ComponentMicroinverter'
+      - $ref: '#/components/schemas/ComponentOptimizer'
+      - $ref: '#/components/schemas/ComponentVirtualBattery'
+      - $ref: '#/components/schemas/ComponentBatteryStorage'
+      - $ref: '#/components/schemas/ComponentEvCharger'
+      - $ref: '#/components/schemas/ComponentHeatPump'
+      - $ref: '#/components/schemas/ComponentAirHeatPump'
+      - $ref: '#/components/schemas/ComponentHotWaterHeatPump'
+      - $ref: '#/components/schemas/ComponentHeatingStorage'
+      - $ref: '#/components/schemas/ComponentHotWaterStorage'
+      - $ref: '#/components/schemas/ComponentHeatingRod'
+      - $ref: '#/components/schemas/ComponentRadiator'
+      - $ref: '#/components/schemas/ComponentIndoorUnitAirHeatPump'
+      - $ref: '#/components/schemas/ComponentAccessoryToEvCharger'
+      - $ref: '#/components/schemas/ComponentAccessoryToHeatPump'
+      - $ref: '#/components/schemas/ComponentAccessoryToModule'
+      - $ref: '#/components/schemas/ComponentAccessoryToInverter'
+      - $ref: '#/components/schemas/ComponentAccessoryToBatteryStorage'
+      - $ref: '#/components/schemas/ComponentOther'
+      - $ref: '#/components/schemas/ComponentModuleFrameConstruction'
+      - $ref: '#/components/schemas/ComponentServiceFee'
+      - $ref: '#/components/schemas/ComponentInstallationFee'
+      discriminator:
+        propertyName: componentType
+        mapping:
+          module: '#/components/schemas/ComponentModule'
+          inverter: '#/components/schemas/ComponentInverter'
+          microinverter: '#/components/schemas/ComponentMicroinverter'
+          optimizer: '#/components/schemas/ComponentOptimizer'
+          virtualBattery: '#/components/schemas/ComponentVirtualBattery'
+          batteryStorage: '#/components/schemas/ComponentBatteryStorage'
+          evCharger: '#/components/schemas/ComponentEvCharger'
+          heatPump: '#/components/schemas/ComponentHeatPump'
+          airHeatPump: '#/components/schemas/ComponentAirHeatPump'
+          hotWaterHeatPump: '#/components/schemas/ComponentHotWaterHeatPump'
+          heatingStorage: '#/components/schemas/ComponentHeatingStorage'
+          hotWaterStorage: '#/components/schemas/ComponentHotWaterStorage'
+          heatingRod: '#/components/schemas/ComponentHeatingRod'
+          radiator: '#/components/schemas/ComponentRadiator'
+          indoorUnitAirHeatPump: '#/components/schemas/ComponentIndoorUnitAirHeatPump'
+          accessoryToEvCharger: '#/components/schemas/ComponentAccessoryToEvCharger'
+          accessoryToHeatPump: '#/components/schemas/ComponentAccessoryToHeatPump'
+          accessoryToModule: '#/components/schemas/ComponentAccessoryToModule'
+          accessoryToInverter: '#/components/schemas/ComponentAccessoryToInverter'
+          accessoryToBatteryStorage: '#/components/schemas/ComponentAccessoryToBatteryStorage'
+          other: '#/components/schemas/ComponentOther'
+          moduleFrameConstruction: '#/components/schemas/ComponentModuleFrameConstruction'
+          serviceFee: '#/components/schemas/ComponentServiceFee'
+          installationFee: '#/components/schemas/ComponentInstallationFee'
+      description: Every component variant shares a common set of base fields, distinguished by a `componentType` discriminator and a variant-specific `attributes` object whose shape is defined by the individual `ComponentX` schemas.
   securitySchemes:
     X-Authorization:
       type: apiKey

@@ -417,6 +417,189 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/reonic-wiki-api-openapi.yml
+- aid: reonic:reonic-webhooks-api
+  name: Reonic Webhooks API
+  description: >-
+    Webhooks notify your systems the moment something happens in Reonic. For example when a project is
+    created or an offer is signed. Instead of repeatedly polling the API for changes, you give Reonic
+    a URL and we send an HTTPS `POST` request to it whenever one of the events you selected occurs.
+
+
+    The receiving URL does not have to be your own server. A webhook trigger from an automation tool works
+    just as well. For example a "Webhooks by Zapier" trigger, an n8n Webhook node, or a Make "Custom webhook".
+
+
+    ### Set up a webhook
+
+
+    1. Get the URL that should receive events — from your own service, or from your automation tool's
+    webhook trigger step. It must be a public `https://` URL; URLs that resolve to private or internal
+    addresses are rejected.
+
+    2. In the Reonic Portal, open the webhook settings (Settings > API / Developers > Webhooks), enter
+    the URL, choose the events you want to receive, and save.
+
+    3. Send a test event from the same settings to confirm deliveries arrive (see [**Test events**](#webhooks-test-events)
+    below).
+
+
+    Saving also generates a signing secret (`whsec_…`), shown in the same settings. You only need it to
+    verify signatures (recommended, see [**Verify signatures**](#webhooks-verify-signatures) below). The
+    secret can be rotated there as well; rotation takes effect immediately and only one secret is valid
+    at a time.
+
+
+    Your endpoint must accept JSON `POST` requests (sent with `Content-Type: application/json`), must
+    not redirect, and must respond within 5 seconds. Acknowledge first and process asynchronously if you
+    need more time.
+
+
+    <a id="webhooks-test-events"></a>
+
+
+    ### Test events
+
+
+    The Portal test action sends `X-Reonic-Event: test` with a `{ "message": … }` payload in the standard
+    body shape (see [**Request format**](#webhooks-request-format) below). Use it to verify reachability
+    and signature handling before enabling production events. Test deliveries are not retried and do not
+    appear in the delivery log. Your endpoint's response is shown directly in the Portal instead.
+
+
+    <a id="webhooks-request-format"></a>
+
+
+    ### Request format
+
+
+    Each delivery sends a JSON body with this shape:
+
+
+    ```json
+
+    {
+      "version": 1,
+      "type": "project_created",
+      "occurredAt": "2026-01-01T12:00:00.000Z",
+      "data": { /* event-specific payload, see the events below */ }
+    }
+
+    ```
+
+
+    Payloads are deliberately thin: they identify what happened and which resources were involved, but
+    do not embed resource snapshots. Fetch the current state of an affected resource through the corresponding
+    API v3 endpoint — for example, a `project_created` delivery carries a `projectId` to fetch via [**Residential
+    Projects**](#tag/residential-projects) or [**Commercial Projects**](#tag/commercial-projects), depending
+    on its `projectType`.
+
+
+    Event metadata is also sent in headers:
+
+
+    | Header | Meaning |
+
+    |---|---|
+
+    | `X-Reonic-Event` | Event type for this webhook delivery. Matches the `type` field in the body. |
+
+    | `X-Reonic-Client-Id` | Id of the sending client. Stable across deliveries. If one endpoint receives
+    webhooks from multiple clients, use this to pick the matching signing secret before verifying the
+    signature. |
+
+    | `X-Reonic-Event-Id` | Stable event id, identical across redeliveries of the same event. Use this
+    as your idempotency key. |
+
+    | `X-Reonic-Delivery-Id` | Unique id of this delivery attempt. Unlike the event id, it changes on
+    every redelivery — reference it when reporting issues with a specific delivery. |
+
+    | `X-Reonic-Timestamp` | Unix timestamp in seconds at which this delivery was signed. Changes on every
+    redelivery — verify signatures against this value, not the body's `occurredAt`. |
+
+    | `X-Reonic-Signature` | HMAC SHA-256 signature in the format `sha256=<hex>`, computed over `${timestamp}.${rawBody}`.
+    |
+
+
+    <a id="webhooks-verify-signatures"></a>
+
+
+    ### Verify signatures
+
+
+    Verifying signatures is optional but strongly recommended: it proves a delivery was really sent by
+    Reonic and not by someone who discovered your URL. If your tool cannot compute HMAC digests, keep
+    your webhook URL secret and treat the data accordingly.
+
+
+    Compute an HMAC SHA-256 digest with your webhook signing secret over `${timestamp}.${rawBody}`, then
+    compare it to `X-Reonic-Signature`. Use the raw request body exactly as received, before JSON parsing.
+    Reject deliveries whose `X-Reonic-Timestamp` is more than 5 minutes old to reduce replay risk — retries
+    are signed freshly, so a legitimate delivery never carries an old timestamp.
+
+
+    Code example:
+
+
+    ```ts
+
+    import { createHmac, timingSafeEqual } from "crypto";
+
+
+    const timestamp = request.headers["x-reonic-timestamp"];
+
+    const signature = request.headers["x-reonic-signature"];
+
+
+    const expected = Buffer.from("sha256=" + createHmac("sha256", secret)
+      .update(`${timestamp}.${rawBody}`)
+      .digest("hex"));
+    const received = Buffer.from(signature);
+
+
+    const isValid = expected.length === received.length && timingSafeEqual(expected, received);
+
+    ```
+
+
+    ### Retries and idempotency
+
+
+    Respond with any `2xx` status code once you have accepted the event — automation tools like Zapier
+    and n8n do this for you. Every other response, as well as network errors and timeouts, is retried
+    automatically, roughly 1 min, 5 min, 30 min, 2 h, 5 h, 12 h, 1 d, 2 d after the initial attempt.
+
+
+    Delivery order is not guaranteed, and the same event may be delivered more than once, so store `X-Reonic-Event-Id`
+    and ignore duplicates.
+
+
+    > [!warning]
+
+    > If all retries are exhausted, Reonic disables the webhook subscription and notifies your workspace's
+    contact email. Re-enable it in the webhook settings once your endpoint is fixed.
+
+
+    ### When deliveries fail
+
+
+    The webhook settings in the Portal include a delivery log with every attempt, the response status
+    or error we recorded, and the payload that was sent. Failed deliveries can be retried manually from
+    there — including after you fix your endpoint and re-enable a disabled subscription.
+
+
+    ### Compatibility
+
+
+    The body's `version` (currently 1) only changes when the envelope shape itself — `version`, `type`,
+    `occurredAt`, `data` — changes in a breaking way. New event types, new fields inside `data`, and new
+    headers may appear without a version bump, so ignore anything you don't recognize.
+  humanURL: https://api.reonic.de/rest/v3/docs
+  baseURL: https://api.reonic.de/rest/v3/
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/reonic-webhooks-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
