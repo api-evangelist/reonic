@@ -596,6 +596,8 @@ apis:
   humanURL: https://api.reonic.de/rest/v3/docs
   baseURL: https://api.reonic.de/rest/v3/
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
