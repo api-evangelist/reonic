@@ -51,7 +51,7 @@ tags:
 - Climate Energy
 - Solar
 - Renewable Energy
-- Photovoltaic
+- Photovoltaics
 - Heat Pumps
 - Installer Software
 - Software-as-a-Service
@@ -110,6 +110,8 @@ apis:
   humanURL: https://api.reonic.de/rest/v3/docs
   baseURL: https://api.reonic.de/rest/v3/
   tags:
+  - Calendar
+  tags_raw:
   - Calendars
   properties:
   - type: OpenAPI
