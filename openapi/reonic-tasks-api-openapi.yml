@@ -1,104 +1,7 @@
 openapi: 3.2.0
 info:
   title: Reonic REST Api v3 Tasks API
-  description: 'The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.
-
-
-    ## Errors
-
-
-    All endpoints return errors with the same JSON shape:
-
-
-    ```json
-
-    { "message": "human-readable description" }
-
-    ```
-
-
-    `400` responses additionally include an `errors` field with per-field validation details.
-
-
-    The HTTP status code identifies the cause:
-
-
-    | Status  | Meaning | When |
-
-    |--------|---------|------|
-
-    | `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |
-
-    | `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |
-
-    | `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |
-
-    | `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |
-
-    | `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |
-
-    | `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |
-
-    | `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |
-
-
-    ## Rate limiting
-
-
-    Limits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:
-
-
-    | Bucket | Limit | Applies to |
-
-    |--------|-------|------------|
-
-    | `cached` | 500 / min | `GET` requests served from the response cache |
-
-    | `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |
-
-
-    Every response includes:
-
-
-    - `X-RateLimit-Bucket` — `cached` or `uncached`
-
-    - `X-RateLimit-Limit` — the bucket''s ceiling (`500` or `30`)
-
-    - `X-RateLimit-Remaining` — calls left in the current window
-
-    - `X-RateLimit-Reset` — Unix epoch seconds at which the window resets
-
-    - `X-RateLimit-Policy` — `<limit>;w=60`
-
-
-    `429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.
-
-
-    ## Caching and Reonic-Cache-Control
-
-
-    `GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.
-
-
-    The standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.
-
-
-    ## Authentication
-
-
-    Every request must include your API key in the `X-Authorization` header:
-
-
-    ```
-
-    X-Authorization: <your-api-key>
-
-    ```
-
-
-    API keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.
-
-    '
+  description: The Reonic REST API v3 provides programmatic access to create and manage resources.
   version: 3.2.0
   contact:
     email: kontakt@reonic.de
@@ -110,7 +13,12 @@ security:
 - X-Authorization: []
 tags:
 - name: Tasks
-  description: "To-do items attached to a project or contact, with due dates, assignees, and completion state.\n\n> [!warning] \n> **Beta:** These endpoints are in beta and may change as the service evolves. Please report issues or unexpected behavior to our team."
+  description: 'To-do items attached to a project or contact, with due dates, assignees, and completion state.
+
+
+    > [!warning]
+
+    > **Beta:** These endpoints are in beta and may change as the service evolves. Please report issues or unexpected behavior to our team.'
   x-displayName: Tasks (BETA)
 paths:
   /tasks/tags:
@@ -168,6 +76,8 @@ paths:
                     description: List of items
                 required:
                 - data
+      operationId: getTasksTags
+      x-operation-id-source: derived
   /tasks/count:
     get:
       description: 'Get task counts and stats for a parent entity
@@ -239,6 +149,8 @@ paths:
                 - totalTasks
                 - overdueTasks
                 - nextDueDate
+      operationId: getTasksCount
+      x-operation-id-source: derived
   /tasks:
     get:
       description: 'List tasks with filters and pagination. `parentId` and `parentType` must be provided together (or omitted together).
@@ -246,11 +158,11 @@ paths:
 
         **Examples:**
 
-        - Open tasks for a residential project: `GET /tasks?parentId=<uuid>&parentType=residentialProject&completed=false&orderBy=dueAt&sort=asc`
+        - Open tasks for a residential project: `GET /tasks?parentId=&parentType=residentialProject&completed=false&orderBy=dueAt&sort=asc`
 
         - All tasks due this week: `GET /tasks?dueFrom=2026-04-27T00:00:00Z&dueTo=2026-05-04T00:00:00Z&completed=false`
 
-        - Tasks assigned to specific users: `GET /tasks?userIds=<uuid>&userIds=<uuid>&completed=false`
+        - Tasks assigned to specific users: `GET /tasks?userIds=&userIds=&completed=false`
 
 
         **Allowed API keys:** Read-only, Read and Write'
@@ -440,6 +352,8 @@ paths:
                 required:
                 - data
                 - pagination
+      operationId: getTasks
+      x-operation-id-source: derived
   /tasks/create:
     post:
       description: 'Create a task
@@ -555,6 +469,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
+      operationId: postTasksCreate
+      x-operation-id-source: derived
   /tasks/{taskId}:
     get:
       description: 'Get a single task by its ID
@@ -589,6 +505,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
+      operationId: getTasksByTaskId
+      x-operation-id-source: derived
   /tasks/{taskId}/update:
     post:
       description: 'Update a task
@@ -690,6 +608,8 @@ paths:
                     $ref: '#/components/schemas/Task'
                 required:
                 - data
+      operationId: postTasksByTaskIdUpdate
+      x-operation-id-source: derived
   /tasks/{taskId}/complete:
     post:
       description: 'Complete a task
@@ -731,6 +651,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
+      operationId: postTasksByTaskIdComplete
+      x-operation-id-source: derived
   /tasks/{taskId}/uncomplete:
     post:
       description: 'Uncomplete a task
@@ -758,6 +680,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
+      operationId: postTasksByTaskIdUncomplete
+      x-operation-id-source: derived
   /tasks/{taskId}/delete:
     post:
       description: 'Delete a task
@@ -797,6 +721,8 @@ paths:
                     - id
                 required:
                 - data
+      operationId: postTasksByTaskIdDelete
+      x-operation-id-source: derived
 components:
   schemas:
     Task:

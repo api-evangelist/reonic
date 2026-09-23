@@ -1,104 +1,7 @@
 openapi: 3.2.0
 info:
   title: Reonic REST Api v3 Residential Projects API
-  description: 'The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.
-
-
-    ## Errors
-
-
-    All endpoints return errors with the same JSON shape:
-
-
-    ```json
-
-    { "message": "human-readable description" }
-
-    ```
-
-
-    `400` responses additionally include an `errors` field with per-field validation details.
-
-
-    The HTTP status code identifies the cause:
-
-
-    | Status  | Meaning | When |
-
-    |--------|---------|------|
-
-    | `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |
-
-    | `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |
-
-    | `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |
-
-    | `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |
-
-    | `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |
-
-    | `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |
-
-    | `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |
-
-
-    ## Rate limiting
-
-
-    Limits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:
-
-
-    | Bucket | Limit | Applies to |
-
-    |--------|-------|------------|
-
-    | `cached` | 500 / min | `GET` requests served from the response cache |
-
-    | `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |
-
-
-    Every response includes:
-
-
-    - `X-RateLimit-Bucket` — `cached` or `uncached`
-
-    - `X-RateLimit-Limit` — the bucket''s ceiling (`500` or `30`)
-
-    - `X-RateLimit-Remaining` — calls left in the current window
-
-    - `X-RateLimit-Reset` — Unix epoch seconds at which the window resets
-
-    - `X-RateLimit-Policy` — `<limit>;w=60`
-
-
-    `429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.
-
-
-    ## Caching and Reonic-Cache-Control
-
-
-    `GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.
-
-
-    The standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.
-
-
-    ## Authentication
-
-
-    Every request must include your API key in the `X-Authorization` header:
-
-
-    ```
-
-    X-Authorization: <your-api-key>
-
-    ```
-
-
-    API keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.
-
-    '
+  description: The Reonic REST API v3 provides programmatic access to create and manage resources.
   version: 3.2.0
   contact:
     email: kontakt@reonic.de
@@ -124,7 +27,7 @@ paths:
 
         - Open offers: `GET /residentialProjects?stage=offer&dealState=Open`
 
-        - Projects assigned to specific Kanban columns: `GET /residentialProjects?kanbanColumnIds=<uuid>&kanbanColumnIds=<uuid>`
+        - Projects assigned to specific Kanban columns: `GET /residentialProjects?kanbanColumnIds=&kanbanColumnIds=`
 
 
         **Allowed API keys:** Read-only, Read and Write'
@@ -451,6 +354,8 @@ paths:
                 required:
                 - data
                 - pagination
+      operationId: getResidentialProjects
+      x-operation-id-source: derived
   /residentialProjects/{projectId}:
     get:
       summary: Get residential project
@@ -481,6 +386,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResidentialProjectDetail'
+      operationId: getResidentialProjectsByProjectId
+      x-operation-id-source: derived
   /residentialProjects/create:
     post:
       summary: Create residential project
@@ -785,10 +692,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResidentialProjectDetail'
+      operationId: postResidentialProjectsCreate
+      x-operation-id-source: derived
   /residentialProjects/{projectId}/update:
     post:
       summary: Update residential project
-      description: 'Update fields of a residential project. Stage-agnostic — the same fields are editable at any lifecycle stage. If you want to update contact details, use the dedicated endpoint — see [**Contacts**](#tag/contacts) for more details on that.
+      description: 'Update fields of a residential project. Stage-agnostic — the same fields are editable at any lifecycle stage. If you want to update contact details, use the dedicated endpoint — see **Contacts** for more details on that.
 
 
         **Allowed API keys:** Read and Write'
@@ -1002,6 +911,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResidentialProjectDetail'
+      operationId: postResidentialProjectsByProjectIdUpdate
+      x-operation-id-source: derived
   /residentialProjects/{projectId}/heatingLoad/roomWise:
     get:
       summary: Get heating load (room-wise)
@@ -1286,6 +1197,8 @@ paths:
                   message:
                     type: string
                     default: Failed to compute heating load
+      operationId: getResidentialProjectsByProjectIdHeatingLoadRoomWise
+      x-operation-id-source: derived
   /residentialProjects/{projectId}/variants:
     get:
       summary: List variants
@@ -1324,6 +1237,8 @@ paths:
                     description: List of items
                 required:
                 - data
+      operationId: getResidentialProjectsByProjectIdVariants
+      x-operation-id-source: derived
   /residentialProjects/{projectId}/variants/{variantId}:
     get:
       summary: Get variant
@@ -1371,478 +1286,10 @@ paths:
                     type: string
                 required:
                 - message
+      operationId: getResidentialProjectsByProjectIdVariantsByVariantId
+      x-operation-id-source: derived
 components:
   schemas:
-    ContactReference:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 123e4567-e89b-12d3-a456-426614174000
-      required:
-      - id
-      additionalProperties: false
-    UnitPrice:
-      allOf:
-      - $ref: '#/components/schemas/Price'
-      - type: object
-        properties:
-          vatRate:
-            type: number
-            minimum: 0
-            maximum: 1
-            description: VAT rate as a fraction between 0 and 1 (e.g. 0.19 for 19%), never as a percentage (19).
-        required:
-        - vatRate
-      description: Sales price per unit.
-    Price:
-      type: object
-      properties:
-        net:
-          type: number
-          description: Amount excluding VAT.
-        gross:
-          type: number
-          description: Amount including VAT (`net + vat`).
-        vat:
-          type: number
-          description: VAT amount.
-      required:
-      - net
-      - gross
-      - vat
-      description: Total planned price for the variant, across all systems and selected optional bundles.
-    VariantLineItem:
-      type: object
-      properties:
-        componentId:
-          type: string
-          format: uuid
-          description: Stable identifier of the catalog component on this line. Reference to [**Components**](#tag/components)
-          example: 123e4567-e89b-12d3-a456-426614174000
-        componentVersionId:
-          type: string
-          format: uuid
-          description: Identifies the exact component version quoted on this line. May differ from the latest catalog version if the component was edited after the offer was built.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        componentType:
-          type: string
-          enum:
-          - module
-          - inverter
-          - microinverter
-          - optimizer
-          - virtualBattery
-          - batteryStorage
-          - evCharger
-          - heatPump
-          - airHeatPump
-          - hotWaterHeatPump
-          - heatingStorage
-          - hotWaterStorage
-          - heatingRod
-          - radiator
-          - indoorUnitAirHeatPump
-          - accessoryToEvCharger
-          - accessoryToHeatPump
-          - accessoryToModule
-          - accessoryToInverter
-          - accessoryToBatteryStorage
-          - other
-          - moduleFrameConstruction
-          - serviceFee
-          - installationFee
-        name:
-          type: string
-        brand:
-          type: string
-          description: User-typed brand string.
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        quantity:
-          type: number
-        visibleToCustomer:
-          type: boolean
-          description: Whether this line is shown to the end customer on the offer. All lines are returned regardless; this flags the customer-visible subset.
-        unitSalesPrice:
-          $ref: '#/components/schemas/UnitPrice'
-        totalSalesPrice:
-          allOf:
-          - $ref: '#/components/schemas/Price'
-          - description: Line total (unit sales price × quantity).
-        unitPurchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Effective cost paid to acquire one unit of the component, net (excluding VAT). Reflects the project-specific override when one is set, otherwise the catalog purchase price; null when not tracked.
-        totalPurchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Purchase total for the line (unit purchase price × quantity), net. Null when not tracked.
-        purchasePriceOverridden:
-          type: boolean
-          description: Whether `unitPurchasePrice` stems from a project-specific override rather than the catalog purchase price. An override equal to the catalog price reports `false`.
-        margin:
-          type:
-          - object
-          - 'null'
-          properties:
-            total:
-              type: number
-              description: Net sales total minus net purchase total for this line.
-            rate:
-              type:
-              - number
-              - 'null'
-              description: 'Margin relative to the purchase cost (markup on cost): (net sales − net purchase) / net purchase. Null when the purchase price is 0.'
-          required:
-          - total
-          - rate
-          description: Margin for this line. Null when no purchase price is tracked.
-      required:
-      - componentId
-      - componentVersionId
-      - componentType
-      - name
-      - brand
-      - articleNumber
-      - gtin
-      - quantity
-      - visibleToCustomer
-      - unitSalesPrice
-      - totalSalesPrice
-      - unitPurchasePrice
-      - totalPurchasePrice
-      - purchasePriceOverridden
-      - margin
-    ContactCreate:
-      type: object
-      properties:
-        firstName:
-          type: string
-          minLength: 1
-          maxLength: 1000
-        lastName:
-          type: string
-          minLength: 1
-          maxLength: 1000
-        salutation:
-          type:
-          - string
-          - 'null'
-          enum:
-          - Female
-          - Male
-          - Diverse
-          - Family
-          - Business
-          - null
-        primaryEmail:
-          type:
-          - string
-          - 'null'
-          maxLength: 1000
-          format: email
-        secondaryEmail:
-          type:
-          - string
-          - 'null'
-          maxLength: 1000
-          format: email
-          description: Alternative email address
-        mobile:
-          type:
-          - string
-          - 'null'
-          maxLength: 100
-          description: Mobile phone number
-        phone:
-          type:
-          - string
-          - 'null'
-          maxLength: 100
-          description: Landline phone number
-        phoneReachability:
-          type:
-          - string
-          - 'null'
-          enum:
-          - Morning
-          - Afternoon
-          - Evening
-          - Fulltime
-          - WeekendOnly
-          - EmailOnly
-          - null
-        address:
-          type: object
-          properties:
-            street:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            houseNumber:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            city:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            postcode:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            country:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-          additionalProperties: false
-        marketingConsent:
-          type: boolean
-          description: Whether the contact has given marketing consent
-        marketingConsentText:
-          type:
-          - string
-          - 'null'
-          maxLength: 10000
-        marketingConsentDataProtectionLink:
-          type:
-          - string
-          - 'null'
-          maxLength: 2000
-        utm:
-          type: object
-          properties:
-            campaign:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            content:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            medium:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            source:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            term:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-          additionalProperties: false
-          description: UTM parameters associated with this contact
-        integrations:
-          type: object
-          properties:
-            bitrixId:
-              type:
-              - integer
-              - 'null'
-              minimum: 1
-              maximum: 9007199254740991
-            hubspotId:
-              type:
-              - string
-              - 'null'
-              format: uuid
-            pdsId:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            photovateId:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            pipedriveId:
-              type:
-              - integer
-              - 'null'
-              minimum: 1
-              maximum: 9007199254740991
-            weclappId:
-              type:
-              - string
-              - 'null'
-              format: uuid
-          additionalProperties: false
-          description: IDs of this contact in third-party systems
-      required:
-      - firstName
-      - lastName
-      - marketingConsent
-      additionalProperties: false
-    DealSetLost:
-      type: object
-      properties:
-        state:
-          type: string
-          enum:
-          - Lost
-        lostReason:
-          type: string
-          enum:
-          - notInterested
-          - purchasedFromCompetitor
-          - budgetConstraints
-          - noResponseFromLead
-          - leadIsNotQualified
-          - changedDecision
-          - projectPostponed
-          - wentWithAnotherSolution
-          - featuresNotMatchingRequirements
-          - timingIssues
-          - lackOfResources
-          - highPricing
-          - poorFitForOurServices
-          - unsatisfactoryProductDemo
-          - leadLostContact
-          - internalDecisionToPausePurchase
-          - movedForwardWithInHouseSolution
-          - lackOfTrustInTheBrand
-          - dissatisfiedWithCustomerService
-          - productLimitations
-          - marketConditions
-          - preferredAnotherVendor
-          - technicalIssues
-          - leadHadIncorrectInformation
-          - legalOrRegulatoryIssues
-        notes:
-          type:
-          - string
-          - 'null'
-          maxLength: 5000
-      required:
-      - state
-      - lostReason
-      additionalProperties: false
-    VariantOptionalBundle:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        selected:
-          type: boolean
-          description: Whether the customer has opted into this bundle. Only selected bundles count toward the variant total.
-        price:
-          $ref: '#/components/schemas/Price'
-        lineItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/VariantLineItem'
-      required:
-      - id
-      - name
-      - description
-      - selected
-      - price
-      - lineItems
-    VariantSystem:
-      type:
-      - object
-      - 'null'
-      properties:
-        price:
-          allOf:
-          - $ref: '#/components/schemas/Price'
-          - description: Price subtotal for this system, after any system-level rebates.
-        lineItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/VariantLineItem'
-      required:
-      - price
-      - lineItems
-    ResidentialVariant:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-          description: The variant's display name.
-        isPrimary:
-          type: boolean
-          description: Whether this is the project's primary offer variant.
-        totalPrice:
-          $ref: '#/components/schemas/Price'
-        totalPriceOverride:
-          type:
-          - number
-          - 'null'
-          minimum: 0
-          description: 'Manually agreed net total (excludes VAT), or `null` if unset. When present it supersedes `totalPrice`: `totalPrice` still reports the summed systems and selected bundles and will not equal this value, so treat this — not `totalPrice` — as the variant''s effective total whenever it is set.'
-        systems:
-          type: object
-          properties:
-            solar:
-              $ref: '#/components/schemas/VariantSystem'
-            batteryStorage:
-              $ref: '#/components/schemas/VariantSystem'
-            heating:
-              $ref: '#/components/schemas/VariantSystem'
-            evCharger:
-              $ref: '#/components/schemas/VariantSystem'
-            additional:
-              $ref: '#/components/schemas/VariantSystem'
-          required:
-          - solar
-          - batteryStorage
-          - heating
-          - evCharger
-          - additional
-          description: Planned line items grouped by subsystem. A system is `null` when it has no line items.
-        optionalBundles:
-          type: array
-          items:
-            $ref: '#/components/schemas/VariantOptionalBundle'
-          description: Opt-in component bundles offered for this variant.
-      required:
-      - id
-      - name
-      - isPrimary
-      - totalPrice
-      - totalPriceOverride
-      - systems
-      - optionalBundles
     DealSetWon:
       type: object
       properties:
@@ -2367,6 +1814,175 @@ components:
         - signatureRequests
         - customerPortalUrl
         - integrations
+    Price:
+      type: object
+      properties:
+        net:
+          type: number
+          description: Amount excluding VAT.
+        gross:
+          type: number
+          description: Amount including VAT (`net + vat`).
+        vat:
+          type: number
+          description: VAT amount.
+      required:
+      - net
+      - gross
+      - vat
+      description: Total planned price for the variant, across all systems and selected optional bundles.
+    DealSetLost:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+          - Lost
+        lostReason:
+          type: string
+          enum:
+          - notInterested
+          - purchasedFromCompetitor
+          - budgetConstraints
+          - noResponseFromLead
+          - leadIsNotQualified
+          - changedDecision
+          - projectPostponed
+          - wentWithAnotherSolution
+          - featuresNotMatchingRequirements
+          - timingIssues
+          - lackOfResources
+          - highPricing
+          - poorFitForOurServices
+          - unsatisfactoryProductDemo
+          - leadLostContact
+          - internalDecisionToPausePurchase
+          - movedForwardWithInHouseSolution
+          - lackOfTrustInTheBrand
+          - dissatisfiedWithCustomerService
+          - productLimitations
+          - marketConditions
+          - preferredAnotherVendor
+          - technicalIssues
+          - leadHadIncorrectInformation
+          - legalOrRegulatoryIssues
+        notes:
+          type:
+          - string
+          - 'null'
+          maxLength: 5000
+      required:
+      - state
+      - lostReason
+      additionalProperties: false
+    ContactReference:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+      required:
+      - id
+      additionalProperties: false
+    ResidentialVariant:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+          description: The variant's display name.
+        isPrimary:
+          type: boolean
+          description: Whether this is the project's primary offer variant.
+        totalPrice:
+          $ref: '#/components/schemas/Price'
+        totalPriceOverride:
+          type:
+          - number
+          - 'null'
+          minimum: 0
+          description: 'Manually agreed net total (excludes VAT), or `null` if unset. When present it supersedes `totalPrice`: `totalPrice` still reports the summed systems and selected bundles and will not equal this value, so treat this — not `totalPrice` — as the variant''s effective total whenever it is set.'
+        systems:
+          type: object
+          properties:
+            solar:
+              $ref: '#/components/schemas/VariantSystem'
+            batteryStorage:
+              $ref: '#/components/schemas/VariantSystem'
+            heating:
+              $ref: '#/components/schemas/VariantSystem'
+            evCharger:
+              $ref: '#/components/schemas/VariantSystem'
+            additional:
+              $ref: '#/components/schemas/VariantSystem'
+          required:
+          - solar
+          - batteryStorage
+          - heating
+          - evCharger
+          - additional
+          description: Planned line items grouped by subsystem. A system is `null` when it has no line items.
+        optionalBundles:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariantOptionalBundle'
+          description: Opt-in component bundles offered for this variant.
+      required:
+      - id
+      - name
+      - isPrimary
+      - totalPrice
+      - totalPriceOverride
+      - systems
+      - optionalBundles
+    UnitPrice:
+      allOf:
+      - $ref: '#/components/schemas/Price'
+      - type: object
+        properties:
+          vatRate:
+            type: number
+            minimum: 0
+            maximum: 1
+            description: VAT rate as a fraction between 0 and 1 (e.g. 0.19 for 19%), never as a percentage (19).
+        required:
+        - vatRate
+      description: Sales price per unit.
+    VariantOptionalBundle:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        selected:
+          type: boolean
+          description: Whether the customer has opted into this bundle. Only selected bundles count toward the variant total.
+        price:
+          $ref: '#/components/schemas/Price'
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariantLineItem'
+      required:
+      - id
+      - name
+      - description
+      - selected
+      - price
+      - lineItems
     ResidentialProject:
       type: object
       properties:
@@ -2729,6 +2345,179 @@ components:
       - installationCreatedAt
       - archivedAt
       - updatedAt
+    ContactCreate:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 1000
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 1000
+        salutation:
+          type:
+          - string
+          - 'null'
+          enum:
+          - Female
+          - Male
+          - Diverse
+          - Family
+          - Business
+          - null
+        primaryEmail:
+          type:
+          - string
+          - 'null'
+          maxLength: 1000
+          format: email
+        secondaryEmail:
+          type:
+          - string
+          - 'null'
+          maxLength: 1000
+          format: email
+          description: Alternative email address
+        mobile:
+          type:
+          - string
+          - 'null'
+          maxLength: 100
+          description: Mobile phone number
+        phone:
+          type:
+          - string
+          - 'null'
+          maxLength: 100
+          description: Landline phone number
+        phoneReachability:
+          type:
+          - string
+          - 'null'
+          enum:
+          - Morning
+          - Afternoon
+          - Evening
+          - Fulltime
+          - WeekendOnly
+          - EmailOnly
+          - null
+        address:
+          type: object
+          properties:
+            street:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            houseNumber:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            city:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            postcode:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            country:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+          additionalProperties: false
+        marketingConsent:
+          type: boolean
+          description: Whether the contact has given marketing consent
+        marketingConsentText:
+          type:
+          - string
+          - 'null'
+          maxLength: 10000
+        marketingConsentDataProtectionLink:
+          type:
+          - string
+          - 'null'
+          maxLength: 2000
+        utm:
+          type: object
+          properties:
+            campaign:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            content:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            medium:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            source:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            term:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+          additionalProperties: false
+          description: UTM parameters associated with this contact
+        integrations:
+          type: object
+          properties:
+            bitrixId:
+              type:
+              - integer
+              - 'null'
+              minimum: 1
+              maximum: 9007199254740991
+            hubspotId:
+              type:
+              - string
+              - 'null'
+              format: uuid
+            pdsId:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            photovateId:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            pipedriveId:
+              type:
+              - integer
+              - 'null'
+              minimum: 1
+              maximum: 9007199254740991
+            weclappId:
+              type:
+              - string
+              - 'null'
+              format: uuid
+          additionalProperties: false
+          description: IDs of this contact in third-party systems
+      required:
+      - firstName
+      - lastName
+      - marketingConsent
+      additionalProperties: false
     DealSetOpen:
       type: object
       properties:
@@ -2739,6 +2528,134 @@ components:
       required:
       - state
       additionalProperties: false
+    VariantLineItem:
+      type: object
+      properties:
+        componentId:
+          type: string
+          format: uuid
+          description: Stable identifier of the catalog component on this line. Reference to [**Components**](#tag/components)
+          example: 123e4567-e89b-12d3-a456-426614174000
+        componentVersionId:
+          type: string
+          format: uuid
+          description: Identifies the exact component version quoted on this line. May differ from the latest catalog version if the component was edited after the offer was built.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        componentType:
+          type: string
+          enum:
+          - module
+          - inverter
+          - microinverter
+          - optimizer
+          - virtualBattery
+          - batteryStorage
+          - evCharger
+          - heatPump
+          - airHeatPump
+          - hotWaterHeatPump
+          - heatingStorage
+          - hotWaterStorage
+          - heatingRod
+          - radiator
+          - indoorUnitAirHeatPump
+          - accessoryToEvCharger
+          - accessoryToHeatPump
+          - accessoryToModule
+          - accessoryToInverter
+          - accessoryToBatteryStorage
+          - other
+          - moduleFrameConstruction
+          - serviceFee
+          - installationFee
+        name:
+          type: string
+        brand:
+          type: string
+          description: User-typed brand string.
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        quantity:
+          type: number
+        visibleToCustomer:
+          type: boolean
+          description: Whether this line is shown to the end customer on the offer. All lines are returned regardless; this flags the customer-visible subset.
+        unitSalesPrice:
+          $ref: '#/components/schemas/UnitPrice'
+        totalSalesPrice:
+          allOf:
+          - $ref: '#/components/schemas/Price'
+          - description: Line total (unit sales price × quantity).
+        unitPurchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Effective cost paid to acquire one unit of the component, net (excluding VAT). Reflects the project-specific override when one is set, otherwise the catalog purchase price; null when not tracked.
+        totalPurchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Purchase total for the line (unit purchase price × quantity), net. Null when not tracked.
+        purchasePriceOverridden:
+          type: boolean
+          description: Whether `unitPurchasePrice` stems from a project-specific override rather than the catalog purchase price. An override equal to the catalog price reports `false`.
+        margin:
+          type:
+          - object
+          - 'null'
+          properties:
+            total:
+              type: number
+              description: Net sales total minus net purchase total for this line.
+            rate:
+              type:
+              - number
+              - 'null'
+              description: 'Margin relative to the purchase cost (markup on cost): (net sales − net purchase) / net purchase. Null when the purchase price is 0.'
+          required:
+          - total
+          - rate
+          description: Margin for this line. Null when no purchase price is tracked.
+      required:
+      - componentId
+      - componentVersionId
+      - componentType
+      - name
+      - brand
+      - articleNumber
+      - gtin
+      - quantity
+      - visibleToCustomer
+      - unitSalesPrice
+      - totalSalesPrice
+      - unitPurchasePrice
+      - totalPurchasePrice
+      - purchasePriceOverridden
+      - margin
+    VariantSystem:
+      type:
+      - object
+      - 'null'
+      properties:
+        price:
+          allOf:
+          - $ref: '#/components/schemas/Price'
+          - description: Price subtotal for this system, after any system-level rebates.
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariantLineItem'
+      required:
+      - price
+      - lineItems
   securitySchemes:
     X-Authorization:
       type: apiKey

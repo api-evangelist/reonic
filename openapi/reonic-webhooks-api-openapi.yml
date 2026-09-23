@@ -1,104 +1,7 @@
 openapi: 3.2.0
 info:
   title: Reonic REST Api v3 Webhooks API
-  description: 'The Reonic REST API v3 provides programmatic access to create and manage resources. The API follows REST principles and returns responses in JSON format. Authentication is required via an API key passed in the X-Authorization header.
-
-
-    ## Errors
-
-
-    All endpoints return errors with the same JSON shape:
-
-
-    ```json
-
-    { "message": "human-readable description" }
-
-    ```
-
-
-    `400` responses additionally include an `errors` field with per-field validation details.
-
-
-    The HTTP status code identifies the cause:
-
-
-    | Status  | Meaning | When |
-
-    |--------|---------|------|
-
-    | `400` | Bad Request | Path params, query string, or request body failed validation. Inspect `errors` for the field-level breakdown. |
-
-    | `401` | Unauthorized | The `X-Authorization` header is missing, malformed, does not match an active API key, or belongs to a different API version. The response never indicates which check failed; check that the key matches the endpoint version. API v3 endpoints require a v3 key with the `rnc_v3_` prefix. |
-
-    | `403` | Forbidden | The API key is read-only and the request targeted a write endpoint (`POST`). Issue a key with write access. |
-
-    | `404` | Not Found | A resource referenced by a path id does not exist or is not visible to your workspace. |
-
-    | `429` | Too Many Requests | The per-client rate limit was exceeded. See **Rate limiting** below. |
-
-    | `500` | Internal Server Error | Unexpected failure. Safe to retry once; if it persists, contact support. |
-
-    | `503` | Service Unavailable | A backing dependency is temporarily unavailable. Retry with exponential backoff. |
-
-
-    ## Rate limiting
-
-
-    Limits are shared across all API keys you hold and reset on a 1-minute window. Two buckets:
-
-
-    | Bucket | Limit | Applies to |
-
-    |--------|-------|------------|
-
-    | `cached` | 500 / min | `GET` requests served from the response cache |
-
-    | `uncached` | 30 / min | Cache misses, `GET` requests sent with `Reonic-Cache-Control: no-cache`, and all `POST` requests |
-
-
-    Every response includes:
-
-
-    - `X-RateLimit-Bucket` — `cached` or `uncached`
-
-    - `X-RateLimit-Limit` — the bucket''s ceiling (`500` or `30`)
-
-    - `X-RateLimit-Remaining` — calls left in the current window
-
-    - `X-RateLimit-Reset` — Unix epoch seconds at which the window resets
-
-    - `X-RateLimit-Policy` — `<limit>;w=60`
-
-
-    `429` responses additionally set `Retry-After` (in seconds). Wait at least that long before retrying.
-
-
-    ## Caching and Reonic-Cache-Control
-
-
-    `GET` responses are cached for up to 1 hour. Identical requests (same path and query) on the same API key return the cached result. To force a fresh read, send `Reonic-Cache-Control: no-cache`; the response is then refreshed and re-cached. Forced refreshes count against the `uncached` rate-limit bucket.
-
-
-    The standard `Cache-Control` header is not honored. Use `Reonic-Cache-Control` to control caching behavior.
-
-
-    ## Authentication
-
-
-    Every request must include your API key in the `X-Authorization` header:
-
-
-    ```
-
-    X-Authorization: <your-api-key>
-
-    ```
-
-
-    API keys are issued from the Reonic web app and look like `rnc_v3_…`. Send the full value, including the prefix.
-
-    '
+  description: The Reonic REST API v3 provides programmatic access to create and manage resources.
   version: 3.2.0
   contact:
     email: kontakt@reonic.de
@@ -110,7 +13,7 @@ security:
 - X-Authorization: []
 tags:
 - name: Webhooks
-  description: "Webhooks notify your systems the moment something happens in Reonic. For example when a project is created or an offer is signed. Instead of repeatedly polling the API for changes, you give Reonic a URL and we send an HTTPS `POST` request to it whenever one of the events you selected occurs.\n\nThe receiving URL does not have to be your own server. A webhook trigger from an automation tool works just as well. For example a \"Webhooks by Zapier\" trigger, an n8n Webhook node, or a Make \"Custom webhook\".\n\n### Set up a webhook\n\n1. Get the URL that should receive events — from your own service, or from your automation tool's webhook trigger step. It must be a public `https://` URL; URLs that resolve to private or internal addresses are rejected.\n2. In the Reonic Portal, open the webhook settings (Settings > API / Developers > Webhooks), enter the URL, choose the events you want to receive, and save.\n3. Send a test event from the same settings to confirm deliveries arrive (see [**Test events**](#webhooks-test-events) below).\n\nSaving also generates a signing secret (`whsec_…`), shown in the same settings. You only need it to verify signatures (recommended, see [**Verify signatures**](#webhooks-verify-signatures) below). The secret can be rotated there as well; rotation takes effect immediately and only one secret is valid at a time.\n\nYour endpoint must accept JSON `POST` requests (sent with `Content-Type: application/json`), must not redirect, and must respond within 5 seconds. Acknowledge first and process asynchronously if you need more time.\n\n<a id=\"webhooks-test-events\"></a>\n\n### Test events\n\nThe Portal test action sends `X-Reonic-Event: test` with a `{ \"message\": … }` payload in the standard body shape (see [**Request format**](#webhooks-request-format) below). Use it to verify reachability and signature handling before enabling production events. Test deliveries are not retried and do not appear in the delivery log. Your endpoint's response is shown directly in the Portal instead.\n\n<a id=\"webhooks-request-format\"></a>\n\n### Request format\n\nEach delivery sends a JSON body with this shape:\n\n```json\n{\n  \"version\": 1,\n  \"type\": \"project_created\",\n  \"occurredAt\": \"2026-01-01T12:00:00.000Z\",\n  \"data\": { /* event-specific payload, see the events below */ }\n}\n```\n\nPayloads are deliberately thin: they identify what happened and which resources were involved, but do not embed resource snapshots. Fetch the current state of an affected resource through the corresponding API v3 endpoint — for example, a `project_created` delivery carries a `projectId` to fetch via [**Residential Projects**](#tag/residential-projects) or [**Commercial Projects**](#tag/commercial-projects), depending on its `projectType`.\n\nEvent metadata is also sent in headers:\n\n| Header | Meaning |\n|---|---|\n| `X-Reonic-Event` | Event type for this webhook delivery. Matches the `type` field in the body. |\n| `X-Reonic-Client-Id` | Id of the sending client. Stable across deliveries. If one endpoint receives webhooks from multiple clients, use this to pick the matching signing secret before verifying the signature. |\n| `X-Reonic-Event-Id` | Stable event id, identical across redeliveries of the same event. Use this as your idempotency key. |\n| `X-Reonic-Delivery-Id` | Unique id of this delivery attempt. Unlike the event id, it changes on every redelivery — reference it when reporting issues with a specific delivery. |\n| `X-Reonic-Timestamp` | Unix timestamp in seconds at which this delivery was signed. Changes on every redelivery — verify signatures against this value, not the body's `occurredAt`. |\n| `X-Reonic-Signature` | HMAC SHA-256 signature in the format `sha256=<hex>`, computed over `${timestamp}.${rawBody}`. |\n\n<a id=\"webhooks-verify-signatures\"></a>\n\n### Verify signatures\n\nVerifying signatures is optional but strongly recommended: it proves a delivery was really sent by Reonic and not by someone who discovered your URL. If your tool cannot compute HMAC digests, keep your webhook URL secret and treat the data accordingly.\n\nCompute an HMAC SHA-256 digest with your webhook signing secret over `${timestamp}.${rawBody}`, then compare it to `X-Reonic-Signature`. Use the raw request body exactly as received, before JSON parsing. Reject deliveries whose `X-Reonic-Timestamp` is more than 5 minutes old to reduce replay risk — retries are signed freshly, so a legitimate delivery never carries an old timestamp.\n\nCode example:\n\n```ts\nimport { createHmac, timingSafeEqual } from \"crypto\";\n\nconst timestamp = request.headers[\"x-reonic-timestamp\"];\nconst signature = request.headers[\"x-reonic-signature\"];\n\nconst expected = Buffer.from(\"sha256=\" + createHmac(\"sha256\", secret)\n  .update(`${timestamp}.${rawBody}`)\n  .digest(\"hex\"));\nconst received = Buffer.from(signature);\n\nconst isValid = expected.length === received.length && timingSafeEqual(expected, received);\n```\n\n### Retries and idempotency\n\nRespond with any `2xx` status code once you have accepted the event — automation tools like Zapier and n8n do this for you. Every other response, as well as network errors and timeouts, is retried automatically, roughly 1 min, 5 min, 30 min, 2 h, 5 h, 12 h, 1 d, 2 d after the initial attempt.\n\nDelivery order is not guaranteed, and the same event may be delivered more than once, so store `X-Reonic-Event-Id` and ignore duplicates.\n\n> [!warning]\n> If all retries are exhausted, Reonic disables the webhook subscription and notifies your workspace's contact email. Re-enable it in the webhook settings once your endpoint is fixed.\n\n### When deliveries fail\n\nThe webhook settings in the Portal include a delivery log with every attempt, the response status or error we recorded, and the payload that was sent. Failed deliveries can be retried manually from there — including after you fix your endpoint and re-enable a disabled subscription.\n\n### Compatibility\n\nThe body's `version` (currently 1) only changes when the envelope shape itself — `version`, `type`, `occurredAt`, `data` — changes in a breaking way. New event types, new fields inside `data`, and new headers may appear without a version bump, so ignore anything you don't recognize."
+  description: Webhooks notify your systems the moment something happens in Reonic.
 paths: {}
 webhooks:
   residentialProject_created:

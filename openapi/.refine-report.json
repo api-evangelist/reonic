@@ -40,7 +40,8 @@
   "warnings": [],
   "notes": [
     "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
-    "reonic-openapi-original.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0"
+    "reonic-openapi-original.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "reonic-activities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -71,6 +72,7 @@
     "reonic-time-tracking-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "reonic-upload-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "reonic-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "reonic-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "reonic-wiki-api-openapi.yml: previously refined output, superseded by openapi/_original/"
   ]
 }
