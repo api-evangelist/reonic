@@ -184,6 +184,42 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    TeamUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 500
+        description:
+          type:
+          - string
+          - 'null'
+          maxLength: 5000
+        parentId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the parent team. Pass `null` to move the team to the root level.
+        leaderIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          maxItems: 100
+          description: Replaces the full set of leaders assigned to the team. Pass `[]` to clear. Reference to [**Users**](#tag/users)
+        memberIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          maxItems: 100
+          description: Replaces the full set of members assigned to the team. Pass `[]` to clear. Reference to [**Users**](#tag/users)
+        archived:
+          type: boolean
+          description: '`true` to archive the team, `false` to unarchive.'
+      additionalProperties: false
     Team:
       type: object
       properties:
@@ -245,42 +281,6 @@ components:
       - createdAt
       - updatedAt
       - archivedAt
-    TeamUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 500
-        description:
-          type:
-          - string
-          - 'null'
-          maxLength: 5000
-        parentId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: ID of the parent team. Pass `null` to move the team to the root level.
-        leaderIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          maxItems: 100
-          description: Replaces the full set of leaders assigned to the team. Pass `[]` to clear. Reference to [**Users**](#tag/users)
-        memberIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          maxItems: 100
-          description: Replaces the full set of members assigned to the team. Pass `[]` to clear. Reference to [**Users**](#tag/users)
-        archived:
-          type: boolean
-          description: '`true` to archive the team, `false` to unarchive.'
-      additionalProperties: false
     TeamCreate:
       type: object
       properties:

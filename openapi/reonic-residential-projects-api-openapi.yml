@@ -1290,21 +1290,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    DealSetWon:
-      type: object
-      properties:
-        state:
-          type: string
-          enum:
-          - Won
-        notes:
-          type:
-          - string
-          - 'null'
-          maxLength: 5000
-      required:
-      - state
-      additionalProperties: false
     ResidentialProjectDetail:
       allOf:
       - $ref: '#/components/schemas/ResidentialProject'
@@ -1814,77 +1799,6 @@ components:
         - signatureRequests
         - customerPortalUrl
         - integrations
-    Price:
-      type: object
-      properties:
-        net:
-          type: number
-          description: Amount excluding VAT.
-        gross:
-          type: number
-          description: Amount including VAT (`net + vat`).
-        vat:
-          type: number
-          description: VAT amount.
-      required:
-      - net
-      - gross
-      - vat
-      description: Total planned price for the variant, across all systems and selected optional bundles.
-    DealSetLost:
-      type: object
-      properties:
-        state:
-          type: string
-          enum:
-          - Lost
-        lostReason:
-          type: string
-          enum:
-          - notInterested
-          - purchasedFromCompetitor
-          - budgetConstraints
-          - noResponseFromLead
-          - leadIsNotQualified
-          - changedDecision
-          - projectPostponed
-          - wentWithAnotherSolution
-          - featuresNotMatchingRequirements
-          - timingIssues
-          - lackOfResources
-          - highPricing
-          - poorFitForOurServices
-          - unsatisfactoryProductDemo
-          - leadLostContact
-          - internalDecisionToPausePurchase
-          - movedForwardWithInHouseSolution
-          - lackOfTrustInTheBrand
-          - dissatisfiedWithCustomerService
-          - productLimitations
-          - marketConditions
-          - preferredAnotherVendor
-          - technicalIssues
-          - leadHadIncorrectInformation
-          - legalOrRegulatoryIssues
-        notes:
-          type:
-          - string
-          - 'null'
-          maxLength: 5000
-      required:
-      - state
-      - lostReason
-      additionalProperties: false
-    ContactReference:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 123e4567-e89b-12d3-a456-426614174000
-      required:
-      - id
-      additionalProperties: false
     ResidentialVariant:
       type: object
       properties:
@@ -1952,6 +1866,21 @@ components:
         required:
         - vatRate
       description: Sales price per unit.
+    DealSetWon:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+          - Won
+        notes:
+          type:
+          - string
+          - 'null'
+          maxLength: 5000
+      required:
+      - state
+      additionalProperties: false
     VariantOptionalBundle:
       type: object
       properties:
@@ -1983,6 +1912,388 @@ components:
       - selected
       - price
       - lineItems
+    VariantLineItem:
+      type: object
+      properties:
+        componentId:
+          type: string
+          format: uuid
+          description: Stable identifier of the catalog component on this line. Reference to [**Components**](#tag/components)
+          example: 123e4567-e89b-12d3-a456-426614174000
+        componentVersionId:
+          type: string
+          format: uuid
+          description: Identifies the exact component version quoted on this line. May differ from the latest catalog version if the component was edited after the offer was built.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        componentType:
+          type: string
+          enum:
+          - module
+          - inverter
+          - microinverter
+          - optimizer
+          - virtualBattery
+          - batteryStorage
+          - evCharger
+          - heatPump
+          - airHeatPump
+          - hotWaterHeatPump
+          - heatingStorage
+          - hotWaterStorage
+          - heatingRod
+          - radiator
+          - indoorUnitAirHeatPump
+          - accessoryToEvCharger
+          - accessoryToHeatPump
+          - accessoryToModule
+          - accessoryToInverter
+          - accessoryToBatteryStorage
+          - other
+          - moduleFrameConstruction
+          - serviceFee
+          - installationFee
+        name:
+          type: string
+        brand:
+          type: string
+          description: User-typed brand string.
+        articleNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        quantity:
+          type: number
+        visibleToCustomer:
+          type: boolean
+          description: Whether this line is shown to the end customer on the offer. All lines are returned regardless; this flags the customer-visible subset.
+        unitSalesPrice:
+          $ref: '#/components/schemas/UnitPrice'
+        totalSalesPrice:
+          allOf:
+          - $ref: '#/components/schemas/Price'
+          - description: Line total (unit sales price × quantity).
+        unitPurchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Effective cost paid to acquire one unit of the component, net (excluding VAT). Reflects the project-specific override when one is set, otherwise the catalog purchase price; null when not tracked.
+        totalPurchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Purchase total for the line (unit purchase price × quantity), net. Null when not tracked.
+        purchasePriceOverridden:
+          type: boolean
+          description: Whether `unitPurchasePrice` stems from a project-specific override rather than the catalog purchase price. An override equal to the catalog price reports `false`.
+        margin:
+          type:
+          - object
+          - 'null'
+          properties:
+            total:
+              type: number
+              description: Net sales total minus net purchase total for this line.
+            rate:
+              type:
+              - number
+              - 'null'
+              description: 'Margin relative to the purchase cost (markup on cost): (net sales − net purchase) / net purchase. Null when the purchase price is 0.'
+          required:
+          - total
+          - rate
+          description: Margin for this line. Null when no purchase price is tracked.
+      required:
+      - componentId
+      - componentVersionId
+      - componentType
+      - name
+      - brand
+      - articleNumber
+      - gtin
+      - quantity
+      - visibleToCustomer
+      - unitSalesPrice
+      - totalSalesPrice
+      - unitPurchasePrice
+      - totalPurchasePrice
+      - purchasePriceOverridden
+      - margin
+    Price:
+      type: object
+      properties:
+        net:
+          type: number
+          description: Amount excluding VAT.
+        gross:
+          type: number
+          description: Amount including VAT (`net + vat`).
+        vat:
+          type: number
+          description: VAT amount.
+      required:
+      - net
+      - gross
+      - vat
+      description: Total planned price for the variant, across all systems and selected optional bundles.
+    ContactCreate:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 1000
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 1000
+        salutation:
+          type:
+          - string
+          - 'null'
+          enum:
+          - Female
+          - Male
+          - Diverse
+          - Family
+          - Business
+          - null
+        primaryEmail:
+          type:
+          - string
+          - 'null'
+          maxLength: 1000
+          format: email
+        secondaryEmail:
+          type:
+          - string
+          - 'null'
+          maxLength: 1000
+          format: email
+          description: Alternative email address
+        mobile:
+          type:
+          - string
+          - 'null'
+          maxLength: 100
+          description: Mobile phone number
+        phone:
+          type:
+          - string
+          - 'null'
+          maxLength: 100
+          description: Landline phone number
+        phoneReachability:
+          type:
+          - string
+          - 'null'
+          enum:
+          - Morning
+          - Afternoon
+          - Evening
+          - Fulltime
+          - WeekendOnly
+          - EmailOnly
+          - null
+        address:
+          type: object
+          properties:
+            street:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            houseNumber:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            city:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            postcode:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            country:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+          additionalProperties: false
+        marketingConsent:
+          type: boolean
+          description: Whether the contact has given marketing consent
+        marketingConsentText:
+          type:
+          - string
+          - 'null'
+          maxLength: 10000
+        marketingConsentDataProtectionLink:
+          type:
+          - string
+          - 'null'
+          maxLength: 2000
+        utm:
+          type: object
+          properties:
+            campaign:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            content:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            medium:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            source:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            term:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+          additionalProperties: false
+          description: UTM parameters associated with this contact
+        integrations:
+          type: object
+          properties:
+            bitrixId:
+              type:
+              - integer
+              - 'null'
+              minimum: 1
+              maximum: 9007199254740991
+            hubspotId:
+              type:
+              - string
+              - 'null'
+              format: uuid
+            pdsId:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            photovateId:
+              type:
+              - string
+              - 'null'
+              maxLength: 1000
+            pipedriveId:
+              type:
+              - integer
+              - 'null'
+              minimum: 1
+              maximum: 9007199254740991
+            weclappId:
+              type:
+              - string
+              - 'null'
+              format: uuid
+          additionalProperties: false
+          description: IDs of this contact in third-party systems
+      required:
+      - firstName
+      - lastName
+      - marketingConsent
+      additionalProperties: false
+    ContactReference:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+      required:
+      - id
+      additionalProperties: false
+    VariantSystem:
+      type:
+      - object
+      - 'null'
+      properties:
+        price:
+          allOf:
+          - $ref: '#/components/schemas/Price'
+          - description: Price subtotal for this system, after any system-level rebates.
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariantLineItem'
+      required:
+      - price
+      - lineItems
+    DealSetOpen:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+          - Open
+      required:
+      - state
+      additionalProperties: false
+    DealSetLost:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+          - Lost
+        lostReason:
+          type: string
+          enum:
+          - notInterested
+          - purchasedFromCompetitor
+          - budgetConstraints
+          - noResponseFromLead
+          - leadIsNotQualified
+          - changedDecision
+          - projectPostponed
+          - wentWithAnotherSolution
+          - featuresNotMatchingRequirements
+          - timingIssues
+          - lackOfResources
+          - highPricing
+          - poorFitForOurServices
+          - unsatisfactoryProductDemo
+          - leadLostContact
+          - internalDecisionToPausePurchase
+          - movedForwardWithInHouseSolution
+          - lackOfTrustInTheBrand
+          - dissatisfiedWithCustomerService
+          - productLimitations
+          - marketConditions
+          - preferredAnotherVendor
+          - technicalIssues
+          - leadHadIncorrectInformation
+          - legalOrRegulatoryIssues
+        notes:
+          type:
+          - string
+          - 'null'
+          maxLength: 5000
+      required:
+      - state
+      - lostReason
+      additionalProperties: false
     ResidentialProject:
       type: object
       properties:
@@ -2345,317 +2656,6 @@ components:
       - installationCreatedAt
       - archivedAt
       - updatedAt
-    ContactCreate:
-      type: object
-      properties:
-        firstName:
-          type: string
-          minLength: 1
-          maxLength: 1000
-        lastName:
-          type: string
-          minLength: 1
-          maxLength: 1000
-        salutation:
-          type:
-          - string
-          - 'null'
-          enum:
-          - Female
-          - Male
-          - Diverse
-          - Family
-          - Business
-          - null
-        primaryEmail:
-          type:
-          - string
-          - 'null'
-          maxLength: 1000
-          format: email
-        secondaryEmail:
-          type:
-          - string
-          - 'null'
-          maxLength: 1000
-          format: email
-          description: Alternative email address
-        mobile:
-          type:
-          - string
-          - 'null'
-          maxLength: 100
-          description: Mobile phone number
-        phone:
-          type:
-          - string
-          - 'null'
-          maxLength: 100
-          description: Landline phone number
-        phoneReachability:
-          type:
-          - string
-          - 'null'
-          enum:
-          - Morning
-          - Afternoon
-          - Evening
-          - Fulltime
-          - WeekendOnly
-          - EmailOnly
-          - null
-        address:
-          type: object
-          properties:
-            street:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            houseNumber:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            city:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            postcode:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            country:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-          additionalProperties: false
-        marketingConsent:
-          type: boolean
-          description: Whether the contact has given marketing consent
-        marketingConsentText:
-          type:
-          - string
-          - 'null'
-          maxLength: 10000
-        marketingConsentDataProtectionLink:
-          type:
-          - string
-          - 'null'
-          maxLength: 2000
-        utm:
-          type: object
-          properties:
-            campaign:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            content:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            medium:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            source:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            term:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-          additionalProperties: false
-          description: UTM parameters associated with this contact
-        integrations:
-          type: object
-          properties:
-            bitrixId:
-              type:
-              - integer
-              - 'null'
-              minimum: 1
-              maximum: 9007199254740991
-            hubspotId:
-              type:
-              - string
-              - 'null'
-              format: uuid
-            pdsId:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            photovateId:
-              type:
-              - string
-              - 'null'
-              maxLength: 1000
-            pipedriveId:
-              type:
-              - integer
-              - 'null'
-              minimum: 1
-              maximum: 9007199254740991
-            weclappId:
-              type:
-              - string
-              - 'null'
-              format: uuid
-          additionalProperties: false
-          description: IDs of this contact in third-party systems
-      required:
-      - firstName
-      - lastName
-      - marketingConsent
-      additionalProperties: false
-    DealSetOpen:
-      type: object
-      properties:
-        state:
-          type: string
-          enum:
-          - Open
-      required:
-      - state
-      additionalProperties: false
-    VariantLineItem:
-      type: object
-      properties:
-        componentId:
-          type: string
-          format: uuid
-          description: Stable identifier of the catalog component on this line. Reference to [**Components**](#tag/components)
-          example: 123e4567-e89b-12d3-a456-426614174000
-        componentVersionId:
-          type: string
-          format: uuid
-          description: Identifies the exact component version quoted on this line. May differ from the latest catalog version if the component was edited after the offer was built.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        componentType:
-          type: string
-          enum:
-          - module
-          - inverter
-          - microinverter
-          - optimizer
-          - virtualBattery
-          - batteryStorage
-          - evCharger
-          - heatPump
-          - airHeatPump
-          - hotWaterHeatPump
-          - heatingStorage
-          - hotWaterStorage
-          - heatingRod
-          - radiator
-          - indoorUnitAirHeatPump
-          - accessoryToEvCharger
-          - accessoryToHeatPump
-          - accessoryToModule
-          - accessoryToInverter
-          - accessoryToBatteryStorage
-          - other
-          - moduleFrameConstruction
-          - serviceFee
-          - installationFee
-        name:
-          type: string
-        brand:
-          type: string
-          description: User-typed brand string.
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        quantity:
-          type: number
-        visibleToCustomer:
-          type: boolean
-          description: Whether this line is shown to the end customer on the offer. All lines are returned regardless; this flags the customer-visible subset.
-        unitSalesPrice:
-          $ref: '#/components/schemas/UnitPrice'
-        totalSalesPrice:
-          allOf:
-          - $ref: '#/components/schemas/Price'
-          - description: Line total (unit sales price × quantity).
-        unitPurchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Effective cost paid to acquire one unit of the component, net (excluding VAT). Reflects the project-specific override when one is set, otherwise the catalog purchase price; null when not tracked.
-        totalPurchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Purchase total for the line (unit purchase price × quantity), net. Null when not tracked.
-        purchasePriceOverridden:
-          type: boolean
-          description: Whether `unitPurchasePrice` stems from a project-specific override rather than the catalog purchase price. An override equal to the catalog price reports `false`.
-        margin:
-          type:
-          - object
-          - 'null'
-          properties:
-            total:
-              type: number
-              description: Net sales total minus net purchase total for this line.
-            rate:
-              type:
-              - number
-              - 'null'
-              description: 'Margin relative to the purchase cost (markup on cost): (net sales − net purchase) / net purchase. Null when the purchase price is 0.'
-          required:
-          - total
-          - rate
-          description: Margin for this line. Null when no purchase price is tracked.
-      required:
-      - componentId
-      - componentVersionId
-      - componentType
-      - name
-      - brand
-      - articleNumber
-      - gtin
-      - quantity
-      - visibleToCustomer
-      - unitSalesPrice
-      - totalSalesPrice
-      - unitPurchasePrice
-      - totalPurchasePrice
-      - purchasePriceOverridden
-      - margin
-    VariantSystem:
-      type:
-      - object
-      - 'null'
-      properties:
-        price:
-          allOf:
-          - $ref: '#/components/schemas/Price'
-          - description: Price subtotal for this system, after any system-level rebates.
-        lineItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/VariantLineItem'
-      required:
-      - price
-      - lineItems
   securitySchemes:
     X-Authorization:
       type: apiKey

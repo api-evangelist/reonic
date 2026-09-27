@@ -304,62 +304,6 @@ components:
                 custom: '#/components/schemas/PlanningTemplateCustomItemInput'
           description: 'Provided array fully replaces the existing items; `[]` removes all items; omit to leave items unchanged. Array order becomes the planning template item order. Each item references either a catalog component (`componentSource: "catalog"`) or inline-creates a template-specific custom component (`componentSource: "custom"`). Custom components hold commercial data only and do not feed into the system-size or simulation figures shown in the Portal — see `componentSource`.'
       additionalProperties: false
-    PlanningTemplateCreate:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 500
-        description:
-          type:
-          - string
-          - 'null'
-          maxLength: 5000
-        active:
-          type: boolean
-          default: false
-        targets:
-          type: array
-          items:
-            type: string
-            enum:
-            - all
-            - residential
-            - residentialSolar
-            - residentialEvCharger
-            - residentialBatteryStorage
-            - residentialHotWaterStorage
-            - residentialHeatingStorage
-            - residentialHeating
-            - residentialHeatPump
-            - residentialAccessoryToHeatPump
-            - residentialOptionalComponents
-            - residentialAdditionalComponents
-            - commercial
-            - commercialSolar
-            - commercialBatteryStorage
-            - commercialLandlordToTenant
-            - commercialPowerPurchaseAgreement
-            - commercialAdditionalComponents
-          minItems: 1
-          description: Planning sections or project contexts where this template can be applied.
-        items:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/PlanningTemplateCatalogItemInput'
-            - $ref: '#/components/schemas/PlanningTemplateCustomItemInput'
-            discriminator:
-              propertyName: componentSource
-              mapping:
-                catalog: '#/components/schemas/PlanningTemplateCatalogItemInput'
-                custom: '#/components/schemas/PlanningTemplateCustomItemInput'
-          description: 'Full initial item list. Array order becomes the planning template item order. Omit to create the template without items. Each item references either an existing catalog component (`componentSource: "catalog"`) or inline-creates a template-specific custom component (`componentSource: "custom"`). Custom components hold commercial data only and do not feed into the system-size or simulation figures shown in the Portal — see `componentSource`.'
-      required:
-      - name
-      - targets
-      additionalProperties: false
     PlanningTemplate:
       type: object
       properties:
@@ -502,6 +446,62 @@ components:
       - createdById
       - updatedAt
       - updatedById
+    PlanningTemplateCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 500
+        description:
+          type:
+          - string
+          - 'null'
+          maxLength: 5000
+        active:
+          type: boolean
+          default: false
+        targets:
+          type: array
+          items:
+            type: string
+            enum:
+            - all
+            - residential
+            - residentialSolar
+            - residentialEvCharger
+            - residentialBatteryStorage
+            - residentialHotWaterStorage
+            - residentialHeatingStorage
+            - residentialHeating
+            - residentialHeatPump
+            - residentialAccessoryToHeatPump
+            - residentialOptionalComponents
+            - residentialAdditionalComponents
+            - commercial
+            - commercialSolar
+            - commercialBatteryStorage
+            - commercialLandlordToTenant
+            - commercialPowerPurchaseAgreement
+            - commercialAdditionalComponents
+          minItems: 1
+          description: Planning sections or project contexts where this template can be applied.
+        items:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/PlanningTemplateCatalogItemInput'
+            - $ref: '#/components/schemas/PlanningTemplateCustomItemInput'
+            discriminator:
+              propertyName: componentSource
+              mapping:
+                catalog: '#/components/schemas/PlanningTemplateCatalogItemInput'
+                custom: '#/components/schemas/PlanningTemplateCustomItemInput'
+          description: 'Full initial item list. Array order becomes the planning template item order. Omit to create the template without items. Each item references either an existing catalog component (`componentSource: "catalog"`) or inline-creates a template-specific custom component (`componentSource: "custom"`). Custom components hold commercial data only and do not feed into the system-size or simulation figures shown in the Portal — see `componentSource`.'
+      required:
+      - name
+      - targets
+      additionalProperties: false
     PlanningTemplateCatalogItemInput:
       type: object
       properties:

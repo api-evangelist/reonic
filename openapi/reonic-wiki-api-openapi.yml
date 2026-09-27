@@ -571,26 +571,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    WikiFolder:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        position:
-          type: number
-        pages:
-          type: array
-          items:
-            $ref: '#/components/schemas/WikiPage'
-      required:
-      - id
-      - name
-      - position
-      - pages
     WikiPage:
       type: object
       properties:
@@ -671,6 +651,26 @@ components:
       - updatedAt
       - createdBy
       - updatedBy
+    WikiFolder:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        position:
+          type: number
+        pages:
+          type: array
+          items:
+            $ref: '#/components/schemas/WikiPage'
+      required:
+      - id
+      - name
+      - position
+      - pages
   securitySchemes:
     X-Authorization:
       type: apiKey

@@ -181,6 +181,23 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    UserUpdate:
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+          - Admin
+          - Editor
+          - Viewer
+          description: Access level to grant the user.
+        isExternal:
+          type: boolean
+          description: Whether the user is external to the organization. Cannot be enabled for users with the Admin role.
+        archived:
+          type: boolean
+          description: '`true` to archive the user, `false` to unarchive.'
+      additionalProperties: false
     User:
       type: object
       properties:
@@ -277,23 +294,6 @@ components:
       - lastName
       - email
       - role
-      additionalProperties: false
-    UserUpdate:
-      type: object
-      properties:
-        role:
-          type: string
-          enum:
-          - Admin
-          - Editor
-          - Viewer
-          description: Access level to grant the user.
-        isExternal:
-          type: boolean
-          description: Whether the user is external to the organization. Cannot be enabled for users with the Admin role.
-        archived:
-          type: boolean
-          description: '`true` to archive the user, `false` to unarchive.'
       additionalProperties: false
   securitySchemes:
     X-Authorization:
