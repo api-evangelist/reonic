@@ -480,6 +480,78 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ManualActivity:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        type:
+          type: string
+          enum:
+          - call
+          - meeting
+        outcome:
+          type: string
+          enum:
+          - rescheduled
+          - completedObjectivesMet
+          - completedPartialProgress
+          - requiresFollowup
+          - cancelled
+          - connectedSuccessfulDiscussion
+          - connectedNeedsFollowup
+          - noAnswer
+          - leftVoicemailMessage
+          - wrongContact
+        note:
+          type:
+          - string
+          - 'null'
+        parentId:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        parentType:
+          type: string
+          enum:
+          - residentialProject
+          - commercialProject
+          example: residentialProject
+        createdAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        createdById:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+        updatedById:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      required:
+      - id
+      - type
+      - outcome
+      - note
+      - parentId
+      - parentType
+      - createdAt
+      - createdById
+      - updatedAt
+      - updatedById
     Activity:
       type: object
       properties:
@@ -565,78 +637,6 @@ components:
       - parentType
       - createdAt
       - createdById
-    ManualActivity:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 123e4567-e89b-12d3-a456-426614174000
-        type:
-          type: string
-          enum:
-          - call
-          - meeting
-        outcome:
-          type: string
-          enum:
-          - rescheduled
-          - completedObjectivesMet
-          - completedPartialProgress
-          - requiresFollowup
-          - cancelled
-          - connectedSuccessfulDiscussion
-          - connectedNeedsFollowup
-          - noAnswer
-          - leftVoicemailMessage
-          - wrongContact
-        note:
-          type:
-          - string
-          - 'null'
-        parentId:
-          type: string
-          format: uuid
-          example: 123e4567-e89b-12d3-a456-426614174000
-        parentType:
-          type: string
-          enum:
-          - residentialProject
-          - commercialProject
-          example: residentialProject
-        createdAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        createdById:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-        updatedById:
-          type:
-          - string
-          - 'null'
-          format: uuid
-      required:
-      - id
-      - type
-      - outcome
-      - note
-      - parentId
-      - parentType
-      - createdAt
-      - createdById
-      - updatedAt
-      - updatedById
   securitySchemes:
     X-Authorization:
       type: apiKey

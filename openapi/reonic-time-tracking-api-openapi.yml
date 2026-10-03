@@ -489,34 +489,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    TimetrackingEventType:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        position:
-          type: number
-        textColor:
-          type: string
-        backgroundColor:
-          type: string
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2026-01-01T15:30:00.000Z'
-      required:
-      - id
-      - name
-      - position
-      - textColor
-      - backgroundColor
-      - archivedAt
     TimetrackingEntry:
       type: object
       properties:
@@ -654,6 +626,34 @@ components:
       - parentId
       - parentType
       - parentName
+    TimetrackingEventType:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        position:
+          type: number
+        textColor:
+          type: string
+        backgroundColor:
+          type: string
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2026-01-01T15:30:00.000Z'
+      required:
+      - id
+      - name
+      - position
+      - textColor
+      - backgroundColor
+      - archivedAt
   securitySchemes:
     X-Authorization:
       type: apiKey
