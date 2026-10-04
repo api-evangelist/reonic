@@ -400,113 +400,118 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ContactDetail:
-      allOf:
-      - $ref: '#/components/schemas/Contact'
-      - type: object
-        properties:
-          commercialProjectIds:
-            type: array
-            items:
-              type: string
-              format: uuid
-            description: IDs of commercial projects associated with this contact
-            example:
-            - 123e4567-e89b-12d3-a456-426614174000
-          residentialProjectIds:
-            type: array
-            items:
-              type: string
-              format: uuid
-            description: IDs of residential projects associated with this contact
-            example:
-            - 123e4567-e89b-12d3-a456-426614174000
-          marketingConsent:
-            type: boolean
-            description: Whether the contact has given marketing consent
-          marketingConsentText:
-            type:
-            - string
-            - 'null'
-          marketingConsentDataProtectionLink:
-            type:
-            - string
-            - 'null'
-          utm:
-            type: object
-            properties:
-              campaign:
-                type:
-                - string
-                - 'null'
-              content:
-                type:
-                - string
-                - 'null'
-              medium:
-                type:
-                - string
-                - 'null'
-              source:
-                type:
-                - string
-                - 'null'
-              term:
-                type:
-                - string
-                - 'null'
-            required:
-            - campaign
-            - content
-            - medium
-            - source
-            - term
-            description: UTM parameters associated with this contact
-          integrations:
-            type: object
-            properties:
-              bitrixId:
-                type:
-                - number
-                - 'null'
-              hubspotId:
-                type:
-                - string
-                - 'null'
-                format: uuid
-              pdsId:
-                type:
-                - string
-                - 'null'
-              photovateId:
-                type:
-                - string
-                - 'null'
-              pipedriveId:
-                type:
-                - number
-                - 'null'
-              weclappId:
-                type:
-                - string
-                - 'null'
-                format: uuid
-            required:
-            - bitrixId
-            - hubspotId
-            - pdsId
-            - photovateId
-            - pipedriveId
-            - weclappId
-            description: IDs of the contact in integrated third-party systems
-        required:
-        - commercialProjectIds
-        - residentialProjectIds
-        - marketingConsent
-        - marketingConsentText
-        - marketingConsentDataProtectionLink
-        - utm
-        - integrations
+    Contact:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        fullName:
+          type: string
+          description: First and last name combined
+        firstName:
+          type: string
+        lastName:
+          type: string
+        salutation:
+          type:
+          - string
+          - 'null'
+          enum:
+          - Female
+          - Male
+          - Diverse
+          - Family
+          - Business
+          - null
+        primaryEmail:
+          type:
+          - string
+          - 'null'
+        secondaryEmail:
+          type:
+          - string
+          - 'null'
+          description: Alternative email address
+        mobile:
+          type:
+          - string
+          - 'null'
+          description: Mobile phone number
+        phone:
+          type:
+          - string
+          - 'null'
+          description: Landline phone number
+        phoneReachability:
+          type:
+          - string
+          - 'null'
+          enum:
+          - Morning
+          - Afternoon
+          - Evening
+          - Fulltime
+          - WeekendOnly
+          - EmailOnly
+          - null
+        address:
+          type: object
+          properties:
+            street:
+              type:
+              - string
+              - 'null'
+            houseNumber:
+              type:
+              - string
+              - 'null'
+            city:
+              type:
+              - string
+              - 'null'
+            postcode:
+              type:
+              - string
+              - 'null'
+            country:
+              type:
+              - string
+              - 'null'
+          required:
+          - street
+          - houseNumber
+          - city
+          - postcode
+          - country
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last edited date
+        deletedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      required:
+      - id
+      - fullName
+      - firstName
+      - lastName
+      - salutation
+      - primaryEmail
+      - secondaryEmail
+      - mobile
+      - phone
+      - phoneReachability
+      - address
+      - createdAt
+      - updatedAt
+      - deletedAt
     ContactCreate:
       type: object
       properties:
@@ -680,118 +685,113 @@ components:
       - lastName
       - marketingConsent
       additionalProperties: false
-    Contact:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 123e4567-e89b-12d3-a456-426614174000
-        fullName:
-          type: string
-          description: First and last name combined
-        firstName:
-          type: string
-        lastName:
-          type: string
-        salutation:
-          type:
-          - string
-          - 'null'
-          enum:
-          - Female
-          - Male
-          - Diverse
-          - Family
-          - Business
-          - null
-        primaryEmail:
-          type:
-          - string
-          - 'null'
-        secondaryEmail:
-          type:
-          - string
-          - 'null'
-          description: Alternative email address
-        mobile:
-          type:
-          - string
-          - 'null'
-          description: Mobile phone number
-        phone:
-          type:
-          - string
-          - 'null'
-          description: Landline phone number
-        phoneReachability:
-          type:
-          - string
-          - 'null'
-          enum:
-          - Morning
-          - Afternoon
-          - Evening
-          - Fulltime
-          - WeekendOnly
-          - EmailOnly
-          - null
-        address:
-          type: object
-          properties:
-            street:
-              type:
-              - string
-              - 'null'
-            houseNumber:
-              type:
-              - string
-              - 'null'
-            city:
-              type:
-              - string
-              - 'null'
-            postcode:
-              type:
-              - string
-              - 'null'
-            country:
-              type:
-              - string
-              - 'null'
-          required:
-          - street
-          - houseNumber
-          - city
-          - postcode
-          - country
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-          description: Last edited date
-        deletedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-      required:
-      - id
-      - fullName
-      - firstName
-      - lastName
-      - salutation
-      - primaryEmail
-      - secondaryEmail
-      - mobile
-      - phone
-      - phoneReachability
-      - address
-      - createdAt
-      - updatedAt
-      - deletedAt
+    ContactDetail:
+      allOf:
+      - $ref: '#/components/schemas/Contact'
+      - type: object
+        properties:
+          commercialProjectIds:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: IDs of commercial projects associated with this contact
+            example:
+            - 123e4567-e89b-12d3-a456-426614174000
+          residentialProjectIds:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: IDs of residential projects associated with this contact
+            example:
+            - 123e4567-e89b-12d3-a456-426614174000
+          marketingConsent:
+            type: boolean
+            description: Whether the contact has given marketing consent
+          marketingConsentText:
+            type:
+            - string
+            - 'null'
+          marketingConsentDataProtectionLink:
+            type:
+            - string
+            - 'null'
+          utm:
+            type: object
+            properties:
+              campaign:
+                type:
+                - string
+                - 'null'
+              content:
+                type:
+                - string
+                - 'null'
+              medium:
+                type:
+                - string
+                - 'null'
+              source:
+                type:
+                - string
+                - 'null'
+              term:
+                type:
+                - string
+                - 'null'
+            required:
+            - campaign
+            - content
+            - medium
+            - source
+            - term
+            description: UTM parameters associated with this contact
+          integrations:
+            type: object
+            properties:
+              bitrixId:
+                type:
+                - number
+                - 'null'
+              hubspotId:
+                type:
+                - string
+                - 'null'
+                format: uuid
+              pdsId:
+                type:
+                - string
+                - 'null'
+              photovateId:
+                type:
+                - string
+                - 'null'
+              pipedriveId:
+                type:
+                - number
+                - 'null'
+              weclappId:
+                type:
+                - string
+                - 'null'
+                format: uuid
+            required:
+            - bitrixId
+            - hubspotId
+            - pdsId
+            - photovateId
+            - pipedriveId
+            - weclappId
+            description: IDs of the contact in integrated third-party systems
+        required:
+        - commercialProjectIds
+        - residentialProjectIds
+        - marketingConsent
+        - marketingConsentText
+        - marketingConsentDataProtectionLink
+        - utm
+        - integrations
   securitySchemes:
     X-Authorization:
       type: apiKey

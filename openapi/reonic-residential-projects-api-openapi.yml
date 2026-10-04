@@ -1290,172 +1290,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ContactReference:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 123e4567-e89b-12d3-a456-426614174000
-      required:
-      - id
-      additionalProperties: false
-    DealSetLost:
-      type: object
-      properties:
-        state:
-          type: string
-          enum:
-          - Lost
-        lostReason:
-          type: string
-          enum:
-          - notInterested
-          - purchasedFromCompetitor
-          - budgetConstraints
-          - noResponseFromLead
-          - leadIsNotQualified
-          - changedDecision
-          - projectPostponed
-          - wentWithAnotherSolution
-          - featuresNotMatchingRequirements
-          - timingIssues
-          - lackOfResources
-          - highPricing
-          - poorFitForOurServices
-          - unsatisfactoryProductDemo
-          - leadLostContact
-          - internalDecisionToPausePurchase
-          - movedForwardWithInHouseSolution
-          - lackOfTrustInTheBrand
-          - dissatisfiedWithCustomerService
-          - productLimitations
-          - marketConditions
-          - preferredAnotherVendor
-          - technicalIssues
-          - leadHadIncorrectInformation
-          - legalOrRegulatoryIssues
-        notes:
-          type:
-          - string
-          - 'null'
-          maxLength: 5000
-      required:
-      - state
-      - lostReason
-      additionalProperties: false
-    VariantLineItem:
-      type: object
-      properties:
-        componentId:
-          type: string
-          format: uuid
-          description: Stable identifier of the catalog component on this line. Reference to [**Components**](#tag/components)
-          example: 123e4567-e89b-12d3-a456-426614174000
-        componentVersionId:
-          type: string
-          format: uuid
-          description: Identifies the exact component version quoted on this line. May differ from the latest catalog version if the component was edited after the offer was built.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        componentType:
-          type: string
-          enum:
-          - module
-          - inverter
-          - microinverter
-          - optimizer
-          - virtualBattery
-          - batteryStorage
-          - evCharger
-          - heatPump
-          - airHeatPump
-          - hotWaterHeatPump
-          - heatingStorage
-          - hotWaterStorage
-          - heatingRod
-          - radiator
-          - indoorUnitAirHeatPump
-          - accessoryToEvCharger
-          - accessoryToHeatPump
-          - accessoryToModule
-          - accessoryToInverter
-          - accessoryToBatteryStorage
-          - other
-          - moduleFrameConstruction
-          - serviceFee
-          - installationFee
-        name:
-          type: string
-        brand:
-          type: string
-          description: User-typed brand string.
-        articleNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal article / part number.
-        gtin:
-          type:
-          - string
-          - 'null'
-          description: Global Trade Item Number, sometimes referred to as EAN.
-        quantity:
-          type: number
-        visibleToCustomer:
-          type: boolean
-          description: Whether this line is shown to the end customer on the offer. All lines are returned regardless; this flags the customer-visible subset.
-        unitSalesPrice:
-          $ref: '#/components/schemas/UnitPrice'
-        totalSalesPrice:
-          allOf:
-          - $ref: '#/components/schemas/Price'
-          - description: Line total (unit sales price × quantity).
-        unitPurchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Effective cost paid to acquire one unit of the component, net (excluding VAT). Reflects the project-specific override when one is set, otherwise the catalog purchase price; null when not tracked.
-        totalPurchasePrice:
-          type:
-          - number
-          - 'null'
-          description: Purchase total for the line (unit purchase price × quantity), net. Null when not tracked.
-        purchasePriceOverridden:
-          type: boolean
-          description: Whether `unitPurchasePrice` stems from a project-specific override rather than the catalog purchase price. An override equal to the catalog price reports `false`.
-        margin:
-          type:
-          - object
-          - 'null'
-          properties:
-            total:
-              type: number
-              description: Net sales total minus net purchase total for this line.
-            rate:
-              type:
-              - number
-              - 'null'
-              description: 'Margin relative to the purchase cost (markup on cost): (net sales − net purchase) / net purchase. Null when the purchase price is 0.'
-          required:
-          - total
-          - rate
-          description: Margin for this line. Null when no purchase price is tracked.
-      required:
-      - componentId
-      - componentVersionId
-      - componentType
-      - name
-      - brand
-      - articleNumber
-      - gtin
-      - quantity
-      - visibleToCustomer
-      - unitSalesPrice
-      - totalSalesPrice
-      - unitPurchasePrice
-      - totalPurchasePrice
-      - purchasePriceOverridden
-      - margin
     ResidentialVariant:
       type: object
       properties:
@@ -1510,6 +1344,474 @@ components:
       - totalPriceOverride
       - systems
       - optionalBundles
+    ResidentialProject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+        stage:
+          type: string
+          enum:
+          - request
+          - offer
+          - installation
+        latLng:
+          type: object
+          properties:
+            lat:
+              type: number
+            lng:
+              type: number
+          required:
+          - lat
+          - lng
+        address:
+          type: object
+          properties:
+            street:
+              type:
+              - string
+              - 'null'
+            houseNumber:
+              type:
+              - string
+              - 'null'
+            postcode:
+              type:
+              - string
+              - 'null'
+            city:
+              type:
+              - string
+              - 'null'
+            country:
+              type: string
+              enum:
+              - Austria
+              - Switzerland
+              - Germany
+              - Liechtenstein
+              - Luxembourg
+              - Czechia
+              - Slovakia
+              - Hungary
+              - Poland
+              - Slovenia
+              - France
+              - Belgium
+              - Netherlands
+              - Monaco
+              - Andorra
+              - Italy
+              - SanMarino
+              - VaticanCity
+              - Malta
+              - Spain
+              - Portugal
+              - Gibraltar
+              - Denmark
+              - Sweden
+              - Norway
+              - Finland
+              - Iceland
+              - FaroeIslands
+              - Greenland
+              - Albania
+              - Armenia
+              - Azerbaijan
+              - Belarus
+              - BosniaAndHerzegovina
+              - Bulgaria
+              - Croatia
+              - Cyprus
+              - Estonia
+              - Georgia
+              - Greece
+              - Kazakhstan
+              - Kosovo
+              - Latvia
+              - Lithuania
+              - Moldova
+              - Montenegro
+              - NorthMacedonia
+              - Romania
+              - Russia
+              - Serbia
+              - Turkey
+              - Ukraine
+              - UnitedKingdom
+              - Jersey
+              - Ireland
+              - Martinique
+              - Guadeloupe
+              - Reunion
+              - SaintMartin
+              - SaintBarthelemy
+              - SaintPierreAndMiquelon
+              - FrenchGuiana
+              - Bahamas
+              - Barbados
+              - Dominica
+              - Grenada
+              - Jamaica
+              - SaintKittsAndNevis
+              - SaintLucia
+              - SaintVincentAndTheGrenadines
+              - TrinidadAndTobago
+              - AntiguaAndBarbuda
+              - Aruba
+              - Curacao
+              - Bermuda
+              - CaymanIslands
+              - TurksAndCaicosIslands
+              - Anguilla
+              - Montserrat
+              - BritishVirginIslands
+              - USVirginIslands
+              - SintMaarten
+              - BonaireSintEustatiusSaba
+              - Argentina
+              - Bolivia
+              - Belize
+              - Brazil
+              - Chile
+              - Colombia
+              - CostaRica
+              - Cuba
+              - DominicanRepublic
+              - Ecuador
+              - ElSalvador
+              - Guatemala
+              - Guyana
+              - Honduras
+              - Haiti
+              - Mexico
+              - Nicaragua
+              - Panama
+              - Paraguay
+              - Peru
+              - Suriname
+              - Uruguay
+              - Venezuela
+              - FalklandIslands
+              - UnitedStates
+              - Morocco
+              - SouthAfrica
+          required:
+          - street
+          - houseNumber
+          - postcode
+          - city
+          - country
+          description: The project's installation site address. Reverse-geocoded from `latLng` and refreshed whenever `latLng` changes. This is stored independently from the customer contact's address (`customerContact.address` on create) — the two may diverge when the customer's residence differs from the installation site.
+        customerContact:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Reference to [**Contacts**](#tag/contacts)
+              example: 123e4567-e89b-12d3-a456-426614174000
+            fullName:
+              type: string
+              description: First and last name combined
+            firstName:
+              type: string
+            lastName:
+              type: string
+            primaryEmail:
+              type:
+              - string
+              - 'null'
+          required:
+          - id
+          - fullName
+          - firstName
+          - lastName
+          - primaryEmail
+        customerNumber:
+          type:
+          - string
+          - 'null'
+          description: Internal customer reference, e.g. from your CRM or ERP.
+        customerMessage:
+          type:
+          - string
+          - 'null'
+          description: Message from the customer collected during request stage
+        keyAccountManagerId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the key account manager assigned to this project, if any. Reference to [**Users**](#tag/users)
+          example: 123e4567-e89b-12d3-a456-426614174000
+        kanbanBoardId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the Kanban board this project is on.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        kanbanColumnId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the project's current Kanban column. Reference to [**Kanban Columns**](#tag/kanban-columns)
+          example: 123e4567-e89b-12d3-a456-426614174000
+        leadSourceId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the lead source for this project.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        tagIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: IDs of the tags assigned to this project. Reference to [**Tags**](#tag/tags)
+          example:
+          - 123e4567-e89b-12d3-a456-426614174000
+        deal:
+          type: object
+          properties:
+            state:
+              type:
+              - string
+              - 'null'
+              enum:
+              - Open
+              - Won
+              - Lost
+              - null
+              description: Only set once project has moved to offer stage.
+            decidedAt:
+              type:
+              - string
+              - 'null'
+              format: date-time
+            lostReason:
+              type:
+              - string
+              - 'null'
+              enum:
+              - notInterested
+              - purchasedFromCompetitor
+              - budgetConstraints
+              - noResponseFromLead
+              - leadIsNotQualified
+              - changedDecision
+              - projectPostponed
+              - wentWithAnotherSolution
+              - featuresNotMatchingRequirements
+              - timingIssues
+              - lackOfResources
+              - highPricing
+              - poorFitForOurServices
+              - unsatisfactoryProductDemo
+              - leadLostContact
+              - internalDecisionToPausePurchase
+              - movedForwardWithInHouseSolution
+              - lackOfTrustInTheBrand
+              - dissatisfiedWithCustomerService
+              - productLimitations
+              - marketConditions
+              - preferredAnotherVendor
+              - technicalIssues
+              - leadHadIncorrectInformation
+              - legalOrRegulatoryIssues
+              - null
+            notes:
+              type:
+              - string
+              - 'null'
+          required:
+          - state
+          - decidedAt
+          - lostReason
+          - notes
+          description: Deal information, only relevant for projects in offer stage or later
+        primaryOfferVariant:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              example: 123e4567-e89b-12d3-a456-426614174000
+            componentsTotalPrice:
+              type: number
+              description: Sum of the planned prices of all components in this variant (with VAT).
+            totalPriceOverride:
+              type:
+              - number
+              - 'null'
+              description: Manual override for the variant's total price. When set, takes precedence over componentsTotalPrice.
+          required:
+          - id
+          - componentsTotalPrice
+          - totalPriceOverride
+        projectCreatedAt:
+          type: string
+          format: date-time
+        requestCreatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        offerCreatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        installationCreatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        archivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of the most recent modification to this project.
+      required:
+      - id
+      - name
+      - stage
+      - latLng
+      - address
+      - customerContact
+      - customerNumber
+      - customerMessage
+      - keyAccountManagerId
+      - kanbanBoardId
+      - kanbanColumnId
+      - leadSourceId
+      - tagIds
+      - deal
+      - primaryOfferVariant
+      - projectCreatedAt
+      - requestCreatedAt
+      - offerCreatedAt
+      - installationCreatedAt
+      - archivedAt
+      - updatedAt
+    DealSetWon:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+          - Won
+        notes:
+          type:
+          - string
+          - 'null'
+          maxLength: 5000
+      required:
+      - state
+      additionalProperties: false
+    DealSetLost:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+          - Lost
+        lostReason:
+          type: string
+          enum:
+          - notInterested
+          - purchasedFromCompetitor
+          - budgetConstraints
+          - noResponseFromLead
+          - leadIsNotQualified
+          - changedDecision
+          - projectPostponed
+          - wentWithAnotherSolution
+          - featuresNotMatchingRequirements
+          - timingIssues
+          - lackOfResources
+          - highPricing
+          - poorFitForOurServices
+          - unsatisfactoryProductDemo
+          - leadLostContact
+          - internalDecisionToPausePurchase
+          - movedForwardWithInHouseSolution
+          - lackOfTrustInTheBrand
+          - dissatisfiedWithCustomerService
+          - productLimitations
+          - marketConditions
+          - preferredAnotherVendor
+          - technicalIssues
+          - leadHadIncorrectInformation
+          - legalOrRegulatoryIssues
+        notes:
+          type:
+          - string
+          - 'null'
+          maxLength: 5000
+      required:
+      - state
+      - lostReason
+      additionalProperties: false
+    VariantSystem:
+      type:
+      - object
+      - 'null'
+      properties:
+        price:
+          allOf:
+          - $ref: '#/components/schemas/Price'
+          - description: Price subtotal for this system, after any system-level rebates.
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariantLineItem'
+      required:
+      - price
+      - lineItems
+    VariantOptionalBundle:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        selected:
+          type: boolean
+          description: Whether the customer has opted into this bundle. Only selected bundles count toward the variant total.
+        price:
+          $ref: '#/components/schemas/Price'
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariantLineItem'
+      required:
+      - id
+      - name
+      - description
+      - selected
+      - price
+      - lineItems
     Price:
       type: object
       properties:
@@ -1527,19 +1829,16 @@ components:
       - gross
       - vat
       description: Total planned price for the variant, across all systems and selected optional bundles.
-    UnitPrice:
-      allOf:
-      - $ref: '#/components/schemas/Price'
-      - type: object
-        properties:
-          vatRate:
-            type: number
-            minimum: 0
-            maximum: 1
-            description: VAT rate as a fraction between 0 and 1 (e.g. 0.19 for 19%), never as a percentage (19).
-        required:
-        - vatRate
-      description: Sales price per unit.
+    ContactReference:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+      required:
+      - id
+      additionalProperties: false
     ResidentialProjectDetail:
       allOf:
       - $ref: '#/components/schemas/ResidentialProject'
@@ -2049,21 +2348,118 @@ components:
         - signatureRequests
         - customerPortalUrl
         - integrations
-    DealSetWon:
+    VariantLineItem:
       type: object
       properties:
-        state:
+        componentId:
+          type: string
+          format: uuid
+          description: Stable identifier of the catalog component on this line. Reference to [**Components**](#tag/components)
+          example: 123e4567-e89b-12d3-a456-426614174000
+        componentVersionId:
+          type: string
+          format: uuid
+          description: Identifies the exact component version quoted on this line. May differ from the latest catalog version if the component was edited after the offer was built.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        componentType:
           type: string
           enum:
-          - Won
-        notes:
+          - module
+          - inverter
+          - microinverter
+          - optimizer
+          - virtualBattery
+          - batteryStorage
+          - evCharger
+          - heatPump
+          - airHeatPump
+          - hotWaterHeatPump
+          - heatingStorage
+          - hotWaterStorage
+          - heatingRod
+          - radiator
+          - indoorUnitAirHeatPump
+          - accessoryToEvCharger
+          - accessoryToHeatPump
+          - accessoryToModule
+          - accessoryToInverter
+          - accessoryToBatteryStorage
+          - other
+          - moduleFrameConstruction
+          - serviceFee
+          - installationFee
+        name:
+          type: string
+        brand:
+          type: string
+          description: User-typed brand string.
+        articleNumber:
           type:
           - string
           - 'null'
-          maxLength: 5000
+          description: Internal article / part number.
+        gtin:
+          type:
+          - string
+          - 'null'
+          description: Global Trade Item Number, sometimes referred to as EAN.
+        quantity:
+          type: number
+        visibleToCustomer:
+          type: boolean
+          description: Whether this line is shown to the end customer on the offer. All lines are returned regardless; this flags the customer-visible subset.
+        unitSalesPrice:
+          $ref: '#/components/schemas/UnitPrice'
+        totalSalesPrice:
+          allOf:
+          - $ref: '#/components/schemas/Price'
+          - description: Line total (unit sales price × quantity).
+        unitPurchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Effective cost paid to acquire one unit of the component, net (excluding VAT). Reflects the project-specific override when one is set, otherwise the catalog purchase price; null when not tracked.
+        totalPurchasePrice:
+          type:
+          - number
+          - 'null'
+          description: Purchase total for the line (unit purchase price × quantity), net. Null when not tracked.
+        purchasePriceOverridden:
+          type: boolean
+          description: Whether `unitPurchasePrice` stems from a project-specific override rather than the catalog purchase price. An override equal to the catalog price reports `false`.
+        margin:
+          type:
+          - object
+          - 'null'
+          properties:
+            total:
+              type: number
+              description: Net sales total minus net purchase total for this line.
+            rate:
+              type:
+              - number
+              - 'null'
+              description: 'Margin relative to the purchase cost (markup on cost): (net sales − net purchase) / net purchase. Null when the purchase price is 0.'
+          required:
+          - total
+          - rate
+          description: Margin for this line. Null when no purchase price is tracked.
       required:
-      - state
-      additionalProperties: false
+      - componentId
+      - componentVersionId
+      - componentType
+      - name
+      - brand
+      - articleNumber
+      - gtin
+      - quantity
+      - visibleToCustomer
+      - unitSalesPrice
+      - totalSalesPrice
+      - unitPurchasePrice
+      - totalPurchasePrice
+      - purchasePriceOverridden
+      - margin
     DealSetOpen:
       type: object
       properties:
@@ -2074,399 +2470,19 @@ components:
       required:
       - state
       additionalProperties: false
-    ResidentialProject:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type: string
-        stage:
-          type: string
-          enum:
-          - request
-          - offer
-          - installation
-        latLng:
-          type: object
-          properties:
-            lat:
-              type: number
-            lng:
-              type: number
-          required:
-          - lat
-          - lng
-        address:
-          type: object
-          properties:
-            street:
-              type:
-              - string
-              - 'null'
-            houseNumber:
-              type:
-              - string
-              - 'null'
-            postcode:
-              type:
-              - string
-              - 'null'
-            city:
-              type:
-              - string
-              - 'null'
-            country:
-              type: string
-              enum:
-              - Austria
-              - Switzerland
-              - Germany
-              - Liechtenstein
-              - Luxembourg
-              - Czechia
-              - Slovakia
-              - Hungary
-              - Poland
-              - Slovenia
-              - France
-              - Belgium
-              - Netherlands
-              - Monaco
-              - Andorra
-              - Italy
-              - SanMarino
-              - VaticanCity
-              - Malta
-              - Spain
-              - Portugal
-              - Gibraltar
-              - Denmark
-              - Sweden
-              - Norway
-              - Finland
-              - Iceland
-              - FaroeIslands
-              - Greenland
-              - Albania
-              - Armenia
-              - Azerbaijan
-              - Belarus
-              - BosniaAndHerzegovina
-              - Bulgaria
-              - Croatia
-              - Cyprus
-              - Estonia
-              - Georgia
-              - Greece
-              - Kazakhstan
-              - Kosovo
-              - Latvia
-              - Lithuania
-              - Moldova
-              - Montenegro
-              - NorthMacedonia
-              - Romania
-              - Russia
-              - Serbia
-              - Turkey
-              - Ukraine
-              - UnitedKingdom
-              - Jersey
-              - Ireland
-              - Martinique
-              - Guadeloupe
-              - Reunion
-              - SaintMartin
-              - SaintBarthelemy
-              - SaintPierreAndMiquelon
-              - FrenchGuiana
-              - Bahamas
-              - Barbados
-              - Dominica
-              - Grenada
-              - Jamaica
-              - SaintKittsAndNevis
-              - SaintLucia
-              - SaintVincentAndTheGrenadines
-              - TrinidadAndTobago
-              - AntiguaAndBarbuda
-              - Aruba
-              - Curacao
-              - Bermuda
-              - CaymanIslands
-              - TurksAndCaicosIslands
-              - Anguilla
-              - Montserrat
-              - BritishVirginIslands
-              - USVirginIslands
-              - SintMaarten
-              - BonaireSintEustatiusSaba
-              - Argentina
-              - Bolivia
-              - Belize
-              - Brazil
-              - Chile
-              - Colombia
-              - CostaRica
-              - Cuba
-              - DominicanRepublic
-              - Ecuador
-              - ElSalvador
-              - Guatemala
-              - Guyana
-              - Honduras
-              - Haiti
-              - Mexico
-              - Nicaragua
-              - Panama
-              - Paraguay
-              - Peru
-              - Suriname
-              - Uruguay
-              - Venezuela
-              - FalklandIslands
-              - UnitedStates
-              - Morocco
-              - SouthAfrica
-          required:
-          - street
-          - houseNumber
-          - postcode
-          - city
-          - country
-          description: The project's installation site address. Reverse-geocoded from `latLng` and refreshed whenever `latLng` changes. This is stored independently from the customer contact's address (`customerContact.address` on create) — the two may diverge when the customer's residence differs from the installation site.
-        customerContact:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-              description: Reference to [**Contacts**](#tag/contacts)
-              example: 123e4567-e89b-12d3-a456-426614174000
-            fullName:
-              type: string
-              description: First and last name combined
-            firstName:
-              type: string
-            lastName:
-              type: string
-            primaryEmail:
-              type:
-              - string
-              - 'null'
-          required:
-          - id
-          - fullName
-          - firstName
-          - lastName
-          - primaryEmail
-        customerNumber:
-          type:
-          - string
-          - 'null'
-          description: Internal customer reference, e.g. from your CRM or ERP.
-        customerMessage:
-          type:
-          - string
-          - 'null'
-          description: Message from the customer collected during request stage
-        keyAccountManagerId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: ID of the key account manager assigned to this project, if any. Reference to [**Users**](#tag/users)
-          example: 123e4567-e89b-12d3-a456-426614174000
-        kanbanBoardId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: ID of the Kanban board this project is on.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        kanbanColumnId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: ID of the project's current Kanban column. Reference to [**Kanban Columns**](#tag/kanban-columns)
-          example: 123e4567-e89b-12d3-a456-426614174000
-        leadSourceId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: ID of the lead source for this project.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        tagIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          description: IDs of the tags assigned to this project. Reference to [**Tags**](#tag/tags)
-          example:
-          - 123e4567-e89b-12d3-a456-426614174000
-        deal:
-          type: object
-          properties:
-            state:
-              type:
-              - string
-              - 'null'
-              enum:
-              - Open
-              - Won
-              - Lost
-              - null
-              description: Only set once project has moved to offer stage.
-            decidedAt:
-              type:
-              - string
-              - 'null'
-              format: date-time
-            lostReason:
-              type:
-              - string
-              - 'null'
-              enum:
-              - notInterested
-              - purchasedFromCompetitor
-              - budgetConstraints
-              - noResponseFromLead
-              - leadIsNotQualified
-              - changedDecision
-              - projectPostponed
-              - wentWithAnotherSolution
-              - featuresNotMatchingRequirements
-              - timingIssues
-              - lackOfResources
-              - highPricing
-              - poorFitForOurServices
-              - unsatisfactoryProductDemo
-              - leadLostContact
-              - internalDecisionToPausePurchase
-              - movedForwardWithInHouseSolution
-              - lackOfTrustInTheBrand
-              - dissatisfiedWithCustomerService
-              - productLimitations
-              - marketConditions
-              - preferredAnotherVendor
-              - technicalIssues
-              - leadHadIncorrectInformation
-              - legalOrRegulatoryIssues
-              - null
-            notes:
-              type:
-              - string
-              - 'null'
-          required:
-          - state
-          - decidedAt
-          - lostReason
-          - notes
-          description: Deal information, only relevant for projects in offer stage or later
-        primaryOfferVariant:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-              example: 123e4567-e89b-12d3-a456-426614174000
-            componentsTotalPrice:
-              type: number
-              description: Sum of the planned prices of all components in this variant (with VAT).
-            totalPriceOverride:
-              type:
-              - number
-              - 'null'
-              description: Manual override for the variant's total price. When set, takes precedence over componentsTotalPrice.
-          required:
-          - id
-          - componentsTotalPrice
-          - totalPriceOverride
-        projectCreatedAt:
-          type: string
-          format: date-time
-        requestCreatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        offerCreatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        installationCreatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        archivedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp of the most recent modification to this project.
-      required:
-      - id
-      - name
-      - stage
-      - latLng
-      - address
-      - customerContact
-      - customerNumber
-      - customerMessage
-      - keyAccountManagerId
-      - kanbanBoardId
-      - kanbanColumnId
-      - leadSourceId
-      - tagIds
-      - deal
-      - primaryOfferVariant
-      - projectCreatedAt
-      - requestCreatedAt
-      - offerCreatedAt
-      - installationCreatedAt
-      - archivedAt
-      - updatedAt
-    VariantOptionalBundle:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        selected:
-          type: boolean
-          description: Whether the customer has opted into this bundle. Only selected bundles count toward the variant total.
-        price:
-          $ref: '#/components/schemas/Price'
-        lineItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/VariantLineItem'
-      required:
-      - id
-      - name
-      - description
-      - selected
-      - price
-      - lineItems
+    UnitPrice:
+      allOf:
+      - $ref: '#/components/schemas/Price'
+      - type: object
+        properties:
+          vatRate:
+            type: number
+            minimum: 0
+            maximum: 1
+            description: VAT rate as a fraction between 0 and 1 (e.g. 0.19 for 19%), never as a percentage (19).
+        required:
+        - vatRate
+      description: Sales price per unit.
     ContactCreate:
       type: object
       properties:
@@ -2640,22 +2656,6 @@ components:
       - lastName
       - marketingConsent
       additionalProperties: false
-    VariantSystem:
-      type:
-      - object
-      - 'null'
-      properties:
-        price:
-          allOf:
-          - $ref: '#/components/schemas/Price'
-          - description: Price subtotal for this system, after any system-level rebates.
-        lineItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/VariantLineItem'
-      required:
-      - price
-      - lineItems
   securitySchemes:
     X-Authorization:
       type: apiKey

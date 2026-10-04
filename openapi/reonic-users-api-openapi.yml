@@ -181,48 +181,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    UserCreate:
-      type: object
-      properties:
-        firstName:
-          type: string
-          minLength: 1
-          maxLength: 200
-        lastName:
-          type: string
-          minLength: 1
-          maxLength: 200
-        email:
-          type: string
-          maxLength: 300
-          format: email
-          description: Email address of the user. Used as the unique login identifier.
-        phone:
-          type: string
-          pattern: ^\+[1-9]\d{1,14}$
-          description: Phone number of the user in E.164 format.
-          example: '+491511234567'
-        role:
-          type: string
-          enum:
-          - Admin
-          - Editor
-          - Viewer
-          description: Access level granted to the user.
-        isExternal:
-          type: boolean
-          default: false
-          description: Whether the user is external to the organization. Must be false for users with the Admin role. Defaults to false.
-        sendWelcomeEmail:
-          type: boolean
-          default: true
-          description: Whether to email the user a welcome message inviting them to the platform. Defaults to true.
-      required:
-      - firstName
-      - lastName
-      - email
-      - role
-      additionalProperties: false
     User:
       type: object
       properties:
@@ -294,6 +252,48 @@ components:
         archived:
           type: boolean
           description: '`true` to archive the user, `false` to unarchive.'
+      additionalProperties: false
+    UserCreate:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 200
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 200
+        email:
+          type: string
+          maxLength: 300
+          format: email
+          description: Email address of the user. Used as the unique login identifier.
+        phone:
+          type: string
+          pattern: ^\+[1-9]\d{1,14}$
+          description: Phone number of the user in E.164 format.
+          example: '+491511234567'
+        role:
+          type: string
+          enum:
+          - Admin
+          - Editor
+          - Viewer
+          description: Access level granted to the user.
+        isExternal:
+          type: boolean
+          default: false
+          description: Whether the user is external to the organization. Must be false for users with the Admin role. Defaults to false.
+        sendWelcomeEmail:
+          type: boolean
+          default: true
+          description: Whether to email the user a welcome message inviting them to the platform. Defaults to true.
+      required:
+      - firstName
+      - lastName
+      - email
+      - role
       additionalProperties: false
   securitySchemes:
     X-Authorization:

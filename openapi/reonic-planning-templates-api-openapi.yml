@@ -183,38 +183,58 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PlanningTemplateCatalogItemInput:
+    PlanningTemplateUpdate:
       type: object
       properties:
-        componentSource:
+        name:
           type: string
-          enum:
-          - catalog
-          description: Reference an existing entry from [**Components**](#tag/components) by ID.
-        componentId:
-          type: string
-          format: uuid
-          description: ID of the [**Components**](#tag/components) entry to add. The latest component version is used.
-          example: 123e4567-e89b-12d3-a456-426614174000
-        quantity:
-          type: number
-          exclusiveMinimum: 0
-        visibleToCustomer:
+          minLength: 1
+          maxLength: 500
+        description:
+          type:
+          - string
+          - 'null'
+          maxLength: 5000
+          description: Send `null` to clear; omit to leave unchanged.
+        active:
           type: boolean
-          default: true
-        salesPrice:
-          type: number
-          minimum: 0
-          description: Unit price charged to the end customer, net (excluding VAT). Omit (together with `vatRate`) to snapshot the catalog component's current price. The value is pinned on this item — later edits to the catalog component do not propagate.
-        vatRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: VAT rate as a fraction (e.g. 0.19 for 19%). Omit (together with `salesPrice`) to snapshot the catalog component's current VAT rate. The value is pinned on this item — later edits to the catalog component do not propagate.
-      required:
-      - componentSource
-      - componentId
-      - quantity
+        targets:
+          type: array
+          items:
+            type: string
+            enum:
+            - all
+            - residential
+            - residentialSolar
+            - residentialEvCharger
+            - residentialBatteryStorage
+            - residentialHotWaterStorage
+            - residentialHeatingStorage
+            - residentialHeating
+            - residentialHeatPump
+            - residentialAccessoryToHeatPump
+            - residentialOptionalComponents
+            - residentialAdditionalComponents
+            - commercial
+            - commercialSolar
+            - commercialBatteryStorage
+            - commercialLandlordToTenant
+            - commercialPowerPurchaseAgreement
+            - commercialAdditionalComponents
+          minItems: 1
+          description: Planning sections or project contexts where this template can be applied. Provided array fully replaces the existing targets; omit to leave them unchanged.
+        items:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/PlanningTemplateCatalogItemInput'
+            - $ref: '#/components/schemas/PlanningTemplateCustomItemInput'
+            discriminator:
+              propertyName: componentSource
+              mapping:
+                catalog: '#/components/schemas/PlanningTemplateCatalogItemInput'
+                custom: '#/components/schemas/PlanningTemplateCustomItemInput'
+          description: 'Provided array fully replaces the existing items; `[]` removes all items; omit to leave items unchanged. Array order becomes the planning template item order. Each item references either a catalog component (`componentSource: "catalog"`) or inline-creates a template-specific custom component (`componentSource: "custom"`). Custom components hold commercial data only and do not feed into the system-size or simulation figures shown in the Portal — see `componentSource`.'
       additionalProperties: false
     PlanningTemplateCreate:
       type: object
@@ -271,59 +291,6 @@ components:
       required:
       - name
       - targets
-      additionalProperties: false
-    PlanningTemplateUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 500
-        description:
-          type:
-          - string
-          - 'null'
-          maxLength: 5000
-          description: Send `null` to clear; omit to leave unchanged.
-        active:
-          type: boolean
-        targets:
-          type: array
-          items:
-            type: string
-            enum:
-            - all
-            - residential
-            - residentialSolar
-            - residentialEvCharger
-            - residentialBatteryStorage
-            - residentialHotWaterStorage
-            - residentialHeatingStorage
-            - residentialHeating
-            - residentialHeatPump
-            - residentialAccessoryToHeatPump
-            - residentialOptionalComponents
-            - residentialAdditionalComponents
-            - commercial
-            - commercialSolar
-            - commercialBatteryStorage
-            - commercialLandlordToTenant
-            - commercialPowerPurchaseAgreement
-            - commercialAdditionalComponents
-          minItems: 1
-          description: Planning sections or project contexts where this template can be applied. Provided array fully replaces the existing targets; omit to leave them unchanged.
-        items:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/PlanningTemplateCatalogItemInput'
-            - $ref: '#/components/schemas/PlanningTemplateCustomItemInput'
-            discriminator:
-              propertyName: componentSource
-              mapping:
-                catalog: '#/components/schemas/PlanningTemplateCatalogItemInput'
-                custom: '#/components/schemas/PlanningTemplateCustomItemInput'
-          description: 'Provided array fully replaces the existing items; `[]` removes all items; omit to leave items unchanged. Array order becomes the planning template item order. Each item references either a catalog component (`componentSource: "catalog"`) or inline-creates a template-specific custom component (`componentSource: "custom"`). Custom components hold commercial data only and do not feed into the system-size or simulation figures shown in the Portal — see `componentSource`.'
       additionalProperties: false
     PlanningTemplate:
       type: object
@@ -467,6 +434,39 @@ components:
       - createdById
       - updatedAt
       - updatedById
+    PlanningTemplateCatalogItemInput:
+      type: object
+      properties:
+        componentSource:
+          type: string
+          enum:
+          - catalog
+          description: Reference an existing entry from [**Components**](#tag/components) by ID.
+        componentId:
+          type: string
+          format: uuid
+          description: ID of the [**Components**](#tag/components) entry to add. The latest component version is used.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        quantity:
+          type: number
+          exclusiveMinimum: 0
+        visibleToCustomer:
+          type: boolean
+          default: true
+        salesPrice:
+          type: number
+          minimum: 0
+          description: Unit price charged to the end customer, net (excluding VAT). Omit (together with `vatRate`) to snapshot the catalog component's current price. The value is pinned on this item — later edits to the catalog component do not propagate.
+        vatRate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: VAT rate as a fraction (e.g. 0.19 for 19%). Omit (together with `salesPrice`) to snapshot the catalog component's current VAT rate. The value is pinned on this item — later edits to the catalog component do not propagate.
+      required:
+      - componentSource
+      - componentId
+      - quantity
+      additionalProperties: false
     PlanningTemplateCustomItemInput:
       type: object
       properties:

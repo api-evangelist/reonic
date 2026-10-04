@@ -184,6 +184,41 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    TeamCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 500
+        description:
+          type:
+          - string
+          - 'null'
+          maxLength: 5000
+        parentId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the parent team. If provided, the new team will be created as a child of this team.
+        leaderIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          maxItems: 100
+          description: IDs of users who should be leaders of this team. Reference to [**Users**](#tag/users)
+        memberIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          maxItems: 100
+          description: IDs of users who should be members of this team. Reference to [**Users**](#tag/users)
+      required:
+      - name
+      additionalProperties: false
     TeamUpdate:
       type: object
       properties:
@@ -219,41 +254,6 @@ components:
         archived:
           type: boolean
           description: '`true` to archive the team, `false` to unarchive.'
-      additionalProperties: false
-    TeamCreate:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 500
-        description:
-          type:
-          - string
-          - 'null'
-          maxLength: 5000
-        parentId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: ID of the parent team. If provided, the new team will be created as a child of this team.
-        leaderIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          maxItems: 100
-          description: IDs of users who should be leaders of this team. Reference to [**Users**](#tag/users)
-        memberIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          maxItems: 100
-          description: IDs of users who should be members of this team. Reference to [**Users**](#tag/users)
-      required:
-      - name
       additionalProperties: false
     Team:
       type: object

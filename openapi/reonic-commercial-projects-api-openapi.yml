@@ -384,139 +384,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CommercialProjectDetail:
-      allOf:
-      - $ref: '#/components/schemas/CommercialProject'
-      - type: object
-        properties:
-          customerContact:
-            type:
-            - object
-            - 'null'
-            properties:
-              id:
-                type: string
-                format: uuid
-                description: Reference to [**Contacts**](#tag/contacts)
-                example: 123e4567-e89b-12d3-a456-426614174000
-              fullName:
-                type: string
-                description: First and last name combined
-              firstName:
-                type: string
-              lastName:
-                type: string
-              primaryEmail:
-                type:
-                - string
-                - 'null'
-              salutation:
-                type:
-                - string
-                - 'null'
-                enum:
-                - Female
-                - Male
-                - Diverse
-                - Family
-                - Business
-                - null
-              secondaryEmail:
-                type:
-                - string
-                - 'null'
-                description: Alternative email address
-              mobile:
-                type:
-                - string
-                - 'null'
-                description: Mobile phone number
-              phone:
-                type:
-                - string
-                - 'null'
-                description: Landline phone number
-              phoneReachability:
-                type:
-                - string
-                - 'null'
-                enum:
-                - Morning
-                - Afternoon
-                - Evening
-                - Fulltime
-                - WeekendOnly
-                - EmailOnly
-                - null
-            required:
-            - id
-            - fullName
-            - firstName
-            - lastName
-            - primaryEmail
-            - salutation
-            - secondaryEmail
-            - mobile
-            - phone
-            - phoneReachability
-          closedAt:
-            type:
-            - string
-            - 'null'
-            format: date-time
-            example: '2026-01-01T15:30:00.000Z'
-            description: 'Effective close date of the deal: the manually set close date if present, otherwise `deal.decidedAt` once the deal is Won. `null` while the deal is undecided.'
-          internalProjectId:
-            type:
-            - string
-            - 'null'
-            description: Internal project reference (e.g. from your CRM or ERP).
-          internalRemark:
-            type:
-            - string
-            - 'null'
-            description: Internal notes on the project.
-          customerId:
-            type:
-            - string
-            - 'null'
-            description: Internal customer reference (e.g. from your CRM or ERP).
-          assignedUserIds:
-            type: array
-            items:
-              type: string
-              format: uuid
-            description: IDs of users assigned to this project. Reference to [**Users**](#tag/users)
-            example:
-            - 123e4567-e89b-12d3-a456-426614174000
-          assignedTeamIds:
-            type: array
-            items:
-              type: string
-              format: uuid
-            description: IDs of teams assigned to this project. Reference to [**Teams**](#tag/teams)
-            example:
-            - 123e4567-e89b-12d3-a456-426614174000
-          primaryOfferVariantId:
-            type:
-            - string
-            - 'null'
-            format: uuid
-            description: ID of the primary variant for this project's offer.
-            example: 123e4567-e89b-12d3-a456-426614174000
-          customerPortalUrl:
-            type: string
-            format: uri
-            description: URL to the customer-facing portal page for this project. The URL is assembled from the project id and is not validated — following it for an archived or invalid project will 404.
-        required:
-        - closedAt
-        - internalProjectId
-        - internalRemark
-        - customerId
-        - assignedUserIds
-        - assignedTeamIds
-        - primaryOfferVariantId
-        - customerPortalUrl
     CommercialProject:
       type: object
       properties:
@@ -778,6 +645,139 @@ components:
       - offerCreatedAt
       - installationCreatedAt
       - archivedAt
+    CommercialProjectDetail:
+      allOf:
+      - $ref: '#/components/schemas/CommercialProject'
+      - type: object
+        properties:
+          customerContact:
+            type:
+            - object
+            - 'null'
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: Reference to [**Contacts**](#tag/contacts)
+                example: 123e4567-e89b-12d3-a456-426614174000
+              fullName:
+                type: string
+                description: First and last name combined
+              firstName:
+                type: string
+              lastName:
+                type: string
+              primaryEmail:
+                type:
+                - string
+                - 'null'
+              salutation:
+                type:
+                - string
+                - 'null'
+                enum:
+                - Female
+                - Male
+                - Diverse
+                - Family
+                - Business
+                - null
+              secondaryEmail:
+                type:
+                - string
+                - 'null'
+                description: Alternative email address
+              mobile:
+                type:
+                - string
+                - 'null'
+                description: Mobile phone number
+              phone:
+                type:
+                - string
+                - 'null'
+                description: Landline phone number
+              phoneReachability:
+                type:
+                - string
+                - 'null'
+                enum:
+                - Morning
+                - Afternoon
+                - Evening
+                - Fulltime
+                - WeekendOnly
+                - EmailOnly
+                - null
+            required:
+            - id
+            - fullName
+            - firstName
+            - lastName
+            - primaryEmail
+            - salutation
+            - secondaryEmail
+            - mobile
+            - phone
+            - phoneReachability
+          closedAt:
+            type:
+            - string
+            - 'null'
+            format: date-time
+            example: '2026-01-01T15:30:00.000Z'
+            description: 'Effective close date of the deal: the manually set close date if present, otherwise `deal.decidedAt` once the deal is Won. `null` while the deal is undecided.'
+          internalProjectId:
+            type:
+            - string
+            - 'null'
+            description: Internal project reference (e.g. from your CRM or ERP).
+          internalRemark:
+            type:
+            - string
+            - 'null'
+            description: Internal notes on the project.
+          customerId:
+            type:
+            - string
+            - 'null'
+            description: Internal customer reference (e.g. from your CRM or ERP).
+          assignedUserIds:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: IDs of users assigned to this project. Reference to [**Users**](#tag/users)
+            example:
+            - 123e4567-e89b-12d3-a456-426614174000
+          assignedTeamIds:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: IDs of teams assigned to this project. Reference to [**Teams**](#tag/teams)
+            example:
+            - 123e4567-e89b-12d3-a456-426614174000
+          primaryOfferVariantId:
+            type:
+            - string
+            - 'null'
+            format: uuid
+            description: ID of the primary variant for this project's offer.
+            example: 123e4567-e89b-12d3-a456-426614174000
+          customerPortalUrl:
+            type: string
+            format: uri
+            description: URL to the customer-facing portal page for this project. The URL is assembled from the project id and is not validated — following it for an archived or invalid project will 404.
+        required:
+        - closedAt
+        - internalProjectId
+        - internalRemark
+        - customerId
+        - assignedUserIds
+        - assignedTeamIds
+        - primaryOfferVariantId
+        - customerPortalUrl
   securitySchemes:
     X-Authorization:
       type: apiKey
